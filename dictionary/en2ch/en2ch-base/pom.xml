@@ -8,4 +8,16 @@
   <artifactId>en2ch-base</artifactId>
   <name>en2ch-base</name>
   <description>英汉字典基础JAR包</description>
+  
+  <properties>
+    <version.wxm-base>0.0.1-SNAPSHOT</version.wxm-base>
+  </properties>
+  
+  <dependencies>
+    <dependency>
+        <groupId>com.wxm</groupId>
+        <artifactId>wxm-base</artifactId>
+        <version>${version.wxm-base}</version>
+    </dependency>
+  </dependencies>
 </project>

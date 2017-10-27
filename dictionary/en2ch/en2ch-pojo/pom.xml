@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>com.wxm.education.dictionary</groupId>
@@ -8,4 +9,16 @@
   <artifactId>en2ch-pojo</artifactId>
   <name>en2ch-pojo</name>
   <description>英汉字典POJO简单类JAR包</description>
+
+  <properties>
+    <version.en2ch>0.0.1-SNAPSHOT</version.en2ch>
+  </properties>
+
+  <dependencies>
+    <dependency>
+      <groupId>com.wxm.education.dictionary</groupId>
+      <artifactId>en2ch-base</artifactId>
+      <version>${version.en2ch}</version>
+    </dependency>
+  </dependencies>
 </project>
