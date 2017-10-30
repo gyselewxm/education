@@ -4,11 +4,13 @@ import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.server.spring.scope.RequestContextFilter;
 
 /**
- * 配置Jersey框架相关信息 该类应放在被扫描的包的根目录下，可省去额外配置
+ * 
+ * <b>Title:</b> 配置Jersey框架相关信息<br>
+ * <b>Description:</b> 该类应放在被扫描的包的根目录下，可省去额外配置<br>
+ * <b>Date:</b> 2017年10月30日 上午11:39:52<br>
  * 
  * @author wuxm
- * @date 2017年10月30日 上午10:34:56
- * @see 1.0.0
+ * @version 1.0.0
  */
 public class JerseyResourceConfig extends ResourceConfig {
 

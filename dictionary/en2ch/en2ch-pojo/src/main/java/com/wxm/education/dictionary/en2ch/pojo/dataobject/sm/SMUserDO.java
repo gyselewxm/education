@@ -7,11 +7,12 @@ import javax.persistence.Column;
 import com.wxm.base.pojo.dataobject.BaseDO;
 
 /**
- * 系统用户
  * 
+ * <b>Title:</b> 系统用户<br>
+ * <b>Description:</b> <br>
+ * <b>Date:</b> 2017年10月30日 上午11:41:34<br>
  * @author wuxm
- * @date 2017年10月27日 下午4:57:49
- * @see 1.0.0
+ * @version 1.0.0
  */
 public class SMUserDO extends BaseDO {
     /**

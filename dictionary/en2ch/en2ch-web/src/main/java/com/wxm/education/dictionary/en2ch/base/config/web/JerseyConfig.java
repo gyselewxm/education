@@ -9,11 +9,12 @@ import org.springframework.context.annotation.Configuration;
 import com.wxm.education.dictionary.en2ch.web.JerseyResourceConfig;
 
 /**
- * 配置Jersey
+ * <b>Title:</b> 配置Jersey<br>
+ * <b>Description:</b><br>
+ * <b>Date:</b> 2017年10月30日 上午11:36:55<br>
  * 
  * @author wuxm
- * @date 2017年10月30日 上午10:37:02
- * @see 1.0.0
+ * @version 1.0.0
  */
 @Configuration
 public class JerseyConfig {

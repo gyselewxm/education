@@ -9,11 +9,12 @@ import javax.ws.rs.Path;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * 系统用户请求处理
  * 
+ * <b>Title:</b> 系统用户请求处理<br>
+ * <b>Description:</b> <br>
+ * <b>Date:</b> 2017年10月30日 上午11:42:36<br>
  * @author wuxm
- * @date 2017年10月30日 上午9:45:53
- * @see 1.0.0
+ * @version 1.0.0
  */
 @RestController
 @Path("sm/user")
