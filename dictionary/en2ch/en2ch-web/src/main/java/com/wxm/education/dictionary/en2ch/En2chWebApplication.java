@@ -1,6 +1,5 @@
 package com.wxm.education.dictionary.en2ch;
 
-import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -15,18 +14,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  */
 @SpringBootApplication
 public class En2chWebApplication {
-    private final static String SPRING_PROFILES_ACTIVE = "spring.profiles.active=";
 
     public static void main(String[] args) {
-        if (ArrayUtils.isNotEmpty(args)) {
-            for (String arg : args) {
-                if (arg.startsWith(SPRING_PROFILES_ACTIVE)) {
-                    SpringApplication.run(En2chWebApplication.class, args).getEnvironment()
-                            .setActiveProfiles(arg.replace(SPRING_PROFILES_ACTIVE, ""));
-                }
-            }
-        } else {
-            SpringApplication.run(En2chWebApplication.class, args);
-        }
+        SpringApplication.run(En2chWebApplication.class, args);
     }
 }
