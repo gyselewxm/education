@@ -9,5 +9,9 @@
   <modules>
   	<module>en2ch-base</module>
   	<module>en2ch-pojo</module>
+  	<module>en2ch-service</module>
+  	<module>en2ch-dao</module>
+  	<module>en2ch-manager</module>
+  	<module>en2ch-interface</module>
   </modules>
 </project>
