@@ -45,11 +45,11 @@
       <artifactId>spring-boot-starter-jersey</artifactId>
     </dependency>
     <!-- 通用工具组件 -->
-    <dependency>
+    <!-- <dependency>
       <groupId>org.apache.commons</groupId>
       <artifactId>commons-lang3</artifactId>
       <scope>runtime</scope>
-    </dependency>
+    </dependency> -->
 
     <dependency>
       <groupId>mysql</groupId>
