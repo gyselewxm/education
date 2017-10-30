@@ -6,7 +6,7 @@ import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.wxm.education.dictionary.en2ch.base.web.jersey.JerseyResourceConfig;
+import com.wxm.education.dictionary.en2ch.web.JerseyResourceConfig;
 
 /**
  * 配置Jersey

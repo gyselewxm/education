@@ -1,10 +1,10 @@
-package com.wxm.education.dictionary.en2ch.base.web.jersey;
+package com.wxm.education.dictionary.en2ch.web;
 
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.server.spring.scope.RequestContextFilter;
 
 /**
- * 配置Jersey框架相关信息
+ * 配置Jersey框架相关信息 该类应放在被扫描的包的根目录下，可省去额外配置
  * 
  * @author wuxm
  * @date 2017年10月30日 上午10:34:56
@@ -16,6 +16,6 @@ public class JerseyResourceConfig extends ResourceConfig {
         super();
         register(RequestContextFilter.class);
         // 配置Jersey扫描请求处理包下的class文件
-        packages("com.wxm.education.dictionary.en2ch.web");
+        packages(this.getClass().getPackage().getName());
     }
 }
