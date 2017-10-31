@@ -7,6 +7,8 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -21,9 +23,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @Path("sm/user")
 public class SMUserController {
+    Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @POST
     public String save() {
+        logger.debug("保存用户");
         return "保存用户";
     }
 
