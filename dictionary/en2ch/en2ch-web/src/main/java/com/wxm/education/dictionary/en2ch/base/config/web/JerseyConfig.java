@@ -18,10 +18,9 @@ import com.wxm.education.dictionary.en2ch.web.JerseyResourceConfig;
  */
 @Configuration
 public class JerseyConfig {
-    @SuppressWarnings({ "rawtypes", "unchecked" })
     @Bean
-    public ServletRegistrationBean jerseyServlet() {
-        ServletRegistrationBean registration = new ServletRegistrationBean(new ServletContainer());
+    public ServletRegistrationBean<ServletContainer> jerseyServlet() {
+        ServletRegistrationBean<ServletContainer> registration = new ServletRegistrationBean<ServletContainer>(new ServletContainer());
         registration.addInitParameter(ServletProperties.JAXRS_APPLICATION_CLASS, JerseyResourceConfig.class.getName());
         return registration;
     }
