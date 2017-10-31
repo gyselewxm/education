@@ -10,18 +10,19 @@ import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.web.servlet.config.annotation.ContentNegotiationConfigurer;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 /**
  * 
  * <b>Title:</b> 解决中文乱码<br>
  * <b>Description:</b> <br>
  * <b>Date:</b> 2017年10月31日 上午10:35:35<br>
+ * 
  * @author wuxm
  * @version 1.0.0
  */
 @Configuration
-public class CustomMVCConfiguration extends WebMvcConfigurerAdapter {
+public class CustomMVCConfiguration implements WebMvcConfigurer {
     @Bean
     public HttpMessageConverter<String> responseBodyConverter() {
         StringHttpMessageConverter converter = new StringHttpMessageConverter(StandardCharsets.UTF_8);
@@ -31,7 +32,6 @@ public class CustomMVCConfiguration extends WebMvcConfigurerAdapter {
 
     @Override
     public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
-        super.configureMessageConverters(converters);
         converters.add(responseBodyConverter());
     }
 
