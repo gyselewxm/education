@@ -13,7 +13,6 @@ import org.glassfish.jersey.server.spring.scope.RequestContextFilter;
  * @version 1.0.0
  */
 public class JerseyResourceConfig extends ResourceConfig {
-
     public JerseyResourceConfig() {
         super();
         register(RequestContextFilter.class);
