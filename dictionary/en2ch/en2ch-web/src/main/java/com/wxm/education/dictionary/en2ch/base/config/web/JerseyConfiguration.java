@@ -17,10 +17,10 @@ import com.wxm.education.dictionary.en2ch.web.JerseyResourceConfig;
  * @version 1.0.0
  */
 @Configuration
-public class JerseyConfig {
+public class JerseyConfiguration {
     @Bean
-    public ServletRegistrationBean<ServletContainer> jerseyServlet() {
-        ServletRegistrationBean<ServletContainer> registration = new ServletRegistrationBean<ServletContainer>(new ServletContainer());
+    public ServletRegistrationBean jerseyServlet() {
+        ServletRegistrationBean registration = new ServletRegistrationBean(new ServletContainer());
         registration.addInitParameter(ServletProperties.JAXRS_APPLICATION_CLASS, JerseyResourceConfig.class.getName());
         return registration;
     }
