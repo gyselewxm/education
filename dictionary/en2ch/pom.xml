@@ -14,5 +14,6 @@
   	<module>en2ch-manager</module>
   	<module>en2ch-interface</module>
   	<module>en2ch-web</module>
+  	<module>en2ch-web-back</module>
   </modules>
 </project>
