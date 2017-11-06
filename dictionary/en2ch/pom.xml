@@ -13,5 +13,6 @@
   	<module>en2ch-dao</module>
   	<module>en2ch-manager</module>
   	<module>en2ch-interface</module>
+  	<module>en2ch-web</module>
   </modules>
 </project>

@@ -1,4 +1,4 @@
-package com.wxm.education.dictionary.en2ch.web;
+package com.wxm.education.dictionary.en2ch;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -7,7 +7,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class En2chWebApplicationTests {
+public class En2chWebBackApplicationTests {
 
 	@Test
 	public void contextLoads() {

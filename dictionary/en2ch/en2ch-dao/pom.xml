@@ -8,4 +8,11 @@
   <artifactId>en2ch-dao</artifactId>
   <name>en2ch-dao</name>
   <description>英汉字典-数据持久层</description>
+  <dependencies>
+    <dependency>
+      <groupId>${project.parent.groupId}</groupId>
+      <artifactId>en2ch-pojo</artifactId>
+      <version>${project.parent.version}</version>
+    </dependency>
+  </dependencies>
 </project>

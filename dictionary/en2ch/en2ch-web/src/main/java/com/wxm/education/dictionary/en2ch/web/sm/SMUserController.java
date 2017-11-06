@@ -1,15 +1,15 @@
 package com.wxm.education.dictionary.en2ch.web.sm;
 
-import javax.ws.rs.DELETE;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  * 
@@ -20,29 +20,33 @@ import org.springframework.web.bind.annotation.RestController;
  * @author wuxm
  * @version 1.0.0
  */
-@RestController
-@Path("sm/user")
+@Controller
+@RequestMapping("sm/user")
 public class SMUserController {
     Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    @POST
+    @PostMapping
+    @ResponseBody
     public String save() {
-        logger.debug("保存用户");
         return "保存用户";
     }
 
-    @PUT
+    @PutMapping
     public String update() {
         return "更新用户";
     }
 
-    @Path("{name}")
-    @GET
-    public String list(@PathParam("name") String code) {
-        return "用户列表:" + code;
+    @GetMapping("{name}")
+    public String list(@PathVariable("name") String code) {
+        logger.debug("保存用户");
+        logger.info("保存用户");
+        logger.warn("保存用户");
+        logger.error("保存用户");
+        // throw new WebException("asdasd");
+        return "base/area/test";
     }
 
-    @DELETE
+    @DeleteMapping
     public String delete() {
         return "删除用户";
     }

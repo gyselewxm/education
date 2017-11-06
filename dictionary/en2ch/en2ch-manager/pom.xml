@@ -8,4 +8,11 @@
   <artifactId>en2ch-manager</artifactId>
   <name>en2ch-manager</name>
   <description>英汉字典-通用处理层</description>
+  <dependencies>
+    <dependency>
+      <groupId>${project.parent.groupId}</groupId>
+      <artifactId>en2ch-dao</artifactId>
+      <version>${project.parent.version}</version>
+    </dependency>
+  </dependencies>
 </project>

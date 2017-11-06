@@ -10,7 +10,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.web.servlet.config.annotation.ContentNegotiationConfigurer;
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 /**
@@ -48,17 +47,6 @@ public class WxmWebMVCConfiguration implements WebMvcConfigurer {
     @Override
     public void configureContentNegotiation(ContentNegotiationConfigurer configurer) {
         configurer.favorPathExtension(false);
-    }
-
-    @Override
-    public void addResourceHandlers(ResourceHandlerRegistry registry) {
-//        // 注册静态资源
-//        registry.addResourceHandler("/css/**").addResourceLocations("classpath:/css/");
-//        registry.addResourceHandler("/errors/**").addResourceLocations("classpath:/errors/");
-//        registry.addResourceHandler("/fonts/**").addResourceLocations("classpath:/fonts/");
-//        registry.addResourceHandler("/images/**").addResourceLocations("classpath:/images/");
-//        registry.addResourceHandler("/js/**").addResourceLocations("classpath:/js/");
-//        registry.addResourceHandler("/views/**").addResourceLocations("classpath:/views/");
     }
 
 }
