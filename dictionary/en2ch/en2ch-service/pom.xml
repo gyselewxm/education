@@ -9,11 +9,21 @@
   <artifactId>en2ch-service</artifactId>
   <name>en2ch-service</name>
   <description>英汉字典-业务逻辑层</description>
+
+  <properties>
+    <version.wxm>0.0.1-SNAPSHOT</version.wxm>
+  </properties>
+
   <dependencies>
     <dependency>
       <groupId>${project.parent.groupId}</groupId>
       <artifactId>en2ch-manager</artifactId>
       <version>${project.parent.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.wxm</groupId>
+      <artifactId>wxm-service</artifactId>
+      <version>${version.wxm}</version>
     </dependency>
   </dependencies>
 </project>
