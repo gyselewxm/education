@@ -22,20 +22,16 @@
  * THE SOFTWARE.
  */
 
-package com.wxm.mybatis.mapper.entity;
+package com.wxm.mybatis.mapper.code;
 
 /**
- * 实现动态表名时，实体类需要实现该接口
- *
- * @author liuzh
- * @since 2015-10-28 22:20
+ * 字段转换方式
  */
-public interface IDynamicTableName {
-
-    /**
-     * 获取动态表名 - 只要有返回值，不是null和''，就会用返回值作为表名
-     *
-     * @return
-     */
-    String getDynamicTableName();
+public enum Style {
+    normal,                     //原值
+    camelhump,                  //驼峰转下划线
+    uppercase,                  //转换为大写
+    lowercase,                  //转换为小写
+    camelhumpAndUppercase,      //驼峰转下划线大写形式
+    camelhumpAndLowercase,      //驼峰转下划线小写形式
 }

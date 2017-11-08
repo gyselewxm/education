@@ -1,34 +1,46 @@
-package com.wxm.mybatis.mapper.mapperhelper;
+/*
+ * The MIT License (MIT)
+ *
+ * Copyright (c) 2014-2016 abel533@gmail.com
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
 
-import java.beans.BeanInfo;
-import java.beans.IntrospectionException;
-import java.beans.Introspector;
-import java.beans.PropertyDescriptor;
-import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
-import java.lang.reflect.TypeVariable;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+package com.wxm.mybatis.mapper.mapperhelper;
 
 import javax.persistence.Entity;
 
 import com.wxm.mybatis.mapper.MapperException;
 import com.wxm.mybatis.mapper.entity.EntityField;
 
+import java.beans.BeanInfo;
+import java.beans.IntrospectionException;
+import java.beans.Introspector;
+import java.beans.PropertyDescriptor;
+import java.lang.reflect.*;
+import java.util.*;
+
 /**
- * 
- * <b>Title:</b> 类字段工具类<br>
- * <b>Description:</b> <br>
- * <b>Date:</b> 2017年11月7日 下午5:13:52<br>
- * @author wuxm
- * @version 1.0.0
+ * 类字段工具类
+ *
+ * @author liuzh
+ * @since 2015-12-06 18:38
  */
 public class FieldHelper {
 
@@ -227,7 +239,6 @@ public class FieldHelper {
          * @param entityClass
          * @return
          */
-        @SuppressWarnings("rawtypes")
         public List<EntityField> getProperties(Class<?> entityClass) {
             Map<String, Class<?>> genericMap = _getGenericTypeMap(entityClass);
             List<EntityField> entityFields = new ArrayList<EntityField>();
@@ -244,12 +255,12 @@ public class FieldHelper {
                     if (desc.getReadMethod() != null
                             && desc.getReadMethod().getGenericReturnType() != null
                             && desc.getReadMethod().getGenericReturnType() instanceof TypeVariable) {
-                        entityField.setJavaType(genericMap.get(((TypeVariable) desc.getReadMethod().getGenericReturnType()).getName()));
+                        entityField.setJavaType(genericMap.get(((TypeVariable<?>) desc.getReadMethod().getGenericReturnType()).getName()));
                     } else if (desc.getWriteMethod() != null
                             && desc.getWriteMethod().getGenericParameterTypes() != null
                             && desc.getWriteMethod().getGenericParameterTypes().length == 1
                             && desc.getWriteMethod().getGenericParameterTypes()[0] instanceof TypeVariable) {
-                        entityField.setJavaType(genericMap.get(((TypeVariable) desc.getWriteMethod().getGenericParameterTypes()[0]).getName()));
+                        entityField.setJavaType(genericMap.get(((TypeVariable<?>) desc.getWriteMethod().getGenericParameterTypes()[0]).getName()));
                     }
                     entityFields.add(entityField);
                 }
@@ -263,7 +274,6 @@ public class FieldHelper {
          * @param genericMap
          * @param level
          */
-        @SuppressWarnings("rawtypes")
         private void _getFields(Class<?> entityClass, List<EntityField> fieldList, Map<String, Class<?>> genericMap, Integer level) {
             if (fieldList == null) {
                 throw new NullPointerException("fieldList参数不能为空!");
@@ -281,10 +291,10 @@ public class FieldHelper {
                 if (!Modifier.isStatic(field.getModifiers()) && !Modifier.isTransient(field.getModifiers())) {
                     EntityField entityField = new EntityField(field, null);
                     if (field.getGenericType() != null && field.getGenericType() instanceof TypeVariable) {
-                        if (genericMap == null || !genericMap.containsKey(((TypeVariable) field.getGenericType()).getName())) {
+                        if (genericMap == null || !genericMap.containsKey(((TypeVariable<?>) field.getGenericType()).getName())) {
                             throw new MapperException(entityClass + "字段" + field.getName() + "的泛型类型无法获取!");
                         } else {
-                            entityField.setJavaType(genericMap.get(((TypeVariable) field.getGenericType()).getName()));
+                            entityField.setJavaType(genericMap.get(((TypeVariable<?>) field.getGenericType()).getName()));
                         }
                     } else {
                         entityField.setJavaType(field.getType());
@@ -316,7 +326,6 @@ public class FieldHelper {
          *
          * @param entityClass
          */
-        @SuppressWarnings("rawtypes")
         private Map<String, Class<?>> _getGenericTypeMap(Class<?> entityClass) {
             Map<String, Class<?>> genericMap = new HashMap<String, Class<?>>();
             if (entityClass == Object.class) {
@@ -332,7 +341,7 @@ public class FieldHelper {
                     && !Collection.class.isAssignableFrom(superClass)))) {
                 if (entityClass.getGenericSuperclass() instanceof ParameterizedType) {
                     Type[] types = ((ParameterizedType) entityClass.getGenericSuperclass()).getActualTypeArguments();
-                    TypeVariable[] typeVariables = superClass.getTypeParameters();
+                    TypeVariable<?>[] typeVariables = superClass.getTypeParameters();
                     if (typeVariables.length > 0) {
                         for (int i = 0; i < typeVariables.length; i++) {
                             if (types[i] instanceof Class) {

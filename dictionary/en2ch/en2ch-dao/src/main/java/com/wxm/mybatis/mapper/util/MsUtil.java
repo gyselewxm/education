@@ -4,6 +4,10 @@ import org.apache.ibatis.mapping.MappedStatement;
 
 import com.wxm.mybatis.mapper.MapperException;
 
+/**
+ * @author liuzh
+ * @since 2017/7/9.
+ */
 public class MsUtil {
 
     /**
@@ -43,4 +47,5 @@ public class MsUtil {
     public static String getMethodName(String msId) {
         return msId.substring(msId.lastIndexOf(".") + 1);
     }
+
 }

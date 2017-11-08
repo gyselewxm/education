@@ -1,11 +1,13 @@
 package com.wxm.mybatis.mapper;
 
+/**
+ * @author liuzh
+ */
 public class MapperException extends RuntimeException {
-
     /**
      * 
      */
-    private static final long serialVersionUID = 3016312293873826171L;
+    private static final long serialVersionUID = -5268272735503759090L;
 
     public MapperException() {
         super();

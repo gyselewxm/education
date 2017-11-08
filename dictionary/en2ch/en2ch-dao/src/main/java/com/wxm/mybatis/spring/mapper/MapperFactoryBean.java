@@ -22,20 +22,40 @@
  * THE SOFTWARE.
  */
 
-package com.wxm.mybatis.mapper.entity;
+package com.wxm.mybatis.spring.mapper;
+
+import com.wxm.mybatis.mapper.mapperhelper.MapperHelper;
 
 /**
- * 实现动态表名时，实体类需要实现该接口
+ * 增加mapperHelper
  *
+ * @param <T>
  * @author liuzh
- * @since 2015-10-28 22:20
  */
-public interface IDynamicTableName {
+public class MapperFactoryBean<T> extends org.mybatis.spring.mapper.MapperFactoryBean<T> {
+
+    private MapperHelper mapperHelper;
+
+    public MapperFactoryBean() {
+    }
+
+    public MapperFactoryBean(Class<T> mapperInterface) {
+        super(mapperInterface);
+    }
 
     /**
-     * 获取动态表名 - 只要有返回值，不是null和''，就会用返回值作为表名
-     *
-     * @return
+     * {@inheritDoc}
      */
-    String getDynamicTableName();
+    @Override
+    protected void checkDaoConfig() {
+        super.checkDaoConfig();
+        //通用Mapper
+        if (mapperHelper.isExtendCommonMapper(getObjectType())) {
+            mapperHelper.processConfiguration(getSqlSession().getConfiguration(), getObjectType());
+        }
+    }
+
+    public void setMapperHelper(MapperHelper mapperHelper) {
+        this.mapperHelper = mapperHelper;
+    }
 }

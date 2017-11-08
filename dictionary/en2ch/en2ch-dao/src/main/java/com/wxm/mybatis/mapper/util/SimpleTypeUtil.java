@@ -9,13 +9,7 @@ import java.util.Set;
 import com.wxm.mybatis.mapper.MapperException;
 
 /**
- * 
- * <b>Title:</b> <br>
- * <b>Description:</b> 参考 org.apache.ibatis.type.SimpleTypeRegistry<br>
- * <b>Date:</b> 2017年11月7日 下午4:32:14<br>
- * 
- * @author wuxm
- * @version 1.0.0
+ * 参考 org.apache.ibatis.type.SimpleTypeRegistry
  */
 public class SimpleTypeUtil {
     private static final Set<Class<?>> SIMPLE_TYPE_SET = new HashSet<Class<?>>();
@@ -45,7 +39,7 @@ public class SimpleTypeUtil {
      *
      * @param clazz
      */
-    public static void registerSimpleType(Class<?> clazz) {
+    public static void registerSimpleType(Class<?> clazz){
         SIMPLE_TYPE_SET.add(clazz);
     }
 
@@ -54,8 +48,8 @@ public class SimpleTypeUtil {
      *
      * @param classes
      */
-    public static void registerSimpleType(String classes) {
-        if (StringUtil.isNotEmpty(classes)) {
+    public static void registerSimpleType(String classes){
+        if(StringUtil.isNotEmpty(classes)){
             String[] cls = classes.split(",");
             for (String c : cls) {
                 try {
@@ -69,9 +63,8 @@ public class SimpleTypeUtil {
 
     /*
      * Tells us if the class passed in is a known common type
-     * 
+     *
      * @param clazz The class to check
-     * 
      * @return True if the class is known
      */
     public static boolean isSimpleType(Class<?> clazz) {

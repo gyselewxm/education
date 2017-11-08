@@ -1,13 +1,28 @@
-package com.wxm.mybatis.mapper.mapperhelper;
+/*
+ * The MIT License (MIT)
+ *
+ * Copyright (c) 2014-2016 abel533@gmail.com
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
 
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
-import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
+package com.wxm.mybatis.mapper.mapperhelper;
 
 import org.apache.ibatis.annotations.DeleteProvider;
 import org.apache.ibatis.annotations.InsertProvider;
@@ -19,19 +34,19 @@ import org.apache.ibatis.session.Configuration;
 
 import com.wxm.mybatis.mapper.MapperException;
 import com.wxm.mybatis.mapper.entity.Config;
-import com.wxm.mybatis.mapper.mapperhelper.MapperTemplate;
 import com.wxm.mybatis.mapper.provider.EmptyProvider;
 import com.wxm.mybatis.mapper.util.StringUtil;
 
+import java.lang.reflect.Method;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
+
 /**
- * 
- * <b>Title:</b> 处理主要逻辑，最关键的一个类<br>
- * <b>Description:</b> 项目地址 : <a href="https://github.com/abel533/Mapper"
- * target="_blank">https://github.com/abel533/Mapper</a><br>
- * <b>Date:</b> 2017年11月7日 下午4:19:21<br>
- * 
- * @author wuxm
- * @version 1.0.0
+ * 处理主要逻辑，最关键的一个类
+ * <p/>
+ * <p>项目地址 : <a href="https://github.com/abel533/Mapper" target="_blank">https://github.com/abel533/Mapper</a></p>
+ *
+ * @author liuzh
  */
 public class MapperHelper {
     /**
@@ -134,12 +149,11 @@ public class MapperHelper {
         }
         MapperTemplate mapperTemplate = null;
         try {
-            mapperTemplate = (MapperTemplate) templateClass.getConstructor(Class.class, MapperHelper.class)
-                    .newInstance(mapperClass, this);
+            mapperTemplate = (MapperTemplate) templateClass.getConstructor(Class.class, MapperHelper.class).newInstance(mapperClass, this);
         } catch (Exception e) {
             throw new MapperException("实例化MapperTemplate对象失败:" + e.getMessage());
         }
-        // 注册方法
+        //注册方法
         for (String methodName : methodSet) {
             try {
                 mapperTemplate.addMethodMap(methodName, templateClass.getMethod(methodName, MappedStatement.class));
@@ -160,7 +174,7 @@ public class MapperHelper {
             registerClass.add(mapperClass);
             registerMapper.put(mapperClass, fromMapperClass(mapperClass));
         }
-        // 自动注册继承的接口
+        //自动注册继承的接口
         Class<?>[] interfaces = mapperClass.getInterfaces();
         if (interfaces != null && interfaces.length > 0) {
             for (Class<?> anInterface : interfaces) {
@@ -243,7 +257,7 @@ public class MapperHelper {
      */
     public void setProperties(Properties properties) {
         config.setProperties(properties);
-        // 注册通用接口
+        //注册通用接口
         String mapper = null;
         if (properties != null) {
             mapper = properties.getProperty("mappers");
@@ -263,13 +277,13 @@ public class MapperHelper {
      */
     public void ifEmptyRegisterDefaultInterface() {
         if (registerClass.size() == 0) {
-            registerMapper("com.wxm.mybatis.mapper.Mapper");
+            registerMapper("com.wxm.mybatis.mapper.common.Mapper");
         }
     }
 
     /**
-     * 配置完成后，执行下面的操作 <br>
-     * 处理configuration中全部的MappedStatement
+     * 配置完成后，执行下面的操作
+     * <br>处理configuration中全部的MappedStatement
      *
      * @param configuration
      */
@@ -301,4 +315,5 @@ public class MapperHelper {
             }
         }
     }
+
 }

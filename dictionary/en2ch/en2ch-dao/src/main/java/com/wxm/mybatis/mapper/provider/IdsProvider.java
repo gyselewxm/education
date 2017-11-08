@@ -1,7 +1,5 @@
 package com.wxm.mybatis.mapper.provider;
 
-import java.util.Set;
-
 import org.apache.ibatis.mapping.MappedStatement;
 
 import com.wxm.mybatis.mapper.MapperException;
@@ -11,14 +9,14 @@ import com.wxm.mybatis.mapper.mapperhelper.MapperHelper;
 import com.wxm.mybatis.mapper.mapperhelper.MapperTemplate;
 import com.wxm.mybatis.mapper.mapperhelper.SqlHelper;
 
+import java.util.Set;
+
 /**
- * 
- * <b>Title:</b> 通过 ids 字符串的各种操作<br>
- * <b>Description:</b> ids 如 "1,2,3"<br>
- * <b>Date:</b> 2017年11月7日 下午5:35:25<br>
- * 
- * @author wuxm
- * @version 1.0.0
+ * 通过 ids 字符串的各种操作
+ * <p/>
+ * ids 如 "1,2,3"
+ *
+ * @author liuzh
  */
 public class IdsProvider extends MapperTemplate {
 
@@ -43,8 +41,7 @@ public class IdsProvider extends MapperTemplate {
             sql.append(column.getColumn());
             sql.append(" in (${_parameter})");
         } else {
-            throw new MapperException("继承 deleteByIds 方法的实体类[" + entityClass.getCanonicalName()
-                    + "]中必须只有一个带有 @Id 注解的字段");
+            throw new MapperException("继承 deleteByIds 方法的实体类[" + entityClass.getCanonicalName() + "]中必须只有一个带有 @Id 注解的字段");
         }
         return sql.toString();
     }
@@ -57,7 +54,7 @@ public class IdsProvider extends MapperTemplate {
      */
     public String selectByIds(MappedStatement ms) {
         final Class<?> entityClass = getEntityClass(ms);
-        // 将返回值修改为实体类型
+        //将返回值修改为实体类型
         setResultType(ms, entityClass);
         StringBuilder sql = new StringBuilder();
         sql.append(SqlHelper.selectAllColumns(entityClass));
@@ -69,8 +66,7 @@ public class IdsProvider extends MapperTemplate {
             sql.append(column.getColumn());
             sql.append(" in (${_parameter})");
         } else {
-            throw new MapperException("继承 selectByIds 方法的实体类[" + entityClass.getCanonicalName()
-                    + "]中必须只有一个带有 @Id 注解的字段");
+            throw new MapperException("继承 selectByIds 方法的实体类[" + entityClass.getCanonicalName() + "]中必须只有一个带有 @Id 注解的字段");
         }
         return sql.toString();
     }

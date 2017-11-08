@@ -1,3 +1,27 @@
+/*
+ * The MIT License (MIT)
+ *
+ * Copyright (c) 2014-2016 abel533@gmail.com
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
+
 package com.wxm.mybatis.mapper.mapperhelper;
 
 import java.util.LinkedHashSet;
@@ -18,11 +42,12 @@ import javax.persistence.Transient;
 import org.apache.ibatis.type.JdbcType;
 import org.apache.ibatis.type.UnknownTypeHandler;
 
+import com.wxm.base.annotation.ColumnDefault;
 import com.wxm.mybatis.mapper.MapperException;
 import com.wxm.mybatis.mapper.annotation.ColumnType;
 import com.wxm.mybatis.mapper.annotation.NameStyle;
-import com.wxm.mybatis.mapper.code.IdentityDialectEnum;
-import com.wxm.mybatis.mapper.code.StyleEnum;
+import com.wxm.mybatis.mapper.code.IdentityDialect;
+import com.wxm.mybatis.mapper.code.Style;
 import com.wxm.mybatis.mapper.entity.Config;
 import com.wxm.mybatis.mapper.entity.EntityColumn;
 import com.wxm.mybatis.mapper.entity.EntityField;
@@ -31,12 +56,11 @@ import com.wxm.mybatis.mapper.util.SimpleTypeUtil;
 import com.wxm.mybatis.mapper.util.StringUtil;
 
 /**
- * 
- * <b>Title:</b> 实体类工具类 - 处理实体和数据库表以及字段关键的一个类<br>
- * <b>Description:</b> 项目地址 : <a href="https://github.com/abel533/Mapper" target="_blank">https://github.com/abel533/Mapper</a><br>
- * <b>Date:</b> 2017年11月7日 下午5:08:31<br>
- * @author wuxm
- * @version 1.0.0
+ * 实体类工具类 - 处理实体和数据库表以及字段关键的一个类
+ * <p/>
+ * <p>项目地址 : <a href="https://github.com/abel533/Mapper" target="_blank">https://github.com/abel533/Mapper</a></p>
+ *
+ * @author liuzh
  */
 public class EntityHelper {
 
@@ -178,7 +202,7 @@ public class EntityHelper {
         if (entityTableMap.get(entityClass) != null) {
             return;
         }
-        StyleEnum style = config.getStyle();
+        Style style = config.getStyle();
         //style，该注解优先于全局配置
         if (entityClass.isAnnotationPresent(NameStyle.class)) {
             NameStyle nameStyle = entityClass.getAnnotation(NameStyle.class);
@@ -230,7 +254,7 @@ public class EntityHelper {
      * @param style
      * @param field
      */
-    private static void processField(EntityTable entityTable, StyleEnum style, EntityField field) {
+    private static void processField(EntityTable entityTable, Style style, EntityField field) {
         //排除字段
         if (field.isAnnotationPresent(Transient.class)) {
             return;
@@ -262,6 +286,11 @@ public class EntityHelper {
                 entityColumn.setTypeHandler(columnType.typeHandler());
             }
         }
+        // ColumnDefault
+        if (field.isAnnotationPresent(ColumnDefault.class)) {
+            ColumnDefault columnDefault = field.getAnnotation(ColumnDefault.class);
+            entityColumn.setDefaultValue(columnDefault.value());
+        }
         //表名
         if (StringUtil.isEmpty(columnName)) {
             columnName = StringUtil.convertByStyle(field.getName(), style);
@@ -278,7 +307,7 @@ public class EntityHelper {
                 entityColumn.setOrderBy(orderBy.value());
             }
         }
-        //主键策略 - Oracle序列，MySql自动增长，UUID
+        //主键策略 - Oracle序列，MySql自动增长，UUID, UUID32
         if (field.isAnnotationPresent(SequenceGenerator.class)) {
             SequenceGenerator sequenceGenerator = field.getAnnotation(SequenceGenerator.class);
             if (sequenceGenerator.sequenceName().equals("")) {
@@ -289,6 +318,8 @@ public class EntityHelper {
             GeneratedValue generatedValue = field.getAnnotation(GeneratedValue.class);
             if (generatedValue.generator().equals("UUID")) {
                 entityColumn.setUuid(true);
+            } else if (generatedValue.generator().equals("UUID32")) {
+                entityColumn.setUuid32(true);
             } else if (generatedValue.generator().equals("JDBC")) {
                 entityColumn.setIdentity(true);
                 entityColumn.setGenerator("JDBC");
@@ -302,7 +333,7 @@ public class EntityHelper {
                     entityColumn.setIdentity(true);
                     if (!generatedValue.generator().equals("")) {
                         String generator = null;
-                        IdentityDialectEnum identityDialect = IdentityDialectEnum.getDatabaseDialect(generatedValue.generator());
+                        IdentityDialect identityDialect = IdentityDialect.getDatabaseDialect(generatedValue.generator());
                         if (identityDialect != null) {
                             generator = identityDialect.getIdentityRetrievalStatement();
                         } else {

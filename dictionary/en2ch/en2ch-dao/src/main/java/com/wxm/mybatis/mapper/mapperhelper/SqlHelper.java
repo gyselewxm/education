@@ -1,3 +1,27 @@
+/*
+ * The MIT License (MIT)
+ *
+ * Copyright (c) 2014-2016 abel533@gmail.com
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
+
 package com.wxm.mybatis.mapper.mapperhelper;
 
 import java.util.Set;
@@ -7,13 +31,10 @@ import com.wxm.mybatis.mapper.entity.IDynamicTableName;
 import com.wxm.mybatis.mapper.util.StringUtil;
 
 /**
- * 
- * <b>Title:</b> 拼常用SQL的工具类<br>
- * <b>Description:</b> <br>
- * <b>Date:</b> 2017年11月7日 下午5:23:23<br>
- * 
- * @author wuxm
- * @version 1.0.0
+ * 拼常用SQL的工具类
+ *
+ * @author liuzh
+ * @since 2015-11-03 22:40
  */
 public class SqlHelper {
 
@@ -28,10 +49,10 @@ public class SqlHelper {
         if (IDynamicTableName.class.isAssignableFrom(entityClass)) {
             StringBuilder sql = new StringBuilder();
             sql.append("<choose>");
-            sql.append("<when test=\"@tk.mybatis.mapper.util.OGNL@isDynamicParameter(_parameter) and dynamicTableName != null and dynamicTableName != ''\">");
+            sql.append("<when test=\"@com.wxm.mybatis.mapper.util.OGNL@isDynamicParameter(_parameter) and dynamicTableName != null and dynamicTableName != ''\">");
             sql.append("${dynamicTableName}\n");
             sql.append("</when>");
-            // 不支持指定列的时候查询全部列
+            //不支持指定列的时候查询全部列
             sql.append("<otherwise>");
             sql.append(tableName);
             sql.append("</otherwise>");
@@ -55,12 +76,10 @@ public class SqlHelper {
             if (StringUtil.isNotEmpty(parameterName)) {
                 StringBuilder sql = new StringBuilder();
                 sql.append("<choose>");
-                sql.append("<when test=\"@tk.mybatis.mapper.util.OGNL@isDynamicParameter(" + parameterName + ") and "
-                        + parameterName + ".dynamicTableName != null and " + parameterName
-                        + ".dynamicTableName != ''\">");
+                sql.append("<when test=\"@com.wxm.mybatis.mapper.util.OGNL@isDynamicParameter(" + parameterName + ") and " + parameterName + ".dynamicTableName != null and " + parameterName + ".dynamicTableName != ''\">");
                 sql.append("${" + parameterName + ".dynamicTableName}");
                 sql.append("</when>");
-                // 不支持指定列的时候查询全部列
+                //不支持指定列的时候查询全部列
                 sql.append("<otherwise>");
                 sql.append(tableName);
                 sql.append("</otherwise>");
@@ -309,10 +328,8 @@ public class SqlHelper {
      * update tableName - 动态表名
      *
      * @param entityClass
-     * @param defaultTableName
-     *            默认表名
-     * @param entityName
-     *            别名
+     * @param defaultTableName 默认表名
+     * @param entityName       别名
      * @return
      */
     public static String updateTable(Class<?> entityClass, String defaultTableName, String entityName) {
@@ -357,20 +374,17 @@ public class SqlHelper {
      * insert table()列
      *
      * @param entityClass
-     * @param skipId
-     *            是否从列中忽略id类型
-     * @param notNull
-     *            是否判断!=null
-     * @param notEmpty
-     *            是否判断String类型!=''
+     * @param skipId      是否从列中忽略id类型
+     * @param notNull     是否判断!=null
+     * @param notEmpty    是否判断String类型!=''
      * @return
      */
     public static String insertColumns(Class<?> entityClass, boolean skipId, boolean notNull, boolean notEmpty) {
         StringBuilder sql = new StringBuilder();
         sql.append("<trim prefix=\"(\" suffix=\")\" suffixOverrides=\",\">");
-        // 获取全部列
+        //获取全部列
         Set<EntityColumn> columnList = EntityHelper.getColumns(entityClass);
-        // 当某个列有主键策略时，不需要考虑他的属性是否为空，因为如果为空，一定会根据主键策略给他生成一个值
+        //当某个列有主键策略时，不需要考虑他的属性是否为空，因为如果为空，一定会根据主键策略给他生成一个值
         for (EntityColumn column : columnList) {
             if (!column.isInsertable()) {
                 continue;
@@ -392,20 +406,17 @@ public class SqlHelper {
      * insert-values()列
      *
      * @param entityClass
-     * @param skipId
-     *            是否从列中忽略id类型
-     * @param notNull
-     *            是否判断!=null
-     * @param notEmpty
-     *            是否判断String类型!=''
+     * @param skipId      是否从列中忽略id类型
+     * @param notNull     是否判断!=null
+     * @param notEmpty    是否判断String类型!=''
      * @return
      */
     public static String insertValuesColumns(Class<?> entityClass, boolean skipId, boolean notNull, boolean notEmpty) {
         StringBuilder sql = new StringBuilder();
         sql.append("<trim prefix=\"VALUES (\" suffix=\")\" suffixOverrides=\",\">");
-        // 获取全部列
+        //获取全部列
         Set<EntityColumn> columnList = EntityHelper.getColumns(entityClass);
-        // 当某个列有主键策略时，不需要考虑他的属性是否为空，因为如果为空，一定会根据主键策略给他生成一个值
+        //当某个列有主键策略时，不需要考虑他的属性是否为空，因为如果为空，一定会根据主键策略给他生成一个值
         for (EntityColumn column : columnList) {
             if (!column.isInsertable()) {
                 continue;
@@ -427,25 +438,21 @@ public class SqlHelper {
      * update set列
      *
      * @param entityClass
-     * @param entityName
-     *            实体映射名
-     * @param notNull
-     *            是否判断!=null
-     * @param notEmpty
-     *            是否判断String类型!=''
+     * @param entityName  实体映射名
+     * @param notNull     是否判断!=null
+     * @param notEmpty    是否判断String类型!=''
      * @return
      */
     public static String updateSetColumns(Class<?> entityClass, String entityName, boolean notNull, boolean notEmpty) {
         StringBuilder sql = new StringBuilder();
         sql.append("<set>");
-        // 获取全部列
+        //获取全部列
         Set<EntityColumn> columnList = EntityHelper.getColumns(entityClass);
-        // 当某个列有主键策略时，不需要考虑他的属性是否为空，因为如果为空，一定会根据主键策略给他生成一个值
+        //当某个列有主键策略时，不需要考虑他的属性是否为空，因为如果为空，一定会根据主键策略给他生成一个值
         for (EntityColumn column : columnList) {
             if (!column.isId() && column.isUpdatable()) {
                 if (notNull) {
-                    sql.append(SqlHelper.getIfNotNull(entityName, column, column.getColumnEqualsHolder(entityName)
-                            + ",", notEmpty));
+                    sql.append(SqlHelper.getIfNotNull(entityName, column, column.getColumnEqualsHolder(entityName) + ",", notEmpty));
                 } else {
                     sql.append(column.getColumnEqualsHolder(entityName) + ",");
                 }
@@ -464,9 +471,9 @@ public class SqlHelper {
     public static String wherePKColumns(Class<?> entityClass) {
         StringBuilder sql = new StringBuilder();
         sql.append("<where>");
-        // 获取全部列
+        //获取全部列
         Set<EntityColumn> columnList = EntityHelper.getPKColumns(entityClass);
-        // 当某个列有主键策略时，不需要考虑他的属性是否为空，因为如果为空，一定会根据主键策略给他生成一个值
+        //当某个列有主键策略时，不需要考虑他的属性是否为空，因为如果为空，一定会根据主键策略给他生成一个值
         for (EntityColumn column : columnList) {
             sql.append(" AND " + column.getColumnEqualsHolder());
         }
@@ -483,9 +490,9 @@ public class SqlHelper {
     public static String whereAllIfColumns(Class<?> entityClass, boolean empty) {
         StringBuilder sql = new StringBuilder();
         sql.append("<where>");
-        // 获取全部列
+        //获取全部列
         Set<EntityColumn> columnList = EntityHelper.getColumns(entityClass);
-        // 当某个列有主键策略时，不需要考虑他的属性是否为空，因为如果为空，一定会根据主键策略给他生成一个值
+        //当某个列有主键策略时，不需要考虑他的属性是否为空，因为如果为空，一定会根据主键策略给他生成一个值
         for (EntityColumn column : columnList) {
             sql.append(getIfNotNull(column, " AND " + column.getColumnEqualsHolder(), empty));
         }
@@ -517,12 +524,12 @@ public class SqlHelper {
     public static String exampleSelectColumns(Class<?> entityClass) {
         StringBuilder sql = new StringBuilder();
         sql.append("<choose>");
-        sql.append("<when test=\"@tk.mybatis.mapper.util.OGNL@hasSelectColumns(_parameter)\">");
+        sql.append("<when test=\"@com.wxm.mybatis.mapper.util.OGNL@hasSelectColumns(_parameter)\">");
         sql.append("<foreach collection=\"_parameter.selectColumns\" item=\"selectColumn\" separator=\",\">");
         sql.append("${selectColumn}");
         sql.append("</foreach>");
         sql.append("</when>");
-        // 不支持指定列的时候查询全部列
+        //不支持指定列的时候查询全部列
         sql.append("<otherwise>");
         sql.append(getAllColumns(entityClass));
         sql.append("</otherwise>");
@@ -538,15 +545,15 @@ public class SqlHelper {
     public static String exampleCountColumn(Class<?> entityClass) {
         StringBuilder sql = new StringBuilder();
         sql.append("<choose>");
-        sql.append("<when test=\"@tk.mybatis.mapper.util.OGNL@hasCountColumn(_parameter)\">");
+        sql.append("<when test=\"@com.wxm.mybatis.mapper.util.OGNL@hasCountColumn(_parameter)\">");
         sql.append("COUNT(${countColumn})");
         sql.append("</when>");
         sql.append("<otherwise>");
         sql.append("COUNT(0)");
         sql.append("</otherwise>");
         sql.append("</choose>");
-        // 不支持指定列的时候查询全部列
-        sql.append("<if test=\"@tk.mybatis.mapper.util.OGNL@hasNoSelectColumns(_parameter)\">");
+        //不支持指定列的时候查询全部列
+        sql.append("<if test=\"@com.wxm.mybatis.mapper.util.OGNL@hasNoSelectColumns(_parameter)\">");
         sql.append(getAllColumns(entityClass));
         sql.append("</if>");
         return sql.toString();
@@ -578,7 +585,7 @@ public class SqlHelper {
      */
     public static String exampleForUpdate() {
         StringBuilder sql = new StringBuilder();
-        sql.append("<if test=\"@tk.mybatis.mapper.util.OGNL@hasForUpdate(_parameter)\">");
+        sql.append("<if test=\"@com.wxm.mybatis.mapper.util.OGNL@hasForUpdate(_parameter)\">");
         sql.append("FOR UPDATE");
         sql.append("</if>");
         return sql.toString();
@@ -591,7 +598,7 @@ public class SqlHelper {
      */
     public static String exampleCheck(Class<?> entityClass) {
         StringBuilder sql = new StringBuilder();
-        sql.append("<bind name=\"checkExampleEntityClass\" value=\"@tk.mybatis.mapper.util.OGNL@checkExampleEntityClass(_parameter, '");
+        sql.append("<bind name=\"checkExampleEntityClass\" value=\"@com.wxm.mybatis.mapper.util.OGNL@checkExampleEntityClass(_parameter, '");
         sql.append(entityClass.getCanonicalName());
         sql.append("')\"/>");
         return sql.toString();
@@ -603,29 +610,36 @@ public class SqlHelper {
      * @return
      */
     public static String exampleWhereClause() {
-        return "<if test=\"_parameter != null\">"
-                + "<where>\n"
-                + "  <foreach collection=\"oredCriteria\" item=\"criteria\">\n"
-                + "    <if test=\"criteria.valid\">\n"
-                + "      ${@tk.mybatis.mapper.util.OGNL@andOr(criteria)}"
-                + "      <trim prefix=\"(\" prefixOverrides=\"and |or \" suffix=\")\">\n"
-                + "        <foreach collection=\"criteria.criteria\" item=\"criterion\">\n"
-                + "          <choose>\n"
-                + "            <when test=\"criterion.noValue\">\n"
-                + "              ${@tk.mybatis.mapper.util.OGNL@andOr(criterion)} ${criterion.condition}\n"
-                + "            </when>\n"
-                + "            <when test=\"criterion.singleValue\">\n"
-                + "              ${@tk.mybatis.mapper.util.OGNL@andOr(criterion)} ${criterion.condition} #{criterion.value}\n"
-                + "            </when>\n"
-                + "            <when test=\"criterion.betweenValue\">\n"
-                + "              ${@tk.mybatis.mapper.util.OGNL@andOr(criterion)} ${criterion.condition} #{criterion.value} and #{criterion.secondValue}\n"
-                + "            </when>\n"
-                + "            <when test=\"criterion.listValue\">\n"
-                + "              ${@tk.mybatis.mapper.util.OGNL@andOr(criterion)} ${criterion.condition}\n"
-                + "              <foreach close=\")\" collection=\"criterion.value\" item=\"listItem\" open=\"(\" separator=\",\">\n"
-                + "                #{listItem}\n" + "              </foreach>\n" + "            </when>\n"
-                + "          </choose>\n" + "        </foreach>\n" + "      </trim>\n" + "    </if>\n"
-                + "  </foreach>\n" + "</where>" + "</if>";
+        return "<if test=\"_parameter != null\">" +
+                "<where>\n" +
+                "  <foreach collection=\"oredCriteria\" item=\"criteria\">\n" +
+                "    <if test=\"criteria.valid\">\n" +
+                "      ${@com.wxm.mybatis.mapper.util.OGNL@andOr(criteria)}" +
+                "      <trim prefix=\"(\" prefixOverrides=\"and |or \" suffix=\")\">\n" +
+                "        <foreach collection=\"criteria.criteria\" item=\"criterion\">\n" +
+                "          <choose>\n" +
+                "            <when test=\"criterion.noValue\">\n" +
+                "              ${@com.wxm.mybatis.mapper.util.OGNL@andOr(criterion)} ${criterion.condition}\n" +
+                "            </when>\n" +
+                "            <when test=\"criterion.singleValue\">\n" +
+                "              ${@com.wxm.mybatis.mapper.util.OGNL@andOr(criterion)} ${criterion.condition} #{criterion.value}\n" +
+                "            </when>\n" +
+                "            <when test=\"criterion.betweenValue\">\n" +
+                "              ${@com.wxm.mybatis.mapper.util.OGNL@andOr(criterion)} ${criterion.condition} #{criterion.value} and #{criterion.secondValue}\n" +
+                "            </when>\n" +
+                "            <when test=\"criterion.listValue\">\n" +
+                "              ${@com.wxm.mybatis.mapper.util.OGNL@andOr(criterion)} ${criterion.condition}\n" +
+                "              <foreach close=\")\" collection=\"criterion.value\" item=\"listItem\" open=\"(\" separator=\",\">\n" +
+                "                #{listItem}\n" +
+                "              </foreach>\n" +
+                "            </when>\n" +
+                "          </choose>\n" +
+                "        </foreach>\n" +
+                "      </trim>\n" +
+                "    </if>\n" +
+                "  </foreach>\n" +
+                "</where>" +
+                "</if>";
     }
 
     /**
@@ -634,27 +648,34 @@ public class SqlHelper {
      * @return
      */
     public static String updateByExampleWhereClause() {
-        return "<where>\n"
-                + "  <foreach collection=\"example.oredCriteria\" item=\"criteria\">\n"
-                + "    <if test=\"criteria.valid\">\n"
-                + "      ${@tk.mybatis.mapper.util.OGNL@andOr(criteria)}"
-                + "      <trim prefix=\"(\" prefixOverrides=\"and |or \" suffix=\")\">\n"
-                + "        <foreach collection=\"criteria.criteria\" item=\"criterion\">\n"
-                + "          <choose>\n"
-                + "            <when test=\"criterion.noValue\">\n"
-                + "              ${@tk.mybatis.mapper.util.OGNL@andOr(criterion)} ${criterion.condition}\n"
-                + "            </when>\n"
-                + "            <when test=\"criterion.singleValue\">\n"
-                + "              ${@tk.mybatis.mapper.util.OGNL@andOr(criterion)} ${criterion.condition} #{criterion.value}\n"
-                + "            </when>\n"
-                + "            <when test=\"criterion.betweenValue\">\n"
-                + "              ${@tk.mybatis.mapper.util.OGNL@andOr(criterion)} ${criterion.condition} #{criterion.value} and #{criterion.secondValue}\n"
-                + "            </when>\n"
-                + "            <when test=\"criterion.listValue\">\n"
-                + "              ${@tk.mybatis.mapper.util.OGNL@andOr(criterion)} ${criterion.condition}\n"
-                + "              <foreach close=\")\" collection=\"criterion.value\" item=\"listItem\" open=\"(\" separator=\",\">\n"
-                + "                #{listItem}\n" + "              </foreach>\n" + "            </when>\n"
-                + "          </choose>\n" + "        </foreach>\n" + "      </trim>\n" + "    </if>\n"
-                + "  </foreach>\n" + "</where>";
+        return "<where>\n" +
+                "  <foreach collection=\"example.oredCriteria\" item=\"criteria\">\n" +
+                "    <if test=\"criteria.valid\">\n" +
+                "      ${@com.wxm.mybatis.mapper.util.OGNL@andOr(criteria)}" +
+                "      <trim prefix=\"(\" prefixOverrides=\"and |or \" suffix=\")\">\n" +
+                "        <foreach collection=\"criteria.criteria\" item=\"criterion\">\n" +
+                "          <choose>\n" +
+                "            <when test=\"criterion.noValue\">\n" +
+                "              ${@com.wxm.mybatis.mapper.util.OGNL@andOr(criterion)} ${criterion.condition}\n" +
+                "            </when>\n" +
+                "            <when test=\"criterion.singleValue\">\n" +
+                "              ${@com.wxm.mybatis.mapper.util.OGNL@andOr(criterion)} ${criterion.condition} #{criterion.value}\n" +
+                "            </when>\n" +
+                "            <when test=\"criterion.betweenValue\">\n" +
+                "              ${@com.wxm.mybatis.mapper.util.OGNL@andOr(criterion)} ${criterion.condition} #{criterion.value} and #{criterion.secondValue}\n" +
+                "            </when>\n" +
+                "            <when test=\"criterion.listValue\">\n" +
+                "              ${@com.wxm.mybatis.mapper.util.OGNL@andOr(criterion)} ${criterion.condition}\n" +
+                "              <foreach close=\")\" collection=\"criterion.value\" item=\"listItem\" open=\"(\" separator=\",\">\n" +
+                "                #{listItem}\n" +
+                "              </foreach>\n" +
+                "            </when>\n" +
+                "          </choose>\n" +
+                "        </foreach>\n" +
+                "      </trim>\n" +
+                "    </if>\n" +
+                "  </foreach>\n" +
+                "</where>";
     }
+
 }

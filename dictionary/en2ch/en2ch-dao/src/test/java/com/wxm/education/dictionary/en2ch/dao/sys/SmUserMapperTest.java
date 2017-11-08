@@ -6,7 +6,6 @@ import org.junit.Test;
 
 import com.wxm.education.dictionary.en2ch.base.junit.JunitBase;
 import com.wxm.education.dictionary.en2ch.pojo.dataobject.sm.SmUser;
-import com.wxm.education.dictionary.en2ch.pojo.query.sm.SmUserQuery;
 
 public class SmUserMapperTest extends JunitBase {
     private SmUserMapper smUserMapper;
@@ -19,12 +18,14 @@ public class SmUserMapperTest extends JunitBase {
 
     @Test
     public void testQueryOne() {
-        smUserMapper.queryById("11");
+        //smUserMapper.queryById("11");
     }
 
     @Test
     public void testSelectOne() {
-        smUserMapper.selectOne(new SmUserQuery("11"));
+        SmUser smUser = new SmUser();
+        smUser.setId("11");
+        smUserMapper.selectOne(smUser);
     }
 
     @Test

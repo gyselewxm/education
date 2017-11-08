@@ -1,3 +1,27 @@
+/*
+ * The MIT License (MIT)
+ *
+ * Copyright (c) 2014-2016 abel533@gmail.com
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
+
 package com.wxm.mybatis.mapper.entity;
 
 import org.apache.ibatis.type.JdbcType;
@@ -6,12 +30,9 @@ import org.apache.ibatis.type.TypeHandler;
 import com.wxm.mybatis.mapper.util.StringUtil;
 
 /**
- * 
- * <b>Title:</b> 数据库表对应的列<br>
- * <b>Description:</b> <br>
- * <b>Date:</b> 2017年11月7日 下午5:02:10<br>
- * @author wuxm
- * @version 1.0.0
+ * 数据库表对应的列
+ *
+ * @author liuzh
  */
 public class EntityColumn {
     private EntityTable table;
@@ -21,8 +42,10 @@ public class EntityColumn {
     private JdbcType jdbcType;
     private Class<? extends TypeHandler<?>> typeHandler;
     private String sequenceName;
+    private Object defaultValue;
     private boolean id = false;
     private boolean uuid = false;
+    private boolean uuid32 = false;
     private boolean identity = false;
     private String generator;
     //排序
@@ -95,6 +118,14 @@ public class EntityColumn {
         this.sequenceName = sequenceName;
     }
 
+    public Object getDefaultValue() {
+        return defaultValue;
+    }
+
+    public void setDefaultValue(Object defaultValue) {
+        this.defaultValue = defaultValue;
+    }
+
     public boolean isId() {
         return id;
     }
@@ -109,6 +140,14 @@ public class EntityColumn {
 
     public void setUuid(boolean uuid) {
         this.uuid = uuid;
+    }
+
+    public boolean isUuid32() {
+        return uuid32;
+    }
+
+    public void setUuid32(boolean uuid32) {
+        this.uuid32 = uuid32;
     }
 
     public boolean isIdentity() {
@@ -255,6 +294,7 @@ public class EntityColumn {
 
         if (id != that.id) return false;
         if (uuid != that.uuid) return false;
+        if (uuid32 != that.uuid32) return false;
         if (identity != that.identity) return false;
         if (table != null ? !table.equals(that.table) : that.table != null) return false;
         if (property != null ? !property.equals(that.property) : that.property != null) return false;
@@ -279,6 +319,7 @@ public class EntityColumn {
         result = 31 * result + (sequenceName != null ? sequenceName.hashCode() : 0);
         result = 31 * result + (id ? 1 : 0);
         result = 31 * result + (uuid ? 1 : 0);
+        result = 31 * result + (uuid32 ? 1 : 0);
         result = 31 * result + (identity ? 1 : 0);
         result = 31 * result + (generator != null ? generator.hashCode() : 0);
         result = 31 * result + (orderBy != null ? orderBy.hashCode() : 0);

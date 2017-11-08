@@ -1,21 +1,41 @@
+/*
+ * The MIT License (MIT)
+ *
+ * Copyright (c) 2014-2016 abel533@gmail.com
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
+
 package com.wxm.mybatis.mapper.entity;
 
 import java.util.Properties;
 
 import com.wxm.mybatis.mapper.MapperException;
-import com.wxm.mybatis.mapper.code.IdentityDialectEnum;
-import com.wxm.mybatis.mapper.code.StyleEnum;
+import com.wxm.mybatis.mapper.code.IdentityDialect;
+import com.wxm.mybatis.mapper.code.Style;
 import com.wxm.mybatis.mapper.util.SimpleTypeUtil;
 import com.wxm.mybatis.mapper.util.StringUtil;
 
 /**
- * 
- * <b>Title:</b> 通用Mapper属性配置<br>
- * <b>Description:</b> <br>
- * <b>Date:</b> 2017年11月7日 下午4:22:20<br>
- * 
- * @author wuxm
- * @version 1.0.0
+ * 通用Mapper属性配置
+ *
+ * @author liuzh
  */
 public class Config {
     private String UUID;
@@ -41,7 +61,7 @@ public class Config {
     /**
      * 字段转换风格，默认驼峰转下划线
      */
-    private StyleEnum style;
+    private Style style;
 
     /**
      * 获取SelectKey的Order
@@ -88,7 +108,7 @@ public class Config {
             return this.IDENTITY;
         }
         // 针对mysql的默认值
-        return IdentityDialectEnum.MYSQL.getIdentityRetrievalStatement();
+        return IdentityDialect.MYSQL.getIdentityRetrievalStatement();
     }
 
     /**
@@ -97,7 +117,7 @@ public class Config {
      * @param IDENTITY
      */
     public void setIDENTITY(String IDENTITY) {
-        IdentityDialectEnum identityDialect = IdentityDialectEnum.getDatabaseDialect(IDENTITY);
+        IdentityDialect identityDialect = IdentityDialect.getDatabaseDialect(IDENTITY);
         if (identityDialect != null) {
             this.IDENTITY = identityDialect.getIdentityRetrievalStatement();
         } else {
@@ -165,7 +185,7 @@ public class Config {
     }
 
     /**
-     * 获取UUID生成规则
+     * 获取UUID32生成规则
      *
      * @return
      */
@@ -177,11 +197,11 @@ public class Config {
     }
 
     /**
-     * 设置UUID生成策略 <br>
+     * 设置UUID32生成策略 <br>
      * 配置UUID生成策略需要使用OGNL表达式 <br>
      * 默认值32位长度:@java.util.UUID@randomUUID().toString().replace("-", "")
      *
-     * @param UUID
+     * @param UUID32
      */
     public void setUUID32(String UUID32) {
         this.UUID32 = UUID32;
@@ -195,11 +215,11 @@ public class Config {
         this.notEmpty = notEmpty;
     }
 
-    public StyleEnum getStyle() {
-        return this.style == null ? StyleEnum.camelhump : this.style;
+    public Style getStyle() {
+        return this.style == null ? Style.camelhump : this.style;
     }
 
-    public void setStyle(StyleEnum style) {
+    public void setStyle(Style style) {
         this.style = style;
     }
 
@@ -250,7 +270,7 @@ public class Config {
     public void setProperties(Properties properties) {
         if (properties == null) {
             // 默认驼峰
-            this.style = StyleEnum.camelhump;
+            this.style = Style.camelhump;
             return;
         }
         String UUID = properties.getProperty("UUID");
@@ -305,13 +325,13 @@ public class Config {
         String styleStr = properties.getProperty("style");
         if (StringUtil.isNotEmpty(styleStr)) {
             try {
-                this.style = StyleEnum.valueOf(styleStr);
+                this.style = Style.valueOf(styleStr);
             } catch (IllegalArgumentException e) {
                 throw new MapperException(styleStr + "不是合法的Style值!");
             }
         } else {
             // 默认驼峰
-            this.style = StyleEnum.camelhump;
+            this.style = Style.camelhump;
         }
     }
 }
