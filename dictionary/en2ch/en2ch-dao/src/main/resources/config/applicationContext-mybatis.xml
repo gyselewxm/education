@@ -9,73 +9,59 @@
   <context:property-placeholder ignore-unresolvable="true" file-encoding="UTF-8"
     location="classpath:config/jdbc.properties" />
 
-  <!-- 配置读写数据源 -->
-  <bean id="masterDataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
+  <bean id="baseDataSource" class="com.alibaba.druid.pool.DruidDataSource" destroy-method="close" abstract="true"
+    init-method="init">
     <!-- 数据库驱动类 -->
     <property name="driverClassName" value="${jdbc.driverClassName}" />
+    <!-- 初始化连接大小 -->
+    <property name="initialSize" value="${initialSize}" />
+    <!-- 连接池最大数量 -->
+    <property name="maxActive" value="${maxActive}" />
+    <!-- 连接池最小空闲 -->
+    <property name="minIdle" value="${minIdle}" />
+    <!-- 配置获取连接等待超时的时间 -->
+    <property name="maxWait" value="${maxWait}" />
+    <!-- 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒 -->
+    <property name="timeBetweenEvictionRunsMillis" value="60000" />
+    <!-- 配置一个连接在池中最小生存的时间，单位是毫秒 -->
+    <property name="minEvictableIdleTimeMillis" value="300000" />
+    <property name="validationQuery" value="SELECT '1'" />
+    <property name="testWhileIdle" value="true" />
+    <property name="testOnBorrow" value="true" />
+    <property name="testOnReturn" value="false" />
+  </bean>
+
+  <!-- 配置读写数据源 -->
+  <bean id="masterDataSource" parent="baseDataSource">
     <!-- 数据库链接 -->
     <property name="url" value="${jdbc.master.url}" />
     <!-- 数据库用户名 -->
     <property name="username" value="${jdbc.master.username}" />
     <!-- 数据库密码 -->
     <property name="password" value="${jdbc.master.password}" />
-    <!-- 初始化连接大小 -->
-    <property name="initialSize" value="${initialSize}" />
-    <!-- 连接池最大数量 -->
-    <property name="maxActive" value="${maxActive}" />
-    <!-- 连接池最小空闲 -->
-    <property name="minIdle" value="${minIdle}" />
-    <!-- 配置获取连接等待超时的时间 -->
-    <property name="maxWait" value="${maxWait}" />
-    <!-- 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒 -->
-    <property name="timeBetweenEvictionRunsMillis" value="60000" />
-    <!-- 配置一个连接在池中最小生存的时间，单位是毫秒 -->
-    <property name="minEvictableIdleTimeMillis" value="300000" />
-    <property name="validationQuery" value="SELECT '1'" />
-    <property name="testWhileIdle" value="true" />
-    <property name="testOnBorrow" value="true" />
-    <property name="testOnReturn" value="false" />
   </bean>
 
   <!-- 配置读数据源 -->
-  <bean id="slaveDataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
-    <!-- 数据库驱动类 -->
-    <property name="driverClassName" value="${jdbc.driverClassName}" />
+  <bean id="slaveDataSource" parent="baseDataSource">
     <!-- 数据库链接 -->
     <property name="url" value="${jdbc.slave.url}" />
     <!-- 数据库用户名 -->
     <property name="username" value="${jdbc.slave.username}" />
     <!-- 数据库密码 -->
     <property name="password" value="${jdbc.slave.password}" />
-    <!-- 初始化连接大小 -->
-    <property name="initialSize" value="${initialSize}" />
-    <!-- 连接池最大数量 -->
-    <property name="maxActive" value="${maxActive}" />
-    <!-- 连接池最小空闲 -->
-    <property name="minIdle" value="${minIdle}" />
-    <!-- 配置获取连接等待超时的时间 -->
-    <property name="maxWait" value="${maxWait}" />
-    <!-- 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒 -->
-    <property name="timeBetweenEvictionRunsMillis" value="60000" />
-    <!-- 配置一个连接在池中最小生存的时间，单位是毫秒 -->
-    <property name="minEvictableIdleTimeMillis" value="300000" />
-    <property name="validationQuery" value="SELECT '1'" />
-    <property name="testWhileIdle" value="true" />
-    <property name="testOnBorrow" value="true" />
-    <property name="testOnReturn" value="false" />
     <!-- 是否只读数据库 -->
     <property name="defaultReadOnly" value="true" />
   </bean>
 
   <!-- 配置动态数据源 -->
-  <bean id="dataSource" class="com.wxm.mybatis.datasource.lookup.DynamicDataSource">
+  <bean id="dataSource" class="com.wxm.mybatis.datasource.lookup.DynamicRoutingDataSource">
     <property name="targetDataSources">
       <map key-type="java.lang.String">
         <entry key="master" value-ref="masterDataSource" />
         <entry key="slave" value-ref="slaveDataSource" />
       </map>
     </property>
-    <property name="defaultTargetDataSource" ref="slaveDataSource" />
+    <!-- <property name="defaultTargetDataSource" ref="masterDataSource" /> -->
   </bean>
 
   <!-- 配置SqlSessionFactory对象，实例化sqlSessionFactory时需要使用上述配置好的数据源以及SQL映射文件 -->

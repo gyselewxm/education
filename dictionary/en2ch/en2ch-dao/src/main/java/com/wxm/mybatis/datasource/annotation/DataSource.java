@@ -5,6 +5,8 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+import com.wxm.mybatis.datasource.code.RoutingStrategy;
+
 /**
  * <b>标题: </b> 数据库源 <br/>
  * <b>描述: </b> <br/>
@@ -15,9 +17,5 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
 public @interface DataSource {
-    public DataSourceType value() default DataSourceType.slave;
-
-    public enum DataSourceType {
-        master, slave;
-    }
+    public RoutingStrategy value() default RoutingStrategy.SLAVE;
 }

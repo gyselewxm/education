@@ -18,14 +18,14 @@ public class SmUserMapperTest extends JunitBase {
 
     @Test
     public void testQueryOne() {
-        //smUserMapper.queryById("11");
+        // smUserMapper.queryById("11");
     }
 
     @Test
     public void testSelectOne() {
         SmUser smUser = new SmUser();
         smUser.setId("11");
-        smUserMapper.selectOne(smUser);
+        smUser = smUserMapper.selectOne(smUser);
     }
 
     @Test

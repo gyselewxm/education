@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+  xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-                      http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+                      http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
   <!-- 切面类（多个通知） -->
-  <bean id="datasourceAspect" class="com.wxm.mybatis.datasource.proxy.MapperDatasourceAspect"></bean>
+  <bean id="datasourceAspect" class="com.wxm.mybatis.datasource.proxy.DatasourceAspect"></bean>
   <!-- aop编程 
         1 特殊切面，配置一个通知 和 一个切入点
             <aop:advisor advice-ref="一个通知" pointcut-ref="一个切入点"/>
@@ -14,7 +14,7 @@
   <aop:config>
     <aop:aspect ref="datasourceAspect">
       <!-- 配置切入点 -->
-      <aop:pointcut expression="execution(* com.wxm.education.dictionary.en2ch.dao.*.*(..))" id="datasourcePonitCut" />
+      <aop:pointcut expression="execution(* com.wxm.education.dictionary.en2ch.dao..*.*(..))" id="datasourcePonitCut" />
       <!-- 声明通知类型
                 #1 前置通知 , 目标方法之前执行。
                     * 第一个参数为JoinPoint，可以获得目标方法名等。
@@ -33,7 +33,8 @@
                 <aop:after-throwing method="myAfterThrowing" pointcut-ref="myPonitCut" throwing="e"/>
             -->
       <aop:before method="datasourceBefore" pointcut-ref="datasourcePonitCut" />
-      <aop:before method="datasourceAfter" pointcut-ref="datasourcePonitCut" />
+      <aop:after-returning method="datasourceAfter" pointcut-ref="datasourcePonitCut" />
+      <aop:after-throwing method="datasourceAfter" pointcut-ref="datasourcePonitCut" />
     </aop:aspect>
 
   </aop:config>

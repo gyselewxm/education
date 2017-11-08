@@ -17,7 +17,6 @@
     <version.slf4j>1.7.25</version.slf4j>
     <version.logback>1.2.3</version.logback>
     <version.logback-ext-spring>0.1.4</version.logback-ext-spring>
-    <version.aspectjweaver>1.8.12</version.aspectjweaver>
   </properties>
 
   <dependencyManagement>
@@ -90,12 +89,5 @@
       <version>${version.logback-ext-spring}</version>
     </dependency>
     <!-- 日志相关依赖-END -->
-
-    <!-- 切面 -->
-    <dependency>
-      <groupId>org.aspectj</groupId>
-      <artifactId>aspectjweaver</artifactId>
-      <version>${version.aspectjweaver}</version>
-    </dependency>
   </dependencies>
 </project>
