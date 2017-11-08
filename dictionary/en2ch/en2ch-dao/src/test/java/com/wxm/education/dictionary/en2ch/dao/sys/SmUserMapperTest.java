@@ -4,6 +4,7 @@ import static org.junit.Assert.fail;
 
 import org.junit.Test;
 
+import com.alibaba.fastjson.JSON;
 import com.wxm.education.dictionary.en2ch.base.junit.JunitBase;
 import com.wxm.education.dictionary.en2ch.pojo.dataobject.sm.SmUser;
 
@@ -14,11 +15,6 @@ public class SmUserMapperTest extends JunitBase {
     public void before() {
         super.before();
         smUserMapper = getBean(SmUserMapper.class);
-    }
-
-    @Test
-    public void testQueryOne() {
-        // smUserMapper.queryById("11");
     }
 
     @Test
@@ -45,7 +41,14 @@ public class SmUserMapperTest extends JunitBase {
 
     @Test
     public void testSelectByPrimaryKey() {
-        fail("Not yet implemented");
+        SmUser smUser = smUserMapper.selectByPrimaryKey("a3d862ee-4db6-43ef-9233-39adf14a6fa7");
+        System.out.println(JSON.toJSONString(smUser));
+    }
+
+    @Test
+    public void testSelectById() {
+        SmUser smUser = smUserMapper.selectById("a3d862ee-4db6-43ef-9233-39adf14a6fa7");
+        System.out.println(JSON.toJSONString(smUser));
     }
 
     @Test
@@ -86,76 +89,6 @@ public class SmUserMapperTest extends JunitBase {
 
     @Test
     public void testDeleteByPrimaryKey() {
-        fail("Not yet implemented");
-    }
-
-    @Test
-    public void testSelectByExample() {
-        fail("Not yet implemented");
-    }
-
-    @Test
-    public void testSelectCountByExample() {
-        fail("Not yet implemented");
-    }
-
-    @Test
-    public void testDeleteByExample() {
-        fail("Not yet implemented");
-    }
-
-    @Test
-    public void testUpdateByExample() {
-        fail("Not yet implemented");
-    }
-
-    @Test
-    public void testUpdateByExampleSelective() {
-        fail("Not yet implemented");
-    }
-
-    @Test
-    public void testSelectByExampleAndRowBounds() {
-        fail("Not yet implemented");
-    }
-
-    @Test
-    public void testSelectByRowBounds() {
-        fail("Not yet implemented");
-    }
-
-    @Test
-    public void testSelectByCondition() {
-        fail("Not yet implemented");
-    }
-
-    @Test
-    public void testSelectCountByCondition() {
-        fail("Not yet implemented");
-    }
-
-    @Test
-    public void testDeleteByCondition() {
-        fail("Not yet implemented");
-    }
-
-    @Test
-    public void testUpdateByCondition() {
-        fail("Not yet implemented");
-    }
-
-    @Test
-    public void testUpdateByConditionSelective() {
-        fail("Not yet implemented");
-    }
-
-    @Test
-    public void testInsertList() {
-        fail("Not yet implemented");
-    }
-
-    @Test
-    public void testInsertUseGeneratedKeys() {
         fail("Not yet implemented");
     }
 

@@ -31,11 +31,16 @@ import com.wxm.mybatis.mapper.provider.base.BaseSelectProvider;
 /**
  * 通用Mapper接口,其他接口继承该接口即可
  * <p/>
- * <p>这是一个例子，自己扩展时可以参考</p>
+ * <p>
+ * 这是一个例子，自己扩展时可以参考
+ * </p>
  * <p/>
- * <p>项目地址 : <a href="https://github.com/abel533/Mapper" target="_blank">https://github.com/abel533/Mapper</a></p>
+ * <p>
+ * 项目地址 : <a href="https://github.com/abel533/Mapper" target="_blank">https://github.com/abel533/Mapper</a>
+ * </p>
  *
- * @param <T> 不能为空
+ * @param <T>
+ *            不能为空
  * @author liuzh
  */
 public interface SelectByPrimaryKeyMapper<T> {
@@ -49,4 +54,16 @@ public interface SelectByPrimaryKeyMapper<T> {
     @SelectProvider(type = BaseSelectProvider.class, method = "dynamicSQL")
     T selectByPrimaryKey(Object key);
 
+    /**
+     * 
+     * <b>Title:</b> 根据ID查询信息 <br>
+     * <b>Description:</b> 只适用于主键名为“id”的表实体 <br>
+     * <b>Date:</b> 2017年11月8日 下午2:09:12 <br>
+     * @author wuxm
+     * 
+     * @param id
+     * @return
+     */
+    @SelectProvider(type = BaseSelectProvider.class, method = "dynamicSQL")
+    T selectById(String id);
 }
