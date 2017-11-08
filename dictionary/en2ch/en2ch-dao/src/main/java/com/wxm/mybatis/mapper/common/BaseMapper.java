@@ -39,8 +39,8 @@ import com.wxm.mybatis.mapper.common.base.BaseUpdateMapper;
  * @param <T> 不能为空
  * @author liuzh
  */
-public interface BaseMapper<T> extends
-        BaseSelectMapper<T>,
+public interface BaseMapper<T, V> extends
+        BaseSelectMapper<T, V>,
         BaseInsertMapper<T>,
         BaseUpdateMapper<T>,
         BaseDeleteMapper<T> {

@@ -117,6 +117,22 @@ public class BaseSelectProvider extends MapperTemplate {
         sql.append(SqlHelper.wherePKColumns(entityClass));
         return sql.toString();
     }
+    
+    /**
+     * 根据主键进行查询
+     *
+     * @param ms
+     */
+    public String selectVById(MappedStatement ms) {
+        final Class<?> entityClass = getEntityClass(ms);
+        //将返回值修改为实体类型
+        setResultType(ms, entityClass);
+        StringBuilder sql = new StringBuilder();
+        sql.append(SqlHelper.selectAllColumns(entityClass));
+        sql.append(SqlHelper.fromTable(entityClass, tableName(entityClass)));
+        sql.append(SqlHelper.wherePKColumns(entityClass));
+        return sql.toString();
+    }
 
     /**
      * 查询总数

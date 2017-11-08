@@ -41,9 +41,11 @@ import com.wxm.mybatis.mapper.provider.base.BaseSelectProvider;
  *
  * @param <T>
  *            不能为空
+ * @param <V>
+ *            不能为空
  * @author liuzh
  */
-public interface SelectByPrimaryKeyMapper<T> {
+public interface SelectByPrimaryKeyMapper<T, V> {
 
     /**
      * 根据主键字段进行查询，方法参数必须包含完整的主键属性，查询条件使用等号
@@ -66,4 +68,17 @@ public interface SelectByPrimaryKeyMapper<T> {
      */
     @SelectProvider(type = BaseSelectProvider.class, method = "dynamicSQL")
     T selectById(String id);
+
+    /**
+     * 
+     * <b>Title:</b> 根据ID查询信息 <br>
+     * <b>Description:</b> 只适用于主键名为“id”的表实体 <br>
+     * <b>Date:</b> 2017年11月8日 下午2:09:12 <br>
+     * @author wuxm
+     * 
+     * @param id
+     * @return
+     */
+    @SelectProvider(type = BaseSelectProvider.class, method = "dynamicSQL")
+    V selectVById(String id);
 }

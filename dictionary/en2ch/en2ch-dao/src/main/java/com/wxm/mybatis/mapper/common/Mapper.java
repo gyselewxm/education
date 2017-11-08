@@ -24,6 +24,7 @@
 
 package com.wxm.mybatis.mapper.common;
 
+
 /**
  * 通用Mapper接口,其他接口继承该接口即可
  * <p/>
@@ -34,8 +35,8 @@ package com.wxm.mybatis.mapper.common;
  * @param <T> 不能为空
  * @author liuzh
  */
-public interface Mapper<T> extends
-        BaseMapper<T>,
+public interface Mapper<T, V> extends
+        BaseMapper<T, V>,
         Marker {
 
 }

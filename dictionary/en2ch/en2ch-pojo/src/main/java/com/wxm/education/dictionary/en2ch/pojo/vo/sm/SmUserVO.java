@@ -1,5 +1,7 @@
 package com.wxm.education.dictionary.en2ch.pojo.vo.sm;
 
-public class SmUserVO {
+import com.wxm.education.dictionary.en2ch.pojo.dataobject.sm.SmUser;
+
+public class SmUserVO extends SmUser {
 
 }
