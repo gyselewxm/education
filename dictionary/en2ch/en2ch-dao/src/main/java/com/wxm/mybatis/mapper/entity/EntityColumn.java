@@ -42,7 +42,6 @@ public class EntityColumn {
     private JdbcType jdbcType;
     private Class<? extends TypeHandler<?>> typeHandler;
     private String sequenceName;
-    private Object defaultValue;
     private boolean id = false;
     private boolean uuid = false;
     private boolean uuid32 = false;
@@ -116,14 +115,6 @@ public class EntityColumn {
 
     public void setSequenceName(String sequenceName) {
         this.sequenceName = sequenceName;
-    }
-
-    public Object getDefaultValue() {
-        return defaultValue;
-    }
-
-    public void setDefaultValue(Object defaultValue) {
-        this.defaultValue = defaultValue;
     }
 
     public boolean isId() {

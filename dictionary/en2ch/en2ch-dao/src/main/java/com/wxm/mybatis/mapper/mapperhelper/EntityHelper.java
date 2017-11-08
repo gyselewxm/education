@@ -42,7 +42,6 @@ import javax.persistence.Transient;
 import org.apache.ibatis.type.JdbcType;
 import org.apache.ibatis.type.UnknownTypeHandler;
 
-import com.wxm.base.annotation.ColumnDefault;
 import com.wxm.mybatis.mapper.MapperException;
 import com.wxm.mybatis.mapper.annotation.ColumnType;
 import com.wxm.mybatis.mapper.annotation.NameStyle;
@@ -285,11 +284,6 @@ public class EntityHelper {
             if (columnType.typeHandler() != UnknownTypeHandler.class) {
                 entityColumn.setTypeHandler(columnType.typeHandler());
             }
-        }
-        // ColumnDefault
-        if (field.isAnnotationPresent(ColumnDefault.class)) {
-            ColumnDefault columnDefault = field.getAnnotation(ColumnDefault.class);
-            entityColumn.setDefaultValue(columnDefault.value());
         }
         //表名
         if (StringUtil.isEmpty(columnName)) {

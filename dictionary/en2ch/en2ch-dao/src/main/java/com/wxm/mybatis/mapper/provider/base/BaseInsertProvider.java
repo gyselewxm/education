@@ -223,9 +223,6 @@ public class BaseInsertProvider extends MapperTemplate {
             if (column.isIdentity()) {
                 sql.append(SqlHelper.getIfCacheNotNull(column, column.getColumnHolder(null, "_cache", ",")));
             } else {
-                if (null != column.getDefaultValue()) {
-                    sql.append(SqlHelper.getIfIsNull(column, "now(),", true));
-                }
                 // 其他情况值仍然存在原property中
                 sql.append(SqlHelper.getIfNotNull(column, column.getColumnHolder(null, null, ","), isNotEmpty()));
             }
