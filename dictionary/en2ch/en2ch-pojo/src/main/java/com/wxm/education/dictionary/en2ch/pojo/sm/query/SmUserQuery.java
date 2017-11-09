@@ -1,4 +1,4 @@
-package com.wxm.education.dictionary.en2ch.pojo.query.sm;
+package com.wxm.education.dictionary.en2ch.pojo.sm.query;
 
 public class SmUserQuery {
     private String id;

@@ -6,8 +6,8 @@ import org.junit.Test;
 
 import com.alibaba.fastjson.JSON;
 import com.wxm.education.dictionary.en2ch.base.junit.JunitBase;
-import com.wxm.education.dictionary.en2ch.pojo.dataobject.sm.SmUser;
-import com.wxm.education.dictionary.en2ch.pojo.vo.sm.SmUserVO;
+import com.wxm.education.dictionary.en2ch.pojo.sm.entity.SmUser;
+import com.wxm.education.dictionary.en2ch.pojo.sm.vo.SmUserVO;
 
 public class SmUserMapperTest extends JunitBase {
     private SmUserMapper smUserMapper;
@@ -57,7 +57,7 @@ public class SmUserMapperTest extends JunitBase {
         SmUserVO smUser = smUserMapper.selectVById("a3d862ee-4db6-43ef-9233-39adf14a6fa7");
         System.out.println(JSON.toJSONString(smUser));
     }
-    
+
     @Test
     public void testExistsWithPrimaryKey() {
         fail("Not yet implemented");
@@ -76,13 +76,16 @@ public class SmUserMapperTest extends JunitBase {
 
     @Test
     public void testInsertSelective() {
-        SmUser smUser = new SmUser();
-        smUser.setUsername("user");
-        smUser.setCnName("用户");
-        //smUser.setEnName("User");
-        smUser.setCreatedBy("00");
-        smUser.setModifiedBy("00");
-        smUserMapper.insertSelective(smUser);
+        SmUser smUser;
+        for (int i = 1; i <= 10; i++) {
+            smUser = new SmUser();
+            smUser.setUsername("user_" + i);
+            smUser.setCnName("用户");
+            // smUser.setEnName("User");
+            smUser.setCreatedBy("00");
+            smUser.setModifiedBy("00");
+            smUserMapper.insertSelective(smUser);
+        }
     }
 
     @Test

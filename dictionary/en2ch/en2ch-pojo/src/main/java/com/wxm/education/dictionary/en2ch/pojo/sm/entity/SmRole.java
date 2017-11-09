@@ -1,4 +1,4 @@
-package com.wxm.education.dictionary.en2ch.pojo.dataobject.sm;
+package com.wxm.education.dictionary.en2ch.pojo.sm.entity;
 
 import com.wxm.base.pojo.dataobject.BaseUUIDDO;
 
