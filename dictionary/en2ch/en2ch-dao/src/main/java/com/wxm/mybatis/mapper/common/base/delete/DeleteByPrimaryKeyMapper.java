@@ -43,6 +43,6 @@ public interface DeleteByPrimaryKeyMapper<T> {
      * @return
      */
     @DeleteProvider(type = BaseDeleteProvider.class, method = "dynamicSQL")
-    int deleteByPrimaryKey(Object key);
+    int deleteByPrimaryKey(Object query);
 
 }

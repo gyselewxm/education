@@ -76,7 +76,13 @@ public class SmUserMapperTest extends JunitBase {
 
     @Test
     public void testInsertSelective() {
-        fail("Not yet implemented");
+        SmUser smUser = new SmUser();
+        smUser.setUsername("user");
+        smUser.setCnName("用户");
+        //smUser.setEnName("User");
+        smUser.setCreatedBy("00");
+        smUser.setModifiedBy("00");
+        smUserMapper.insertSelective(smUser);
     }
 
     @Test
