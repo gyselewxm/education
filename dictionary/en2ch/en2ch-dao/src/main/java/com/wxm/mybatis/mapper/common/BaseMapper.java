@@ -21,7 +21,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
 package com.wxm.mybatis.mapper.common;
 
 import com.wxm.mybatis.mapper.common.base.BaseDeleteMapper;
@@ -30,17 +29,18 @@ import com.wxm.mybatis.mapper.common.base.BaseSelectMapper;
 import com.wxm.mybatis.mapper.common.base.BaseUpdateMapper;
 
 /**
- * 通用Mapper接口,其他接口继承该接口即可
- * <p/>
- * <p>这是一个例子，自己扩展时可以参考</p>
- * <p/>
- * <p>项目地址 : <a href="https://github.com/abel533/Mapper" target="_blank">https://github.com/abel533/Mapper</a></p>
- *
- * @param <T> 不能为空
- * @author liuzh
+ * 
+ * <b>Title:</b> 通用Mapper接口 <br>
+ * <b>Description:</b> <br>
+ * <b>Date:</b> 2017年11月9日 下午5:58:26
+ * 
+ * @author wuxm
+ * @version 1.0.0
+ * @param <T>
+ *            Entity数据表实体
  */
-public interface BaseMapper<T, V> extends
-        BaseSelectMapper<T, V>,
+public interface BaseMapper<T> extends
+        BaseSelectMapper<T>,
         BaseInsertMapper<T>,
         BaseUpdateMapper<T>,
         BaseDeleteMapper<T> {

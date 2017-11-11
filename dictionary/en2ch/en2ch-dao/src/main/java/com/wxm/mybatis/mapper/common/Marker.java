@@ -21,14 +21,15 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
 package com.wxm.mybatis.mapper.common;
 
 /**
- * 标记接口，继承该接口的接口，在MapperScannerConfigurer#setMarkerInterface时，会自动注册到通用Mapper
- *
- * @author liuzh
- * @since 3.2.2
+ * <b>Title:</b> 标记接口<br>
+ * <b>Description:</b> 继承该接口的接口，在MapperScannerConfigurer#setMarkerInterface时，会自动注册到通用Mapper<br>
+ * <b>Date:</b> 2017年11月9日 下午5:55:14
+ * 
+ * @author wuxm
+ * @version 1.0.0
  */
 public interface Marker {
 
