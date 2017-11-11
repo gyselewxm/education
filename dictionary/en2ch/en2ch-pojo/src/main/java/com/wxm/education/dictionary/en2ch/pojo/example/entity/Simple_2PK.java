@@ -2,6 +2,8 @@ package com.wxm.education.dictionary.en2ch.pojo.example.entity;
 
 import java.io.Serializable;
 
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import javax.persistence.Table;
 
 import com.wxm.base.pojo.dataobject.BaseUUIDDO;
@@ -22,12 +24,10 @@ public class Simple_2PK extends BaseUUIDDO implements Serializable {
      */
     private static final long serialVersionUID = -8302067138923608036L;
     /**
-     * 示例ID
-     */
-    private String id;
-    /**
      * ID2
      */
+    @Id
+    @GeneratedValue(generator = "UUID")
     private String id2;
     /**
      * 可变动字符串_非空
@@ -45,14 +45,6 @@ public class Simple_2PK extends BaseUUIDDO implements Serializable {
      * 定长字符串_可空
      */
     private String charCanNull;
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
 
     public String getId2() {
         return id2;

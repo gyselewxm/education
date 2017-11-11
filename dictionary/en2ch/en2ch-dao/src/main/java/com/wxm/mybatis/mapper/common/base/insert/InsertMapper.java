@@ -30,7 +30,6 @@ import com.wxm.mybatis.mapper.provider.base.BaseInsertProvider;
 
 /**
  * 
- * 
  * <b>Title:</b> 通用保存接口
  * <br><b>Description:</b> null的属性也会保存，不会使用数据库默认值
  * <br><b>Date:</b> 2017年11月9日 下午4:29:33
@@ -42,7 +41,6 @@ import com.wxm.mybatis.mapper.provider.base.BaseInsertProvider;
 public interface InsertMapper<T> {
 
     /**
-     * 
      * 
      * <b>Title:</b> 保存一个实体，null的属性也会保存，不会使用数据库默认值
      * <br><b>Description:</b> 
