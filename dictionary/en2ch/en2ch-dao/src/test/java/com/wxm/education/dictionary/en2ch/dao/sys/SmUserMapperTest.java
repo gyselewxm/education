@@ -7,7 +7,6 @@ import org.junit.Test;
 import com.alibaba.fastjson.JSON;
 import com.wxm.education.dictionary.en2ch.base.junit.JunitBase;
 import com.wxm.education.dictionary.en2ch.pojo.sm.entity.SmUser;
-import com.wxm.education.dictionary.en2ch.pojo.sm.vo.SmUserVO;
 
 public class SmUserMapperTest extends JunitBase {
     private SmUserMapper smUserMapper;
@@ -54,8 +53,8 @@ public class SmUserMapperTest extends JunitBase {
 
     @Test
     public void testSelectVById() {
-        SmUserVO smUser = smUserMapper.selectVById("a3d862ee-4db6-43ef-9233-39adf14a6fa7");
-        System.out.println(JSON.toJSONString(smUser));
+        // SmUserVO smUser = smUserMapper.selectVById("a3d862ee-4db6-43ef-9233-39adf14a6fa7");
+        // System.out.println(JSON.toJSONString(smUser));
     }
 
     @Test
