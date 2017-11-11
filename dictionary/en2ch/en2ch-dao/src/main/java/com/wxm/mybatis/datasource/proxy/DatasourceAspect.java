@@ -15,7 +15,7 @@ import com.wxm.mybatis.datasource.code.RoutingStrategy;
 import com.wxm.mybatis.datasource.lookup.DynamicRoutingContextHolder;
 
 public class DatasourceAspect {
-    public static final Pattern DELIMITER = Pattern.compile("insert|update");
+    public static final Pattern DELIMITER = Pattern.compile("insert*|update*|delete*");
 
     /**
      * 
