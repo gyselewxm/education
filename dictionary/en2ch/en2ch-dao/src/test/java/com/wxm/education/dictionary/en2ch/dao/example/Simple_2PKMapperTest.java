@@ -2,6 +2,9 @@ package com.wxm.education.dictionary.en2ch.dao.example;
 
 import static org.junit.Assert.fail;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.Test;
 
 import com.wxm.education.dictionary.en2ch.base.junit.JunitBase;
@@ -82,6 +85,20 @@ public class Simple_2PKMapperTest extends JunitBase {
             bean.setVarcharNotNull("---");
             mapper.insertSelective(bean);
         }
+    }
+
+    @Test
+    public void testInsertList() {
+        List<Simple_2PK> list = new ArrayList<Simple_2PK>();
+        Simple_2PK bean;
+        for (int i = 1; i <= 5; i++) {
+            bean = new Simple_2PK();
+            // bean.setCharNotNull("---");
+            // bean.setCharCanNull("--");
+            bean.setVarcharNotNull("---");
+            list.add(bean);
+        }
+        mapper.insertList(list);
     }
 
     @Test

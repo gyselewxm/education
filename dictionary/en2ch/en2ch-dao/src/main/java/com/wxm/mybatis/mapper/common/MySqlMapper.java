@@ -24,8 +24,7 @@
 
 package com.wxm.mybatis.mapper.common;
 
-import com.wxm.mybatis.mapper.common.special.InsertListMapper;
-import com.wxm.mybatis.mapper.common.special.InsertUseGeneratedKeysMapper;
+import com.wxm.mybatis.mapper.common.batch.InsertListMapper;
 
 /**
  * 通用Mapper接口,MySql独有的通用方法
@@ -34,7 +33,6 @@ import com.wxm.mybatis.mapper.common.special.InsertUseGeneratedKeysMapper;
  * @author liuzh
  */
 public interface MySqlMapper<T> extends
-        InsertListMapper<T>,
-        InsertUseGeneratedKeysMapper<T> {
+        InsertListMapper<T> {
 
 }
