@@ -12,7 +12,7 @@ import com.wxm.mybatis.mapper.common.Mapper;
  * @author wuxm
  * @version 1.0.0
  */
-public interface Simple_1PKMapper extends
+public interface Simple1PKMapper extends
         Mapper<Simple_1PK> {
 
 }

@@ -36,6 +36,7 @@ package com.wxm.mybatis.mapper.common;
  */
 public interface Mapper<T> extends
         BaseMapper<T>,
+        BatchMapper<T>,
         Marker {
 
 }

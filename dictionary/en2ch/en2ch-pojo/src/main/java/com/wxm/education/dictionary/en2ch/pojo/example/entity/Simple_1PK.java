@@ -22,10 +22,6 @@ public class Simple_1PK extends BaseUUIDDO implements Serializable {
      */
     private static final long serialVersionUID = -8302067138923608036L;
     /**
-     * 示例ID
-     */
-    private String id;
-    /**
      * 可变动字符串_非空
      */
     private String varcharNotNull;
@@ -41,14 +37,6 @@ public class Simple_1PK extends BaseUUIDDO implements Serializable {
      * 定长字符串_可空
      */
     private String charCanNull;
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
 
     public String getVarcharNotNull() {
         return varcharNotNull;
