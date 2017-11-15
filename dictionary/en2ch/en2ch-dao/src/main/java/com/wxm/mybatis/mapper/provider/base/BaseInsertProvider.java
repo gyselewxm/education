@@ -90,16 +90,15 @@ public class BaseInsertProvider extends MapperTemplate {
                     throw new MapperException(ms.getId() + "对应的实体类" + entityClass.getCanonicalName()
                             + "中包含多个MySql的自动增长列,最多只能有一个!");
                 }
-                // 优化:UUID支持回显
-                if ("UUID".equals(column.getGenerator())) {
-                    column.setGenerator(getUUID());
-                }
                 // 插入selectKey
                 SelectKeyHelper.newSelectKeyMappedStatement(ms, column, entityClass, isBEFORE(), getIDENTITY(column));
                 hasIdentityKey = true;
             } else if (column.isUuid()) {
                 // uuid的情况，直接插入bind节点
-                sql.append(SqlHelper.getBindValue(column, getUUID()));
+                // sql.append(SqlHelper.getBindValue(column, getUUID()));
+                // 优化:UUID支持回显
+                column.setGenerator(getUUID());
+                SelectKeyHelper.newSelectKeyMappedStatement(ms, column, entityClass, isBEFORE(), getIDENTITY(column));
             }
         }
         sql.append(SqlHelper.insertIntoTable(entityClass, tableName(entityClass)));

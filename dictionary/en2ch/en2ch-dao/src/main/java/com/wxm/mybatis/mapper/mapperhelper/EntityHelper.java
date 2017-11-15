@@ -57,7 +57,9 @@ import com.wxm.mybatis.mapper.util.StringUtil;
 /**
  * 实体类工具类 - 处理实体和数据库表以及字段关键的一个类
  * <p/>
- * <p>项目地址 : <a href="https://github.com/abel533/Mapper" target="_blank">https://github.com/abel533/Mapper</a></p>
+ * <p>
+ * 项目地址 : <a href="https://github.com/abel533/Mapper" target="_blank">https://github.com/abel533/Mapper</a>
+ * </p>
  *
  * @author liuzh
  */
@@ -143,8 +145,9 @@ public class EntityHelper {
         for (EntityColumn entityColumn : columnList) {
             selectBuilder.append(entityColumn.getColumn());
             if (!skipAlias && !entityColumn.getColumn().equalsIgnoreCase(entityColumn.getProperty())) {
-                //不等的时候分几种情况，例如`DESC`
-                if (entityColumn.getColumn().substring(1, entityColumn.getColumn().length() - 1).equalsIgnoreCase(entityColumn.getProperty())) {
+                // 不等的时候分几种情况，例如`DESC`
+                if (entityColumn.getColumn().substring(1, entityColumn.getColumn().length() - 1)
+                        .equalsIgnoreCase(entityColumn.getProperty())) {
                     selectBuilder.append(",");
                 } else {
                     selectBuilder.append(" AS ").append(entityColumn.getProperty()).append(",");
@@ -202,13 +205,13 @@ public class EntityHelper {
             return;
         }
         Style style = config.getStyle();
-        //style，该注解优先于全局配置
+        // style，该注解优先于全局配置
         if (entityClass.isAnnotationPresent(NameStyle.class)) {
             NameStyle nameStyle = entityClass.getAnnotation(NameStyle.class);
             style = nameStyle.value();
         }
 
-        //创建并缓存EntityTable
+        // 创建并缓存EntityTable
         EntityTable entityTable = null;
         if (entityClass.isAnnotationPresent(Table.class)) {
             Table table = entityClass.getAnnotation(Table.class);
@@ -219,12 +222,12 @@ public class EntityHelper {
         }
         if (entityTable == null) {
             entityTable = new EntityTable(entityClass);
-            //可以通过stye控制
+            // 可以通过stye控制
             entityTable.setName(StringUtil.convertByStyle(entityClass.getSimpleName(), style));
         }
         entityTable.setEntityClassColumns(new LinkedHashSet<EntityColumn>());
         entityTable.setEntityClassPKColumns(new LinkedHashSet<EntityColumn>());
-        //处理所有列
+        // 处理所有列
         List<EntityField> fields = null;
         if (config.isEnableMethodAnnotation()) {
             fields = FieldHelper.getAll(entityClass);
@@ -232,13 +235,13 @@ public class EntityHelper {
             fields = FieldHelper.getFields(entityClass);
         }
         for (EntityField field : fields) {
-            //如果启用了简单类型，就做简单类型校验，如果不是简单类型，直接跳过
-            if(config.isUseSimpleType() && !SimpleTypeUtil.isSimpleType(field.getJavaType())){
+            // 如果启用了简单类型，就做简单类型校验，如果不是简单类型，直接跳过
+            if (config.isUseSimpleType() && !SimpleTypeUtil.isSimpleType(field.getJavaType())) {
                 continue;
             }
             processField(entityTable, style, field);
         }
-        //当pk.size=0的时候使用所有列作为主键
+        // 当pk.size=0的时候使用所有列作为主键
         if (entityTable.getEntityClassPKColumns().size() == 0) {
             entityTable.setEntityClassPKColumns(entityTable.getEntityClassColumns());
         }
@@ -254,16 +257,16 @@ public class EntityHelper {
      * @param field
      */
     private static void processField(EntityTable entityTable, Style style, EntityField field) {
-        //排除字段
+        // 排除字段
         if (field.isAnnotationPresent(Transient.class)) {
             return;
         }
-        //Id
+        // Id
         EntityColumn entityColumn = new EntityColumn(entityTable);
         if (field.isAnnotationPresent(Id.class)) {
             entityColumn.setId(true);
         }
-        //Column
+        // Column
         String columnName = null;
         if (field.isAnnotationPresent(Column.class)) {
             Column column = field.getAnnotation(Column.class);
@@ -271,10 +274,10 @@ public class EntityHelper {
             entityColumn.setUpdatable(column.updatable());
             entityColumn.setInsertable(column.insertable());
         }
-        //ColumnType
+        // ColumnType
         if (field.isAnnotationPresent(ColumnType.class)) {
             ColumnType columnType = field.getAnnotation(ColumnType.class);
-            //column可以起到别名的作用
+            // column可以起到别名的作用
             if (StringUtil.isEmpty(columnName) && StringUtil.isNotEmpty(columnType.column())) {
                 columnName = columnType.column();
             }
@@ -285,14 +288,14 @@ public class EntityHelper {
                 entityColumn.setTypeHandler(columnType.typeHandler());
             }
         }
-        //表名
+        // 表名
         if (StringUtil.isEmpty(columnName)) {
             columnName = StringUtil.convertByStyle(field.getName(), style);
         }
         entityColumn.setProperty(field.getName());
         entityColumn.setColumn(columnName);
         entityColumn.setJavaType(field.getJavaType());
-        //OrderBy
+        // OrderBy
         if (field.isAnnotationPresent(OrderBy.class)) {
             OrderBy orderBy = field.getAnnotation(OrderBy.class);
             if (orderBy.value().equals("")) {
@@ -301,46 +304,35 @@ public class EntityHelper {
                 entityColumn.setOrderBy(orderBy.value());
             }
         }
-        //主键策略 - Oracle序列，MySql自动增长，UUID
+        // 主键策略 - Oracle序列，MySql自动增长，UUID
         if (field.isAnnotationPresent(SequenceGenerator.class)) {
             SequenceGenerator sequenceGenerator = field.getAnnotation(SequenceGenerator.class);
             if (sequenceGenerator.sequenceName().equals("")) {
-                throw new MapperException(entityTable.getEntityClass() + "字段" + field.getName() + "的注解@SequenceGenerator未指定sequenceName!");
+                throw new MapperException(entityTable.getEntityClass() + "字段" + field.getName()
+                        + "的注解@SequenceGenerator未指定sequenceName!");
             }
             entityColumn.setSequenceName(sequenceGenerator.sequenceName());
         } else if (field.isAnnotationPresent(GeneratedValue.class)) {
             GeneratedValue generatedValue = field.getAnnotation(GeneratedValue.class);
-            if (generatedValue.generator().equals("UUID")) {
+            if ("UUID".equals(generatedValue.generator())) {
                 entityColumn.setUuid(true);
                 // 优化:UUID支持回显
-                if (generatedValue.strategy() == GenerationType.IDENTITY) {
-                    //mysql的自动增长
-                    entityColumn.setIdentity(true);
-                    if (!generatedValue.generator().equals("")) {
-                        String generator = null;
-                        IdentityDialect identityDialect = IdentityDialect.getDatabaseDialect(generatedValue.generator());
-                        if (identityDialect != null) {
-                            generator = identityDialect.getIdentityRetrievalStatement();
-                        } else {
-                            generator = generatedValue.generator();
-                        }
-                        entityColumn.setGenerator(generator);
-                    }
-                }
+                entityColumn.setGenerator(generatedValue.generator());
             } else if (generatedValue.generator().equals("JDBC")) {
                 entityColumn.setIdentity(true);
                 entityColumn.setGenerator("JDBC");
                 entityTable.setKeyProperties(entityColumn.getProperty());
                 entityTable.setKeyColumns(entityColumn.getColumn());
             } else {
-                //允许通过generator来设置获取id的sql,例如mysql=CALL IDENTITY(),hsqldb=SELECT SCOPE_IDENTITY()
-                //允许通过拦截器参数设置公共的generator
+                // 允许通过generator来设置获取id的sql,例如mysql=CALL IDENTITY(),hsqldb=SELECT SCOPE_IDENTITY()
+                // 允许通过拦截器参数设置公共的generator
                 if (generatedValue.strategy() == GenerationType.IDENTITY) {
-                    //mysql的自动增长
+                    // mysql的自动增长
                     entityColumn.setIdentity(true);
                     if (!generatedValue.generator().equals("")) {
                         String generator = null;
-                        IdentityDialect identityDialect = IdentityDialect.getDatabaseDialect(generatedValue.generator());
+                        IdentityDialect identityDialect = IdentityDialect
+                                .getDatabaseDialect(generatedValue.generator());
                         if (identityDialect != null) {
                             generator = identityDialect.getIdentityRetrievalStatement();
                         } else {
@@ -349,11 +341,10 @@ public class EntityHelper {
                         entityColumn.setGenerator(generator);
                     }
                 } else {
-                    throw new MapperException(field.getName()
-                            + " - 该字段@GeneratedValue配置只允许以下几种形式:" +
-                            "\n1.全部数据库通用的@GeneratedValue(generator=\"UUID\")" +
-                            "\n2.useGeneratedKeys的@GeneratedValue(generator=\\\"JDBC\\\")  " +
-                            "\n3.类似mysql数据库的@GeneratedValue(strategy=GenerationType.IDENTITY[,generator=\"Mysql\"])");
+                    throw new MapperException(field.getName() + " - 该字段@GeneratedValue配置只允许以下几种形式:"
+                            + "\n1.全部数据库通用的@GeneratedValue(generator=\"UUID\")"
+                            + "\n2.useGeneratedKeys的@GeneratedValue(generator=\\\"JDBC\\\")  "
+                            + "\n3.类似mysql数据库的@GeneratedValue(strategy=GenerationType.IDENTITY[,generator=\"Mysql\"])");
                 }
             }
         }
