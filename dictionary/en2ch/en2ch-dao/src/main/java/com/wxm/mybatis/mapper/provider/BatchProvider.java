@@ -67,9 +67,6 @@ public class BatchProvider extends MapperTemplate {
             }
             if (StringUtil.isNotEmpty(column.getSequenceName())) {
             } else if (column.isIdentity()) {
-                /**
-                 * 待测
-                 */
                 // 这种情况下,如果原先的字段有值,需要先缓存起来,否则就一定会使用自动增长
                 // 这是一个bind节点
                 sql.append(SqlHelper.getBindCache(column));
