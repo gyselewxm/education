@@ -312,6 +312,21 @@ public class EntityHelper {
             GeneratedValue generatedValue = field.getAnnotation(GeneratedValue.class);
             if (generatedValue.generator().equals("UUID")) {
                 entityColumn.setUuid(true);
+                // 优化:UUID支持回显
+                if (generatedValue.strategy() == GenerationType.IDENTITY) {
+                    //mysql的自动增长
+                    entityColumn.setIdentity(true);
+                    if (!generatedValue.generator().equals("")) {
+                        String generator = null;
+                        IdentityDialect identityDialect = IdentityDialect.getDatabaseDialect(generatedValue.generator());
+                        if (identityDialect != null) {
+                            generator = identityDialect.getIdentityRetrievalStatement();
+                        } else {
+                            generator = generatedValue.generator();
+                        }
+                        entityColumn.setGenerator(generator);
+                    }
+                }
             } else if (generatedValue.generator().equals("JDBC")) {
                 entityColumn.setIdentity(true);
                 entityColumn.setGenerator("JDBC");

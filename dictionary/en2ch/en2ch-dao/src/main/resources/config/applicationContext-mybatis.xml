@@ -87,5 +87,11 @@
     <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory" />
     <!-- 需要扫描DAO接口的包 -->
     <property name="basePackage" value="com.wxm.education.dictionary.en2ch.dao" />
+    <property name="properties">
+      <!-- 主键UUID回写方法执行顺序,默认AFTER,可选值为(BEFORE|AFTER) -->
+      <value>
+        ORDER=BEFORE
+      </value>
+    </property>
   </bean>
 </beans>

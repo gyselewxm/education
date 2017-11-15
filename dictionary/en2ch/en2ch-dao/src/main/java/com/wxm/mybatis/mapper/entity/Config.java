@@ -169,13 +169,15 @@ public class Config {
         if (StringUtil.isNotEmpty(this.UUID)) {
             return this.UUID;
         }
-        return "@java.util.UUID@randomUUID().toString()";
+        // return "@java.util.UUID@randomUUID().toString()";
+        return "SELECT uuid()";
     }
 
     /**
      * 设置UUID生成策略 <br>
      * 配置UUID生成策略需要使用OGNL表达式 <br>
-     * 默认值36位长度:@java.util.UUID@randomUUID().toString()
+     * <del>默认值36位长度:@java.util.UUID@randomUUID().toString()</del><br>
+     * 默认值36位长度：SELECT uuid()
      *
      * @param UUID
      */
