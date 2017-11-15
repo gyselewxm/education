@@ -19,13 +19,13 @@ import com.wxm.education.dictionary.en2ch.pojo.example.entity.Simple_2PK;
  * @author wuxm
  * @version 1.0.0
  */
-public class Simple2PKMapperTest extends JunitBase {
-    private Simple2PKMapper simple2pkMapper;
+public class Simple_2PKMapperTest extends JunitBase {
+    private Simple_2PKMapper simple2pkMapper;
 
     @Override
     public void before() {
         super.before();
-        simple2pkMapper = getBean(Simple2PKMapper.class);
+        simple2pkMapper = getBean(Simple_2PKMapper.class);
     }
 
     @Test
