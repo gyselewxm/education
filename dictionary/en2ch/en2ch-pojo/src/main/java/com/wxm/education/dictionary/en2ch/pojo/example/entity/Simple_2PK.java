@@ -2,7 +2,6 @@ package com.wxm.education.dictionary.en2ch.pojo.example.entity;
 
 import java.io.Serializable;
 
-import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -28,7 +27,6 @@ public class Simple_2PK extends BaseUUIDDO implements Serializable {
      * ID2
      */
     @Id
-    @Column(name = "id2")
     @GeneratedValue(generator = "UUID")
     private String id2;
     /**
