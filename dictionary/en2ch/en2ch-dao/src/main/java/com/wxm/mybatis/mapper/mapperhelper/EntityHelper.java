@@ -301,7 +301,7 @@ public class EntityHelper {
                 entityColumn.setOrderBy(orderBy.value());
             }
         }
-        //主键策略 - Oracle序列，MySql自动增长，UUID, UUID32
+        //主键策略 - Oracle序列，MySql自动增长，UUID
         if (field.isAnnotationPresent(SequenceGenerator.class)) {
             SequenceGenerator sequenceGenerator = field.getAnnotation(SequenceGenerator.class);
             if (sequenceGenerator.sequenceName().equals("")) {
@@ -312,8 +312,6 @@ public class EntityHelper {
             GeneratedValue generatedValue = field.getAnnotation(GeneratedValue.class);
             if (generatedValue.generator().equals("UUID")) {
                 entityColumn.setUuid(true);
-            } else if (generatedValue.generator().equals("UUID32")) {
-                entityColumn.setUuid32(true);
             } else if (generatedValue.generator().equals("JDBC")) {
                 entityColumn.setIdentity(true);
                 entityColumn.setGenerator("JDBC");

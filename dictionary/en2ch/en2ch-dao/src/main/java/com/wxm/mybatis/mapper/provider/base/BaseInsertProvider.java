@@ -96,9 +96,6 @@ public class BaseInsertProvider extends MapperTemplate {
             } else if (column.isUuid()) {
                 // uuid的情况，直接插入bind节点
                 sql.append(SqlHelper.getBindValue(column, getUUID()));
-            } else if (column.isUuid32()) {
-                // uuid32的情况，直接插入bind节点
-                sql.append(SqlHelper.getBindValue(column, getUUID32()));
             }
         }
         sql.append(SqlHelper.insertIntoTable(entityClass, tableName(entityClass)));
@@ -123,8 +120,6 @@ public class BaseInsertProvider extends MapperTemplate {
             } else if (column.isIdentity()) {
                 sql.append(SqlHelper.getIfCacheIsNull(column, column.getColumnHolder() + ","));
             } else if (column.isUuid()) {
-                sql.append(SqlHelper.getIfIsNull(column, column.getColumnHolder(null, "_bind", ","), isNotEmpty()));
-            } else if (column.isUuid32()) {
                 sql.append(SqlHelper.getIfIsNull(column, column.getColumnHolder(null, "_bind", ","), isNotEmpty()));
             } else {
                 // 当null的时候，如果不指定jdbcType，oracle可能会报异常，指定VARCHAR不影响其他
@@ -194,9 +189,6 @@ public class BaseInsertProvider extends MapperTemplate {
             } else if (column.isUuid()) {
                 // uuid的情况，直接插入bind节点
                 sql.append(SqlHelper.getBindValue(column, getUUID()));
-            } else if (column.isUuid32()) {
-                // uuid的情况，直接插入bind节点
-                sql.append(SqlHelper.getBindValue(column, getUUID32()));
             }
         }
         sql.append(SqlHelper.insertIntoTable(entityClass, tableName(entityClass)));
@@ -205,8 +197,7 @@ public class BaseInsertProvider extends MapperTemplate {
             if (!column.isInsertable()) {
                 continue;
             }
-            if (StringUtil.isNotEmpty(column.getSequenceName()) || column.isIdentity() || column.isUuid()
-                    || column.isUuid32()) {
+            if (StringUtil.isNotEmpty(column.getSequenceName()) || column.isIdentity() || column.isUuid()) {
                 sql.append(column.getColumn() + ",");
             } else {
                 sql.append(SqlHelper.getIfNotNull(column, column.getColumn() + ",", isNotEmpty()));
@@ -233,8 +224,6 @@ public class BaseInsertProvider extends MapperTemplate {
             } else if (column.isIdentity()) {
                 sql.append(SqlHelper.getIfCacheIsNull(column, column.getColumnHolder() + ","));
             } else if (column.isUuid()) {
-                sql.append(SqlHelper.getIfIsNull(column, column.getColumnHolder(null, "_bind", ","), isNotEmpty()));
-            } else if (column.isUuid32()) {
                 sql.append(SqlHelper.getIfIsNull(column, column.getColumnHolder(null, "_bind", ","), isNotEmpty()));
             }
         }

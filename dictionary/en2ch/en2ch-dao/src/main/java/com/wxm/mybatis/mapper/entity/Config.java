@@ -39,7 +39,6 @@ import com.wxm.mybatis.mapper.util.StringUtil;
  */
 public class Config {
     private String UUID;
-    private String UUID32;
     private String IDENTITY;
     private boolean BEFORE;
     private String seqFormat;
@@ -184,29 +183,6 @@ public class Config {
         this.UUID = UUID;
     }
 
-    /**
-     * 获取UUID32生成规则
-     *
-     * @return
-     */
-    public String getUUID32() {
-        if (StringUtil.isNotEmpty(this.UUID32)) {
-            return this.UUID32;
-        }
-        return "@java.util.UUID@randomUUID().toString().replace(\"-\", \"\")";
-    }
-
-    /**
-     * 设置UUID32生成策略 <br>
-     * 配置UUID生成策略需要使用OGNL表达式 <br>
-     * 默认值32位长度:@java.util.UUID@randomUUID().toString().replace("-", "")
-     *
-     * @param UUID32
-     */
-    public void setUUID32(String UUID32) {
-        this.UUID32 = UUID32;
-    }
-
     public boolean isNotEmpty() {
         return notEmpty;
     }
@@ -276,10 +252,6 @@ public class Config {
         String UUID = properties.getProperty("UUID");
         if (StringUtil.isNotEmpty(UUID)) {
             setUUID(UUID);
-        }
-        String UUID32 = properties.getProperty("UUID32");
-        if (StringUtil.isNotEmpty(UUID32)) {
-            setUUID(UUID32);
         }
         String IDENTITY = properties.getProperty("IDENTITY");
         if (StringUtil.isNotEmpty(IDENTITY)) {

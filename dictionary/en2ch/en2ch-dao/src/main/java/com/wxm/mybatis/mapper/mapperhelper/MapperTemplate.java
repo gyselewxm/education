@@ -88,10 +88,6 @@ public abstract class MapperTemplate {
         return mapperHelper.getConfig().getUUID();
     }
 
-    public String getUUID32() {
-        return mapperHelper.getConfig().getUUID32();
-    }
-
     public String getIDENTITY() {
         return mapperHelper.getConfig().getIDENTITY();
     }
