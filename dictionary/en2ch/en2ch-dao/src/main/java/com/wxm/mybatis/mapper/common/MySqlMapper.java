@@ -24,7 +24,7 @@
 
 package com.wxm.mybatis.mapper.common;
 
-import com.wxm.mybatis.mapper.common.batch.InsertListMapper;
+import com.wxm.mybatis.mapper.common.batch.BatchInsertMapper;
 
 /**
  * 通用Mapper接口,MySql独有的通用方法
@@ -33,6 +33,6 @@ import com.wxm.mybatis.mapper.common.batch.InsertListMapper;
  * @author liuzh
  */
 public interface MySqlMapper<T> extends
-        InsertListMapper<T> {
+        BatchInsertMapper<T> {
 
 }
