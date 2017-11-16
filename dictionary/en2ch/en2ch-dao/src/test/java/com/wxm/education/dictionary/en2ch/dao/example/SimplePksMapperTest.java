@@ -3,12 +3,16 @@ package com.wxm.education.dictionary.en2ch.dao.example;
 import static org.junit.Assert.fail;
 
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.alibaba.fastjson.JSON;
 import com.wxm.education.dictionary.en2ch.base.junit.JunitBase;
 import com.wxm.education.dictionary.en2ch.pojo.example.entity.SimplePks;
+import com.wxm.mybatis.mapper.util.UUIDUtil;
 
 public class SimplePksMapperTest extends JunitBase {
+    private Logger logger = LoggerFactory.getLogger(this.getClass());
     private SimplePksMapper mapper;
 
     @Override
@@ -55,17 +59,19 @@ public class SimplePksMapperTest extends JunitBase {
     @Test
     public void testInsert() {
         SimplePks bean = new SimplePks();
+        bean.setVarcharId(UUIDUtil.getUUID());
         bean.setIntegerId((int) Math.round(Math.random() * 1000));
         mapper.insert(bean);
-        System.out.println(JSON.toJSONString(bean));
+        logger.debug(JSON.toJSONString(bean));
     }
 
     @Test
     public void testInsertSelective() {
         SimplePks bean = new SimplePks();
+        bean.setVarcharId(UUIDUtil.getUUID());
         bean.setIntegerId((int) Math.round(Math.random() * 1000));
         mapper.insert(bean);
-        System.out.println(JSON.toJSONString(bean));
+        logger.debug(JSON.toJSONString(bean));
     }
 
     @Test

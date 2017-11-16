@@ -3,11 +3,15 @@ package com.wxm.education.dictionary.en2ch.dao.example;
 import static org.junit.Assert.fail;
 
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import com.alibaba.fastjson.JSON;
 import com.wxm.education.dictionary.en2ch.base.junit.JunitBase;
 import com.wxm.education.dictionary.en2ch.pojo.example.entity.SimplePkChar;
 
 public class SimplePkCharMapperTest extends JunitBase {
+    private Logger logger = LoggerFactory.getLogger(this.getClass());
     private SimplePkCharMapper mapper;
 
     @Override
@@ -53,12 +57,16 @@ public class SimplePkCharMapperTest extends JunitBase {
 
     @Test
     public void testInsert() {
-        mapper.insert(new SimplePkChar());
+        SimplePkChar bean =new SimplePkChar();
+        mapper.insert(bean);
+        logger.debug(JSON.toJSONString(bean));
     }
 
     @Test
     public void testInsertSelective() {
-        mapper.insertSelective(new SimplePkChar());
+        SimplePkChar bean =new SimplePkChar();
+        mapper.insertSelective(bean);
+        logger.debug(JSON.toJSONString(bean));
     }
 
     @Test

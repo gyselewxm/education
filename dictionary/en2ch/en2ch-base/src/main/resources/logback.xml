@@ -5,7 +5,7 @@
 <!-- debug: 当此属性设置为true时，将打印出logback内部日志信息，实时查看logback运行状态。默认值为false。 -->
 <configuration>
   <!-- 定义参数 -->
-  <property name="logger.lever" value="INFO" />
+  <property name="logger.lever" value="DEBUG" />
   <!-- 根路径 -->
   <property name="logger.rootPath" value="logs" />
   <!-- 文件名前缀 -->
@@ -146,9 +146,9 @@
   <!-- name:包或类全称，或普通标识 -->
   <!-- level: 如果木有指定从最近的父类继承，顶级为root的级别 -->
   <!-- additivity: 控制是否继承父类appender，默认true -->
-  <logger name="org.mybatis.spring.transaction.SpringManagedTransaction" level="DEBUG" additivity="false">
+  <!-- <logger name="org.mybatis.spring.transaction.SpringManagedTransaction" level="DEBUG" additivity="false">
     <appender-ref ref="sqlAppender" />
-  </logger>
+  </logger> -->
   <logger name="dao" level="DEBUG" additivity="false">
     <appender-ref ref="sqlAppender" />
   </logger>

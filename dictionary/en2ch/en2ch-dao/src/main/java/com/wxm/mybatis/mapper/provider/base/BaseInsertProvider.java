@@ -97,6 +97,7 @@ public class BaseInsertProvider extends MapperTemplate {
                 // uuid的情况，直接插入bind节点
                 // sql.append(SqlHelper.getBindValue(column, getUUID()));
                 // 优化:UUID支持回显
+                sql.append(SqlHelper.getBindCache(column));
                 column.setGenerator(getUUID());
                 SelectKeyHelper.newSelectKeyMappedStatement(ms, column, entityClass, isBEFORE(), getIDENTITY(column));
             }
@@ -125,8 +126,8 @@ public class BaseInsertProvider extends MapperTemplate {
             } else if (column.isIdentity()) {
                 sql.append(SqlHelper.getIfCacheIsNull(column, column.getColumnHolder() + ","));
             } else if (column.isUuid()) {
-                sql.append(SqlHelper.getIfCacheIsNull(column, column.getColumnHolder() + ","));
                 // sql.append(SqlHelper.getIfIsNull(column, column.getColumnHolder(null, "_bind", ","), isNotEmpty()));
+                sql.append(SqlHelper.getIfCacheIsNull(column, column.getColumnHolder() + ","));
             } else {
                 // 当null的时候，如果不指定jdbcType，oracle可能会报异常，指定VARCHAR不影响其他
                 sql.append(SqlHelper.getIfIsNull(column, column.getColumnHolder(null, null, ","), isNotEmpty()));
@@ -194,7 +195,11 @@ public class BaseInsertProvider extends MapperTemplate {
                 hasIdentityKey = true;
             } else if (column.isUuid()) {
                 // uuid的情况，直接插入bind节点
-                sql.append(SqlHelper.getBindValue(column, getUUID()));
+                // sql.append(SqlHelper.getBindValue(column, getUUID()));
+                // 优化:UUID支持回显
+                sql.append(SqlHelper.getBindCache(column));
+                column.setGenerator(getUUID());
+                SelectKeyHelper.newSelectKeyMappedStatement(ms, column, entityClass, isBEFORE(), getIDENTITY(column));
             }
         }
         sql.append(SqlHelper.insertIntoTable(entityClass, tableName(entityClass)));
@@ -230,7 +235,8 @@ public class BaseInsertProvider extends MapperTemplate {
             } else if (column.isIdentity()) {
                 sql.append(SqlHelper.getIfCacheIsNull(column, column.getColumnHolder() + ","));
             } else if (column.isUuid()) {
-                sql.append(SqlHelper.getIfIsNull(column, column.getColumnHolder(null, "_bind", ","), isNotEmpty()));
+                // sql.append(SqlHelper.getIfIsNull(column, column.getColumnHolder(null, "_bind", ","), isNotEmpty()));
+                sql.append(SqlHelper.getIfCacheIsNull(column, column.getColumnHolder() + ","));
             }
         }
         sql.append("</trim>");

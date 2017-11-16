@@ -43,7 +43,7 @@ public interface InsertMapper<T> {
     /**
      * 
      * <b>Title:</b> 保存一个实体，null的属性也会保存，不会使用数据库默认值
-     * <br><b>Description:</b> 
+     * <br><b>Description:</b> 仅支持一个主键自动生成
      * <br><b>Date:</b> 2017年11月9日 下午4:28:45
      * 
      * @author wuxm
