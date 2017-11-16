@@ -49,11 +49,11 @@ public interface InsertSelectiveMapper<T> {
      * 
      * @author wuxm
      * @version 1.0.0
-     * @param t
+     * @param bean
      *            实体对象
      * @return
      */
     @InsertProvider(type = BaseInsertProvider.class, method = "dynamicSQL")
-    int insertSelective(T t);
+    int insertSelective(T bean);
 
 }

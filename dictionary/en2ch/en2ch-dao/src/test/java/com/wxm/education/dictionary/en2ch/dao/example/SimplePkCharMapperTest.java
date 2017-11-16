@@ -2,6 +2,9 @@ package com.wxm.education.dictionary.en2ch.dao.example;
 
 import static org.junit.Assert.fail;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import com.alibaba.fastjson.JSON;
 import com.wxm.education.dictionary.en2ch.base.junit.JunitBase;
 import com.wxm.education.dictionary.en2ch.pojo.example.entity.SimplePkChar;
+import com.wxm.mybatis.mapper.util.UUIDUtil;
 
 public class SimplePkCharMapperTest extends JunitBase {
     private Logger logger = LoggerFactory.getLogger(this.getClass());
@@ -57,14 +61,14 @@ public class SimplePkCharMapperTest extends JunitBase {
 
     @Test
     public void testInsert() {
-        SimplePkChar bean =new SimplePkChar();
+        SimplePkChar bean = new SimplePkChar();
         mapper.insert(bean);
         logger.debug(JSON.toJSONString(bean));
     }
 
     @Test
     public void testInsertSelective() {
-        SimplePkChar bean =new SimplePkChar();
+        SimplePkChar bean = new SimplePkChar();
         mapper.insertSelective(bean);
         logger.debug(JSON.toJSONString(bean));
     }
@@ -91,12 +95,28 @@ public class SimplePkCharMapperTest extends JunitBase {
 
     @Test
     public void testInsertList() {
-        fail("Not yet implemented");
+        List<SimplePkChar> list = new LinkedList<SimplePkChar>();
+        SimplePkChar bean;
+        for (int i = 0; i < 5; i++) {
+            bean = new SimplePkChar();
+            bean.setId(UUIDUtil.getUUID());
+            list.add(bean);
+        }
+        mapper.insertList(list);
+        logger.debug(JSON.toJSONString(list));
     }
 
     @Test
     public void testInsertSelectiveList() {
-        fail("Not yet implemented");
+        List<SimplePkChar> list = new LinkedList<SimplePkChar>();
+        SimplePkChar bean;
+        for (int i = 0; i < 5; i++) {
+            bean = new SimplePkChar();
+            bean.setId(UUIDUtil.getUUID());
+            list.add(bean);
+        }
+        mapper.insertList(list);
+        logger.debug(JSON.toJSONString(list));
     }
 
 }

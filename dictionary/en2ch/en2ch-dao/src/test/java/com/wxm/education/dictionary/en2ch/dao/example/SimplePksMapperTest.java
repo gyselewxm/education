@@ -2,6 +2,9 @@ package com.wxm.education.dictionary.en2ch.dao.example;
 
 import static org.junit.Assert.fail;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -96,12 +99,32 @@ public class SimplePksMapperTest extends JunitBase {
 
     @Test
     public void testInsertList() {
-        fail("Not yet implemented");
+        List<SimplePks> list = new LinkedList<SimplePks>();
+        SimplePks bean;
+        for (int i = 0; i < 5; i++) {
+            bean = new SimplePks();
+            bean.setId(UUIDUtil.getUUID());
+            bean.setVarcharId(UUIDUtil.getUUID());
+            bean.setIntegerId((int) Math.round(Math.random() * 1000));
+            list.add(bean);
+        }
+        mapper.insertList(list);
+        logger.debug(JSON.toJSONString(list));
     }
 
     @Test
     public void testInsertSelectiveList() {
-        fail("Not yet implemented");
+        List<SimplePks> list = new LinkedList<SimplePks>();
+        SimplePks bean;
+        for (int i = 0; i < 5; i++) {
+            bean = new SimplePks();
+            bean.setId(UUIDUtil.getUUID());
+            bean.setVarcharId(UUIDUtil.getUUID());
+            bean.setIntegerId((int) Math.round(Math.random() * 1000));
+            list.add(bean);
+        }
+        mapper.insertList(list);
+        logger.debug(JSON.toJSONString(list));
     }
 
 }
