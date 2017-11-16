@@ -201,4 +201,8 @@ mvnw
 mvnw.cmd
 maven-wrapper.properties
 
+#Project
 logs/
+
+#PowerDesigner
+*.pdb
