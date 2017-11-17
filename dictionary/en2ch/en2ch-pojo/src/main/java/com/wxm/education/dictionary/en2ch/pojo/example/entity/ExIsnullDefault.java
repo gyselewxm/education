@@ -1,5 +1,7 @@
 package com.wxm.education.dictionary.en2ch.pojo.example.entity;
 
+import javax.persistence.Column;
+
 import com.wxm.base.pojo.dataobject.BaseUUIDDO;
 
 /**
@@ -47,7 +49,23 @@ public class ExIsnullDefault extends BaseUUIDDO {
     /**
      * 变长字符串_非插入_可空
      */
+    @Column(insertable = false)
     private String varcharNotinsertCannull;
+    /**
+     * 变长字符串_非插入_可空_默认
+     */
+    @Column(insertable = false)
+    private String varcharNotinsertCannullDefault;
+    /**
+     * 变长字符串_非插入_非空
+     */
+    // @Column(insertable = false)
+    private String varcharNotinsertNotnull;
+    /**
+     * 变长字符串_非插入_可空_默认
+     */
+    @Column(insertable = false)
+    private String varcharNotinsertNotnullDefault;
 
     public String getVarcharNotnull() {
         return varcharNotnull;
@@ -144,17 +162,4 @@ public class ExIsnullDefault extends BaseUUIDDO {
     public void setVarcharNotinsertNotnullDefault(String varcharNotinsertNotnullDefault) {
         this.varcharNotinsertNotnullDefault = varcharNotinsertNotnullDefault;
     }
-
-    /**
-     * 变长字符串_非插入_可空_默认
-     */
-    private String varcharNotinsertCannullDefault;
-    /**
-     * 变长字符串_非插入_非空
-     */
-    private String varcharNotinsertNotnull;
-    /**
-     * 变长字符串_非插入_可空_默认
-     */
-    private String varcharNotinsertNotnullDefault;
 }
