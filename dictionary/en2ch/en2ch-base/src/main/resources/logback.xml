@@ -5,7 +5,7 @@
 <!-- debug: 当此属性设置为true时，将打印出logback内部日志信息，实时查看logback运行状态。默认值为false。 -->
 <configuration>
   <!-- 定义参数 -->
-  <property name="logger.lever" value="DEBUG" />
+  <property name="logger.lever" value="ERROR" />
   <!-- 根路径 -->
   <property name="logger.rootPath" value="logs" />
   <!-- 文件名前缀 -->

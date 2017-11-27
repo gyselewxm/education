@@ -1,6 +1,7 @@
 package com.wxm.education.dictionary.en2ch.dao.example;
 
 import com.wxm.education.dictionary.en2ch.pojo.example.entity.ExIsnullDefault;
+import com.wxm.education.dictionary.en2ch.pojo.example.query.ExIsnullDefaultQuery;
 import com.wxm.mybatis.mapper.common.Mapper;
 
 /**
@@ -12,6 +13,6 @@ import com.wxm.mybatis.mapper.common.Mapper;
  * @author wuxm
  * @version 1.0.0
  */
-public interface ExIsnullDefaultMapper extends Mapper<ExIsnullDefault> {
+public interface ExIsnullDefaultMapper extends Mapper<ExIsnullDefault, ExIsnullDefaultQuery> {
 
 }

@@ -29,14 +29,15 @@ import com.wxm.mybatis.mapper.common.base.select.*;
 /**
  * 通用Mapper接口,基础查询
  *
- * @param <T> 不能为空
+ * @param <T>
+ *            不能为空
  * @author liuzh
  */
-public interface BaseSelectMapper<T> extends
+public interface BaseSelectMapper<T, Q> extends
         SelectOneMapper<T>,
         SelectMapper<T>,
         SelectAllMapper<T>,
-        SelectCountMapper<T>,
+        SelectCountMapper<Q>,
         SelectByPrimaryKeyMapper<T>,
         ExistsWithPrimaryKeyMapper<T> {
 
