@@ -39,8 +39,8 @@ import com.wxm.mybatis.mapper.common.base.BaseUpdateMapper;
  * @param <T>
  *            Entity数据表实体
  */
-public interface BaseMapper<T> extends
-        BaseSelectMapper<T>,
+public interface BaseMapper<T, Q> extends
+        BaseSelectMapper<T, Q>,
         BaseInsertMapper<T>,
         BaseUpdateMapper<T>,
         BaseDeleteMapper<T> {

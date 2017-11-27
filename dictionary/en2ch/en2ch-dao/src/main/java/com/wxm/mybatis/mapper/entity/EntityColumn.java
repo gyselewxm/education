@@ -46,11 +46,11 @@ public class EntityColumn {
     private boolean uuid = false;
     private boolean identity = false;
     private String generator;
-    //排序
+    // 排序
     private String orderBy;
-    //可插入
+    // 可插入
     private boolean insertable = true;
-    //可更新
+    // 可更新
     private boolean updatable = true;
 
     public EntityColumn() {
@@ -177,6 +177,15 @@ public class EntityColumn {
      *
      * @return
      */
+    public String getColumnLikeHolder() {
+        return String.format("%s LIKE '$'||%s||'$'", this.column, getColumnHolder()).replace("$", "%");
+    }
+
+    /**
+     * 返回格式如:colum = #{age,jdbcType=NUMERIC,typeHandler=MyTypeHandler}
+     *
+     * @return
+     */
     public String getColumnEqualsHolder() {
         return getColumnEqualsHolder(null);
     }
@@ -256,7 +265,7 @@ public class EntityColumn {
         } else if (this.typeHandler != null) {
             sb.append(",typeHandler=");
             sb.append(this.typeHandler.getCanonicalName());
-        } else if (!this.javaType.isArray()) {//当类型为数组时，不设置javaType#103
+        } else if (!this.javaType.isArray()) {// 当类型为数组时，不设置javaType#103
             sb.append(",javaType=");
             sb.append(javaType.getCanonicalName());
         }
@@ -269,22 +278,35 @@ public class EntityColumn {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
 
         EntityColumn that = (EntityColumn) o;
 
-        if (id != that.id) return false;
-        if (uuid != that.uuid) return false;
-        if (identity != that.identity) return false;
-        if (table != null ? !table.equals(that.table) : that.table != null) return false;
-        if (property != null ? !property.equals(that.property) : that.property != null) return false;
-        if (column != null ? !column.equals(that.column) : that.column != null) return false;
-        if (javaType != null ? !javaType.equals(that.javaType) : that.javaType != null) return false;
-        if (jdbcType != that.jdbcType) return false;
-        if (typeHandler != null ? !typeHandler.equals(that.typeHandler) : that.typeHandler != null) return false;
-        if (sequenceName != null ? !sequenceName.equals(that.sequenceName) : that.sequenceName != null) return false;
-        if (generator != null ? !generator.equals(that.generator) : that.generator != null) return false;
+        if (id != that.id)
+            return false;
+        if (uuid != that.uuid)
+            return false;
+        if (identity != that.identity)
+            return false;
+        if (table != null ? !table.equals(that.table) : that.table != null)
+            return false;
+        if (property != null ? !property.equals(that.property) : that.property != null)
+            return false;
+        if (column != null ? !column.equals(that.column) : that.column != null)
+            return false;
+        if (javaType != null ? !javaType.equals(that.javaType) : that.javaType != null)
+            return false;
+        if (jdbcType != that.jdbcType)
+            return false;
+        if (typeHandler != null ? !typeHandler.equals(that.typeHandler) : that.typeHandler != null)
+            return false;
+        if (sequenceName != null ? !sequenceName.equals(that.sequenceName) : that.sequenceName != null)
+            return false;
+        if (generator != null ? !generator.equals(that.generator) : that.generator != null)
+            return false;
         return !(orderBy != null ? !orderBy.equals(that.orderBy) : that.orderBy != null);
 
     }

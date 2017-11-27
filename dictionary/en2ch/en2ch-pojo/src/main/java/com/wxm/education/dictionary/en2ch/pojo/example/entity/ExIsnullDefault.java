@@ -8,9 +8,9 @@ import com.wxm.base.pojo.dataobject.BaseUUIDDO;
  * 
  * <b>Title:</b> 示例-是否为空-默认 <br>
  * <b>Description:</b> <br>
- * <b>Date:</b> 2017年11月16日 下午9:49:13
+ * <b>Date:</b> 2017年11月28日 下午2:48:26 <br>
+ * <b>Author:</b> Gysele
  * 
- * @author wuxm
  * @version 1.0.0
  */
 public class ExIsnullDefault extends BaseUUIDDO {

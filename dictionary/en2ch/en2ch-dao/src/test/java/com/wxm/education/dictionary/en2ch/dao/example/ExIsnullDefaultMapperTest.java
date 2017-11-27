@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import com.alibaba.fastjson.JSON;
 import com.wxm.education.dictionary.en2ch.base.junit.JunitBase;
 import com.wxm.education.dictionary.en2ch.pojo.example.entity.ExIsnullDefault;
+import com.wxm.education.dictionary.en2ch.pojo.example.query.ExIsnullDefaultQuery;
 import com.wxm.mybatis.mapper.util.UUIDUtil;
 
 public class ExIsnullDefaultMapperTest extends JunitBase {
@@ -42,7 +43,8 @@ public class ExIsnullDefaultMapperTest extends JunitBase {
 
     @Test
     public void testSelectCount() {
-        fail("Not yet implemented");
+        int count = mapper.selectCount(new ExIsnullDefaultQuery(null, null, "varchar"));
+        logger.debug("查询总数:" + count);
     }
 
     @Test

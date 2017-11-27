@@ -34,8 +34,8 @@ package com.wxm.mybatis.mapper.common;
  * @param <T>
  *            Entity数据表实体
  */
-public interface Mapper<T> extends
-        BaseMapper<T>,
+public interface Mapper<T, Q> extends
+        BaseMapper<T, Q>,
         BatchMapper<T>,
         Marker {
 

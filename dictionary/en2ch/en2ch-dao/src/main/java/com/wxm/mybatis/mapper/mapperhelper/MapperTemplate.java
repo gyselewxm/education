@@ -236,6 +236,37 @@ public abstract class MapperTemplate {
     }
 
     /**
+     * 
+     * <b>Title:</b> 获取返回值类型 - 查询实体类型 <br>
+     * <b>Description:</b> <br>
+     * <b>Date:</b> 2017年11月27日 下午5:33:53 <br>
+     * @author wuxm
+     * 
+     * @param ms
+     * @return
+     */
+    public Class<?> getQueryClass(MappedStatement ms) {
+        String msId = String.format("%s_query", ms.getId());
+        if (entityClassMap.containsKey(msId)) {
+            return entityClassMap.get(msId);
+        } else {
+            Class<?> mapperClass = getMapperClass(msId);
+            Type[] types = mapperClass.getGenericInterfaces();
+            for (Type type : types) {
+                if (type instanceof ParameterizedType) {
+                    ParameterizedType t = (ParameterizedType) type;
+                    if (t.getRawType() == this.mapperClass
+                            || this.mapperClass.isAssignableFrom((Class<?>) t.getRawType())) {
+                        Class<?> returnType = (Class<?>) t.getActualTypeArguments()[1];
+                        return returnType;
+                    }
+                }
+            }
+        }
+        throw new MapperException("无法获取 " + msId + " 方法的泛型信息!");
+    }
+
+    /**
      * 根据对象生成主键映射
      *
      * @param ms

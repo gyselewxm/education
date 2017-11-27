@@ -29,20 +29,30 @@ import org.apache.ibatis.annotations.SelectProvider;
 import com.wxm.mybatis.mapper.provider.base.BaseSelectProvider;
 
 /**
- * 通用Mapper接口,查询
- *
- * @param <T> 不能为空
- * @author liuzh
+ * 
+ * <b>Title:</b> 根据查询条件获取信息总数 <br>
+ * <b>Description:</b> <br>
+ * <b>Date:</b> 2017年11月28日 下午1:58:12 <br>
+ * <b>Author:</b> Gysele
+ * 
+ * @version 1.0.0
+ * @param <Q>
+ *            表对应查询条件实体
  */
-public interface SelectCountMapper<T> {
+public interface SelectCountMapper<Q> {
 
     /**
-     * 根据实体中的属性查询总数，查询条件使用等号
-     *
-     * @param record
+     * 
+     * <b>Title:</b> 根据查询条件获取信息总数 <br>
+     * <b>Description:</b> <br>
+     * <b>Date:</b> 2017年11月28日 下午1:58:54 <br>
+     * <b>Author:</b> Gysele
+     * 
+     * @param query
+     *            表对应查询条件实体
      * @return
      */
     @SelectProvider(type = BaseSelectProvider.class, method = "dynamicSQL")
-    int selectCount(T record);
+    int selectCount(Q query);
 
 }

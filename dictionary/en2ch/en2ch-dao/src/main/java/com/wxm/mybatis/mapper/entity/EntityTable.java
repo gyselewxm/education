@@ -56,6 +56,8 @@ public class EntityTable {
     private String baseSelect;
     //实体类 => 全部列属性
     private Set<EntityColumn> entityClassColumns;
+    //表对应查询条件实体类 => 全部列属性
+    private Set<EntityColumn> queryClassColumns;
     //实体类 => 主键信息
     private Set<EntityColumn> entityClassPKColumns;
     //useGenerator包含多列的时候需要用到
@@ -146,6 +148,14 @@ public class EntityTable {
 
     public void setEntityClassColumns(Set<EntityColumn> entityClassColumns) {
         this.entityClassColumns = entityClassColumns;
+    }
+
+    public Set<EntityColumn> getQueryClassColumns() {
+        return queryClassColumns;
+    }
+
+    public void setQueryClassColumns(Set<EntityColumn> queryClassColumns) {
+        this.queryClassColumns = queryClassColumns;
     }
 
     public Set<EntityColumn> getEntityClassPKColumns() {

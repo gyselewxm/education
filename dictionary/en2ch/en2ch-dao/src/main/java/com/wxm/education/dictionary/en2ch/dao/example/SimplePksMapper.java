@@ -12,6 +12,6 @@ import com.wxm.mybatis.mapper.common.Mapper;
  * @author wuxm
  * @version 1.0.0
  */
-public interface SimplePksMapper extends Mapper<SimplePks> {
+public interface SimplePksMapper extends Mapper<SimplePks, Object> {
 
 }
