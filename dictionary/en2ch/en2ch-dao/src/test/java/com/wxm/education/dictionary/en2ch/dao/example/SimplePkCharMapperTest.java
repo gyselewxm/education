@@ -106,17 +106,4 @@ public class SimplePkCharMapperTest extends JunitBase {
         logger.debug(JSON.toJSONString(list));
     }
 
-    @Test
-    public void testInsertSelectiveList() {
-        List<SimplePkChar> list = new LinkedList<SimplePkChar>();
-        SimplePkChar bean;
-        for (int i = 0; i < 5; i++) {
-            bean = new SimplePkChar();
-            bean.setId(UUIDUtil.getUUID());
-            list.add(bean);
-        }
-        mapper.insertList(list);
-        logger.debug(JSON.toJSONString(list));
-    }
-
 }

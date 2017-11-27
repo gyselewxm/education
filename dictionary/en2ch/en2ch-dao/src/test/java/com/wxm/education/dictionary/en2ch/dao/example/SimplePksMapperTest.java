@@ -112,19 +112,4 @@ public class SimplePksMapperTest extends JunitBase {
         logger.debug(JSON.toJSONString(list));
     }
 
-    @Test
-    public void testInsertSelectiveList() {
-        List<SimplePks> list = new LinkedList<SimplePks>();
-        SimplePks bean;
-        for (int i = 0; i < 5; i++) {
-            bean = new SimplePks();
-            bean.setId(UUIDUtil.getUUID());
-            bean.setVarcharId(UUIDUtil.getUUID());
-            bean.setIntegerId((int) Math.round(Math.random() * 1000));
-            list.add(bean);
-        }
-        mapper.insertList(list);
-        logger.debug(JSON.toJSONString(list));
-    }
-
 }

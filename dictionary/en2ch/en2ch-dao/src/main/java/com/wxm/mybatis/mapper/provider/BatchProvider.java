@@ -80,26 +80,4 @@ public class BatchProvider extends MapperTemplate {
         sql.append("</foreach>");
         return sql.toString();
     }
-
-    public String insertSelectiveList(MappedStatement ms) {
-        final Class<?> entityClass = getEntityClass(ms);
-        // 开始拼sql
-        StringBuilder sql = new StringBuilder();
-        sql.append(SqlHelper.insertIntoTable(entityClass, tableName(entityClass)));
-        sql.append(SqlHelper.insertColumns(entityClass, false, true, false));
-        sql.append(" VALUES ");
-        sql.append("<foreach collection=\"list\" item=\"record\" separator=\",\" >");
-        sql.append("<trim prefix=\"(\" suffix=\")\" suffixOverrides=\",\">");
-        // 获取全部列
-        Set<EntityColumn> columnList = EntityHelper.getColumns(entityClass);
-        for (EntityColumn column : columnList) {
-            if (!column.isInsertable()) {
-                continue;
-            }
-            sql.append(SqlHelper.getIfNotNull(column, column.getColumnHolder("record", null, ","), isNotEmpty()));
-        }
-        sql.append("</trim>");
-        sql.append("</foreach>");
-        return sql.toString();
-    }
 }

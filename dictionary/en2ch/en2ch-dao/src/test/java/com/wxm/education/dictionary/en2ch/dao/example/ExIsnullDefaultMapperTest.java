@@ -181,30 +181,4 @@ public class ExIsnullDefaultMapperTest extends JunitBase {
         logger.debug(String.format("%s\n%s", "保存成功", JSON.toJSONString(list)));
     }
 
-    @Test
-    public void testInsertSelectiveList() {
-        List<ExIsnullDefault> list = new LinkedList<ExIsnullDefault>();
-        ExIsnullDefault bean;
-        for (int i = 0; i < 5; i++) {
-            bean = new ExIsnullDefault();
-            bean.setId(UUIDUtil.getUUID());
-            bean.setVarcharNotnull("varcharNotnull"); // 变长字符串_非空
-            // bean.setVarcharCannull("varcharCannull"); // 变长字符串_可空
-            // bean.setVarcharCannullDefault("varcharCannullDefault"); // 变长字符串_可空_默认
-            bean.setCharNotnull("charNotnull"); // 定长字符串_非空
-            // bean.setCharCannull("charCannull"); // 定长字符串_可空
-            // bean.setCharCannullDefault("charCannullDefault"); // 定长字符串_可空_默认
-            // 该值不会存入数据库
-            bean.setVarcharNotinsertCannull("varcharNotinsertCannull"); // 变长字符串_非插入_可空
-            // 该值不会存入数据库
-            bean.setVarcharNotinsertCannullDefault("varcharNotinsertCannullDefault"); // 变长字符串_非插入_可空_默认
-            // 该值不会存入数据库，需将该字段上的insertable设为true才可测试通过
-            bean.setVarcharNotinsertNotnull("varcharNotinsertNotnull");
-
-            list.add(bean);
-        }
-        mapper.insertSelectiveList(list);
-        logger.debug(String.format("%s\n%s", "保存成功", JSON.toJSONString(list)));
-    }
-
 }

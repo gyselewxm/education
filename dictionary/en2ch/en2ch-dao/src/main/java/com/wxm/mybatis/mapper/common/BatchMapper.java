@@ -1,7 +1,6 @@
 package com.wxm.mybatis.mapper.common;
 
 import com.wxm.mybatis.mapper.common.batch.BatchInsertMapper;
-import com.wxm.mybatis.mapper.common.batch.BatchInsertSelectiveMapper;
 
 /**
  * 
@@ -12,6 +11,6 @@ import com.wxm.mybatis.mapper.common.batch.BatchInsertSelectiveMapper;
  * @author wuxm
  * @version 1.0.0
  */
-public interface BatchMapper<T> extends BatchInsertMapper<T>, BatchInsertSelectiveMapper<T> {
+public interface BatchMapper<T> extends BatchInsertMapper<T> {
 
 }
