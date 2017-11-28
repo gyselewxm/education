@@ -110,6 +110,25 @@ public class BaseSelectProvider extends MapperTemplate {
     public String selectById(MappedStatement ms) {
         final Class<?> entityClass = getEntityClass(ms);
         // 将返回值修改为实体类型
+<<<<<<< HEAD
+=======
+        setResultType(ms, entityClass);
+        StringBuilder sql = new StringBuilder();
+        sql.append(SqlHelper.selectAllColumns(entityClass));
+        sql.append(SqlHelper.fromTable(entityClass, tableName(entityClass)));
+        sql.append(SqlHelper.wherePKColumns(entityClass));
+        return sql.toString();
+    }
+
+    /**
+     * 根据主键进行查询
+     *
+     * @param ms
+     */
+    public String selectVById(MappedStatement ms) {
+        final Class<?> entityClass = getEntityClass(ms);
+        // 将返回值修改为实体类型
+>>>>>>> branch 'dictionary/en2ch' of https://github.com/gyselewxm/education.git
         setResultType(ms, entityClass);
         StringBuilder sql = new StringBuilder();
         sql.append(SqlHelper.selectAllColumns(entityClass));
@@ -150,7 +169,12 @@ public class BaseSelectProvider extends MapperTemplate {
         StringBuilder sql = new StringBuilder();
         sql.append(SqlHelper.selectCount(entityClass));
         sql.append(SqlHelper.fromTable(entityClass, tableName(entityClass)));
+<<<<<<< HEAD
         sql.append(SqlHelper.whereAllIfColumns(entityClass, queryClass, isNotEmpty()));
+=======
+        sql.append(SqlHelper.whereAllIfColumns(queryClass, isNotEmpty()));
+        System.out.println(sql.toString());
+>>>>>>> branch 'dictionary/en2ch' of https://github.com/gyselewxm/education.git
         return sql.toString();
     }
 
