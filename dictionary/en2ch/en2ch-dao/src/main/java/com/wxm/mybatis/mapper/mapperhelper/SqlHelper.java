@@ -29,7 +29,7 @@ import java.util.Set;
 
 import javax.persistence.Column;
 
-import com.wxm.mybatis.mapper.code.ColumnFragEnum;
+import com.wxm.mybatis.mapper.code.ColumnQueryTypeEnum;
 import com.wxm.mybatis.mapper.entity.EntityColumn;
 import com.wxm.mybatis.mapper.entity.IDynamicTableName;
 import com.wxm.mybatis.mapper.util.StringUtil;
@@ -571,21 +571,21 @@ public class SqlHelper {
             Column columnAnnotation = field.getAnnotation(Column.class); // 字段注解
             String likeType = ""; // 模糊查询类型
 
-            // 全模糊
-            if (fieldName.startsWith(ColumnFragEnum.PREFIX_LIKE.getValue())) {
-                likeType = ColumnFragEnum.PREFIX_LIKE.getValue();
-                fieldName = fieldName.replace(ColumnFragEnum.PREFIX_LIKE.getValue(), "");
-            }
-            // 左模糊
-            else if (fieldName.startsWith(ColumnFragEnum.PREFIX_LIKE_LEFT.getValue())) {
-                likeType = ColumnFragEnum.PREFIX_LIKE_LEFT.getValue();
-                fieldName = fieldName.replace(ColumnFragEnum.PREFIX_LIKE_LEFT.getValue(), "");
-            }
-            // 右模糊
-            else if (fieldName.startsWith(ColumnFragEnum.PREFIX_LIKE_RIGHT.getValue())) {
-                likeType = ColumnFragEnum.PREFIX_LIKE_RIGHT.getValue();
-                fieldName = fieldName.replace(ColumnFragEnum.PREFIX_LIKE_RIGHT.getValue(), "");
-            }
+//            // 全模糊
+//            if (fieldName.startsWith(ColumnQueryTypeEnum.PREFIX_LIKE.getFrag())) {
+//                likeType = ColumnQueryTypeEnum.PREFIX_LIKE.getFrag();
+//                fieldName = fieldName.replace(ColumnQueryTypeEnum.PREFIX_LIKE.getFrag(), "");
+//            }
+//            // 左模糊
+//            else if (fieldName.startsWith(ColumnQueryTypeEnum.PREFIX_LIKE_LEFT.getFrag())) {
+//                likeType = ColumnQueryTypeEnum.PREFIX_LIKE_LEFT.getFrag();
+//                fieldName = fieldName.replace(ColumnQueryTypeEnum.PREFIX_LIKE_LEFT.getFrag(), "");
+//            }
+//            // 右模糊
+//            else if (fieldName.startsWith(ColumnQueryTypeEnum.PREFIX_LIKE_RIGHT.getFrag())) {
+//                likeType = ColumnQueryTypeEnum.PREFIX_LIKE_RIGHT.getFrag();
+//                fieldName = fieldName.replace(ColumnQueryTypeEnum.PREFIX_LIKE_RIGHT.getFrag(), "");
+//            }
 
             // 字段注解为空的情况下，属性名默认转换为数据表对应属性（驼峰转下划线）
             if (null != columnAnnotation) {
@@ -596,7 +596,7 @@ public class SqlHelper {
             for (EntityColumn column : columnList) {
                 if (fieldName.equals(column.getProperty())) {
                     // 全模糊
-                    if (likeType.equals(ColumnFragEnum.PREFIX_LIKE.getValue())) {
+                    if (likeType.equals(ColumnQueryTypeEnum.PREFIX_LIKE.getFrag())) {
                         sql.append(getIfNotNull(field, " AND " + column.getColumnLikeHolder(), empty));
                     } else {
                         sql.append(getIfNotNull(column, " AND " + column.getColumnEqualsHolder(), empty));

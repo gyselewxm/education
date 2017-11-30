@@ -27,6 +27,7 @@ package com.wxm.mybatis.mapper.entity;
 import org.apache.ibatis.type.JdbcType;
 import org.apache.ibatis.type.TypeHandler;
 
+import com.wxm.mybatis.mapper.code.ColumnQueryTypeEnum;
 import com.wxm.mybatis.mapper.util.StringUtil;
 
 /**
@@ -52,6 +53,8 @@ public class EntityColumn {
     private boolean insertable = true;
     // 可更新
     private boolean updatable = true;
+    // 字段查询类型
+    private ColumnQueryTypeEnum queryType;
 
     public EntityColumn() {
     }
@@ -170,6 +173,14 @@ public class EntityColumn {
 
     public void setUpdatable(boolean updatable) {
         this.updatable = updatable;
+    }
+
+    public ColumnQueryTypeEnum getQueryType() {
+        return queryType;
+    }
+
+    public void setQueryType(ColumnQueryTypeEnum queryType) {
+        this.queryType = queryType;
     }
 
     /**

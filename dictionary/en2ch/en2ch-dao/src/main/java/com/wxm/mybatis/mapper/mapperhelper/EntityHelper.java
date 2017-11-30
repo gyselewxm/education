@@ -45,6 +45,7 @@ import org.apache.ibatis.type.UnknownTypeHandler;
 import com.wxm.mybatis.mapper.MapperException;
 import com.wxm.mybatis.mapper.annotation.ColumnType;
 import com.wxm.mybatis.mapper.annotation.NameStyle;
+import com.wxm.mybatis.mapper.code.ColumnQueryTypeEnum;
 import com.wxm.mybatis.mapper.code.IdentityDialect;
 import com.wxm.mybatis.mapper.code.Style;
 import com.wxm.mybatis.mapper.entity.Config;
@@ -227,6 +228,7 @@ public class EntityHelper {
         }
         entityTable.setEntityClassColumns(new LinkedHashSet<EntityColumn>());
         entityTable.setEntityClassPKColumns(new LinkedHashSet<EntityColumn>());
+
         // 处理所有列
         List<EntityField> fields = null;
         if (config.isEnableMethodAnnotation()) {
@@ -241,6 +243,89 @@ public class EntityHelper {
             }
             processField(entityTable, style, field);
         }
+        // 当pk.size=0的时候使用所有列作为主键
+        if (entityTable.getEntityClassPKColumns().size() == 0) {
+            entityTable.setEntityClassPKColumns(entityTable.getEntityClassColumns());
+        }
+        entityTable.initPropertyMap();
+        entityTableMap.put(entityClass, entityTable);
+    }
+
+    /**
+     * 初始化查询实体属性
+     *
+     * @param entityClass
+     * @param config
+     * @throws ClassNotFoundException
+     */
+    public static synchronized void initQueryNameMap(Class<?> entityClass, Config config) throws ClassNotFoundException {
+        if (entityTableMap.get(entityClass) != null) {
+            return;
+        }
+        Style style = config.getStyle();
+        // style，该注解优先于全局配置
+        if (entityClass.isAnnotationPresent(NameStyle.class)) {
+            NameStyle nameStyle = entityClass.getAnnotation(NameStyle.class);
+            style = nameStyle.value();
+        }
+
+        // 创建并缓存EntityTable
+        EntityTable entityTable = null;
+        if (entityClass.isAnnotationPresent(Table.class)) {
+            Table table = entityClass.getAnnotation(Table.class);
+            if (!table.name().equals("")) {
+                entityTable = new EntityTable(entityClass);
+                entityTable.setTable(table);
+            }
+        }
+        if (entityTable == null) {
+            entityTable = new EntityTable(entityClass);
+            // 可以通过stye控制
+            entityTable.setName(StringUtil.convertByStyle(entityClass.getSimpleName(), style));
+        }
+        entityTable.setEntityClassColumns(new LinkedHashSet<EntityColumn>());
+        entityTable.setEntityClassPKColumns(new LinkedHashSet<EntityColumn>());
+        // 新增query实体
+        entityTable.setQueryClassColumns(new LinkedHashSet<EntityColumn>());
+
+        /**
+         * 处理所有实体列
+         */
+        List<EntityField> fields = null;
+        if (config.isEnableMethodAnnotation()) {
+            fields = FieldHelper.getAll(entityClass);
+        } else {
+            fields = FieldHelper.getFields(entityClass);
+        }
+        for (EntityField field : fields) {
+            // 如果启用了简单类型，就做简单类型校验，如果不是简单类型，直接跳过
+            if (config.isUseSimpleType() && !SimpleTypeUtil.isSimpleType(field.getJavaType())) {
+                continue;
+            }
+            processField(entityTable, style, field);
+        }
+
+        /**
+         * 处理所有查询实体列
+         */
+        Class<?> queryClass = Class.forName(String.format("%sQuery", entityClass.toString()).replace(".entity.",
+                ".query."));
+        if (null != queryClass) {
+            fields = null;
+            if (config.isEnableMethodAnnotation()) {
+                fields = FieldHelper.getAll(queryClass);
+            } else {
+                fields = FieldHelper.getFields(queryClass);
+            }
+            for (EntityField field : fields) {
+                // 如果启用了简单类型，就做简单类型校验，如果不是简单类型，直接跳过
+                if (config.isUseSimpleType() && !SimpleTypeUtil.isSimpleType(field.getJavaType())) {
+                    continue;
+                }
+                processQueryField(entityTable, style, field);
+            }
+        }
+
         // 当pk.size=0的时候使用所有列作为主键
         if (entityTable.getEntityClassPKColumns().size() == 0) {
             entityTable.setEntityClassPKColumns(entityTable.getEntityClassColumns());
@@ -352,5 +437,53 @@ public class EntityHelper {
         if (entityColumn.isId()) {
             entityTable.getEntityClassPKColumns().add(entityColumn);
         }
+    }
+
+    /**
+     * 
+     * <b>Title:</b> 处理一列-查询实体 <br>
+     * <b>Description:</b> <br>
+     * <b>Date:</b> 2017年12月1日 下午2:21:45 <br>
+     * <b>Author:</b> Gysele
+     * 
+     * @param entityTable
+     * @param style
+     * @param field
+     */
+    private static void processQueryField(EntityTable entityTable, Style style, EntityField field) {
+        EntityColumn entityColumn = new EntityColumn(entityTable);
+        // Column
+        String columnName = null;
+        if (field.isAnnotationPresent(Column.class)) {
+            Column column = field.getAnnotation(Column.class);
+            columnName = column.name();
+            entityColumn.setUpdatable(column.updatable());
+            entityColumn.setInsertable(column.insertable());
+        }
+        // 表名
+        if (StringUtil.isEmpty(columnName)) {
+            String fieldName = field.getName();
+            for (ColumnQueryTypeEnum fragEnum : ColumnQueryTypeEnum.values()) {
+                if (fieldName.startsWith(fragEnum.getFrag())) {
+                    entityColumn.setQueryType(fragEnum);
+                    fieldName = fieldName.substring(fragEnum.getFrag().length());
+                    break;
+                }
+            }
+            columnName = StringUtil.convertByStyle(fieldName, style);
+        }
+        entityColumn.setProperty(field.getName());
+        entityColumn.setColumn(columnName);
+        entityColumn.setJavaType(field.getJavaType());
+        // OrderBy
+        if (field.isAnnotationPresent(OrderBy.class)) {
+            OrderBy orderBy = field.getAnnotation(OrderBy.class);
+            if (orderBy.value().equals("")) {
+                entityColumn.setOrderBy("ASC");
+            } else {
+                entityColumn.setOrderBy(orderBy.value());
+            }
+        }
+        entityTable.getQueryClassColumns().add(entityColumn);
     }
 }

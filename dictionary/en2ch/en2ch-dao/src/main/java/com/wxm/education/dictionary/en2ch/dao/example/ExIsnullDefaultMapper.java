@@ -14,5 +14,5 @@ import com.wxm.mybatis.mapper.common.Mapper;
  * @version 1.0.0
  */
 public interface ExIsnullDefaultMapper extends Mapper<ExIsnullDefault, ExIsnullDefaultQuery> {
-
+    public ExIsnullDefault queryOne(String id);
 }

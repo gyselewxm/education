@@ -206,33 +206,21 @@ public abstract class MapperTemplate {
     }
 
     /**
-     * 获取返回值类型 - 实体类型
-     *
+     * 
+     * <b>Title:</b> 获取返回值类型 - 实体类型 <br>
+     * <b>Description:</b> <br>
+     * <b>Date:</b> 2017年12月1日 下午2:12:21 <br>
+     * <b>Author:</b> Gysele
+     * 
      * @param ms
      * @return
      */
     public Class<?> getEntityClass(MappedStatement ms) {
         String msId = ms.getId();
-        if (entityClassMap.containsKey(msId)) {
-            return entityClassMap.get(msId);
-        } else {
-            Class<?> mapperClass = getMapperClass(msId);
-            Type[] types = mapperClass.getGenericInterfaces();
-            for (Type type : types) {
-                if (type instanceof ParameterizedType) {
-                    ParameterizedType t = (ParameterizedType) type;
-                    if (t.getRawType() == this.mapperClass
-                            || this.mapperClass.isAssignableFrom((Class<?>) t.getRawType())) {
-                        Class<?> returnType = (Class<?>) t.getActualTypeArguments()[0];
-                        // 获取该类型后，第一次对该类型进行初始化
-                        EntityHelper.initEntityNameMap(returnType, mapperHelper.getConfig());
-                        entityClassMap.put(msId, returnType);
-                        return returnType;
-                    }
-                }
-            }
+        if (!entityClassMap.containsKey(msId)) {
+            setClassMap(msId);
         }
-        throw new MapperException("无法获取 " + msId + " 方法的泛型信息!");
+        return entityClassMap.get(msId);
     }
 
     /**
@@ -240,26 +228,42 @@ public abstract class MapperTemplate {
      * <b>Title:</b> 获取返回值类型 - 查询实体类型 <br>
      * <b>Description:</b> <br>
      * <b>Date:</b> 2017年11月27日 下午5:33:53 <br>
+     * 
      * @author wuxm
      * 
      * @param ms
      * @return
      */
     public Class<?> getQueryClass(MappedStatement ms) {
-        String msId = String.format("%s_query", ms.getId());
-        if (entityClassMap.containsKey(msId)) {
-            return entityClassMap.get(msId);
-        } else {
-            Class<?> mapperClass = getMapperClass(msId);
-            Type[] types = mapperClass.getGenericInterfaces();
-            for (Type type : types) {
-                if (type instanceof ParameterizedType) {
-                    ParameterizedType t = (ParameterizedType) type;
-                    if (t.getRawType() == this.mapperClass
-                            || this.mapperClass.isAssignableFrom((Class<?>) t.getRawType())) {
-                        Class<?> returnType = (Class<?>) t.getActualTypeArguments()[1];
-                        return returnType;
-                    }
+        String msId = ms.getId();
+        String queryMsId = String.format("%s_QUERY", msId);
+        if (!entityClassMap.containsKey(queryMsId)) {
+            setClassMap(msId);
+        }
+        return entityClassMap.get(queryMsId);
+    }
+
+    /**
+     * 
+     * <b>Title:</b>设置实体Map <br>
+     * <b>Description:</b> <br>
+     * <b>Date:</b> 2017年12月1日 下午2:09:30 <br>
+     * <b>Author:</b> Gysele
+     * 
+     * @param msId
+     */
+    private void setClassMap(String msId) {
+        Class<?> mapperClass = getMapperClass(msId);
+        Type[] types = mapperClass.getGenericInterfaces();
+        for (Type type : types) {
+            if (type instanceof ParameterizedType) {
+                ParameterizedType t = (ParameterizedType) type;
+                if (t.getRawType() == this.mapperClass || this.mapperClass.isAssignableFrom((Class<?>) t.getRawType())) {
+                    Class<?> returnType = (Class<?>) t.getActualTypeArguments()[0];
+                    // 获取该类型后，第一次对该类型进行初始化
+                    EntityHelper.initEntityNameMap(returnType, mapperHelper.getConfig());
+                    entityClassMap.put(msId, returnType);
+                    return;
                 }
             }
         }

@@ -151,8 +151,7 @@ public class BaseSelectProvider extends MapperTemplate {
         sql.append(SqlHelper.selectCount(entityClass));
         sql.append(SqlHelper.fromTable(entityClass, tableName(entityClass)));
         sql.append(SqlHelper.whereAllIfColumns(entityClass, queryClass, isNotEmpty()));
-        sql.append(SqlHelper.whereAllIfColumns(queryClass, isNotEmpty()));
-        System.out.println(sql.toString());
+        //sql.append(SqlHelper.whereAllIfColumns(queryClass, isNotEmpty()));
         return sql.toString();
     }
 

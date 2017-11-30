@@ -184,4 +184,9 @@ public class ExIsnullDefaultMapperTest extends JunitBase {
         logger.debug(String.format("%s\n%s", "保存成功", JSON.toJSONString(list)));
     }
 
+    @Test
+    public void testQueryOne(){
+        ExIsnullDefault bean = mapper.queryOne("38b11c38-cb40-11e7-9b0c-3464a90a9e49");
+        logger.error(String.format("%s\n%s", "查询成功", JSON.toJSONString(bean)));
+    }
 }
