@@ -31,9 +31,12 @@ import com.wxm.mybatis.mapper.mapperhelper.MapperTemplate;
 import com.wxm.mybatis.mapper.mapperhelper.SqlHelper;
 
 /**
- * BaseSelectProvider实现类，基础方法实现类
- *
- * @author liuzh
+ * 
+ * <b>Title:</b> 通用基础查询接口实现类 <br>
+ * <b>Description:</b> <br>
+ * <b>Date:</b> 2017年12月3日 下午10:47:26 <br>
+ * <b>Author:</b> Gysele <br>
+ * <b>Version:</b> 1.0.0
  */
 public class BaseSelectProvider extends MapperTemplate {
 
@@ -88,11 +91,11 @@ public class BaseSelectProvider extends MapperTemplate {
     /**
      * 
      * <b>Title:</b> 根据查询条件获取一条表对应实体信息 <br>
-     * <b>Description:</b> 返回表对应实体信息 <br>
-     * <b>Date:</b> 2017年12月3日 下午12:38:40
+     * <b>Description:</b> <br>
+     * <b>Date:</b> 2017年12月3日 下午10:48:08 <br>
+     * <b>Author:</b> Gysele <br>
+     * <b>Version:</b> 1.0.0
      * 
-     * @author wuxm
-     * @version 1.0.0
      * @param ms
      * @return
      */
@@ -111,11 +114,11 @@ public class BaseSelectProvider extends MapperTemplate {
     /**
      * 
      * <b>Title:</b> 根据查询条件获取一条表对应业务逻辑实体信息 <br>
-     * <b>Description:</b> 返回表对应业务逻辑实体信息 <br>
-     * <b>Date:</b> 2017年12月3日 下午12:47:53
+     * <b>Description:</b> <br>
+     * <b>Date:</b> 2017年12月3日 下午10:48:23 <br>
+     * <b>Author:</b> Gysele <br>
+     * <b>Version:</b> 1.0.0
      * 
-     * @author wuxm
-     * @version 1.0.0
      * @param ms
      * @return
      */

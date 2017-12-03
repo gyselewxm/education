@@ -46,6 +46,6 @@ public interface BaseSelectMapper<T, B, Q> extends
         SelectMapper<T>,
         SelectAllMapper<T>,
         SelectCountMapper<Q>,
-        SelectByPrimaryKeyMapper<T, B, Q> {
+        SelectByPrimaryKeyMapper<T, B> {
 
 }
