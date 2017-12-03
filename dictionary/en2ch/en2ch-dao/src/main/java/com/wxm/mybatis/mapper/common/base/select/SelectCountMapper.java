@@ -30,7 +30,6 @@ import com.wxm.mybatis.mapper.provider.base.BaseSelectProvider;
 
 /**
  * 
-<<<<<<< HEAD
  * <b>Title:</b> 根据查询条件获取信息总数 <br>
  * <b>Description:</b> <br>
  * <b>Date:</b> 2017年11月28日 下午1:58:12 <br>
@@ -39,15 +38,6 @@ import com.wxm.mybatis.mapper.provider.base.BaseSelectProvider;
  * @version 1.0.0
  * @param <Q>
  *            表对应查询条件实体
-=======
- * <b>Title:</b> 根据查询条件获取信息总数<br>
- * <b>Description:</b> <br>
- * <b>Date:</b> 2017年11月27日 下午5:31:04<br>
- * 
- * @author wuxm
- * @version 1.0.0
- * @param <Q>
->>>>>>> branch 'dictionary/en2ch' of https://github.com/gyselewxm/education.git
  */
 public interface SelectCountMapper<Q> {
 
@@ -55,18 +45,11 @@ public interface SelectCountMapper<Q> {
      * 
      * <b>Title:</b> 根据查询条件获取信息总数 <br>
      * <b>Description:</b> <br>
-<<<<<<< HEAD
-     * <b>Date:</b> 2017年11月28日 下午1:58:54 <br>
-     * <b>Author:</b> Gysele
-     * 
-     * @param query
-     *            表对应查询条件实体
-=======
      * <b>Date:</b> 2017年11月27日 下午5:31:12 <br>
-     * @author wuxm
      * 
-     * @param query
->>>>>>> branch 'dictionary/en2ch' of https://github.com/gyselewxm/education.git
+     * @author wuxm
+     * @version 1.0.0
+     * @param query 表对应查询条件实体
      * @return
      */
     @SelectProvider(type = BaseSelectProvider.class, method = "dynamicSQL")
