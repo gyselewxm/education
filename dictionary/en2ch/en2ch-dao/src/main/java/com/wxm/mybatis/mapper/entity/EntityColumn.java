@@ -39,6 +39,7 @@ public class EntityColumn {
     private EntityTable table;
     private String property;
     private String column;
+    private String columnSql;
     private Class<?> javaType;
     private JdbcType jdbcType;
     private Class<? extends TypeHandler<?>> typeHandler;
@@ -53,7 +54,7 @@ public class EntityColumn {
     private boolean insertable = true;
     // 可更新
     private boolean updatable = true;
-    // 字段查询类型
+    // 字段查询条件类型
     private ColumnQueryTypeEnum queryType;
 
     public EntityColumn() {
@@ -85,6 +86,14 @@ public class EntityColumn {
 
     public void setColumn(String column) {
         this.column = column;
+    }
+
+    public String getColumnSql() {
+        return columnSql;
+    }
+
+    public void setColumnSql(String columnSql) {
+        this.columnSql = columnSql;
     }
 
     public Class<?> getJavaType() {
@@ -185,9 +194,9 @@ public class EntityColumn {
 
     /**
      * 
-     * <b>Title:</b> 返回指定查询条件格式
-     * <br><b>Description:</b> 
-     * <br><b>Date:</b> 2017年12月3日 下午12:04:19
+     * <b>Title:</b> 返回指定查询条件格式 <br>
+     * <b>Description:</b> <br>
+     * <b>Date:</b> 2017年12月3日 下午12:04:19
      * 
      * @author wuxm
      * @version 1.0.0

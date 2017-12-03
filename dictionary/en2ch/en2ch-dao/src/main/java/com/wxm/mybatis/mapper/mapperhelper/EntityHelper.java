@@ -44,6 +44,7 @@ import org.apache.ibatis.type.UnknownTypeHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.wxm.base.annotation.ColumnSql;
 import com.wxm.mybatis.mapper.MapperException;
 import com.wxm.mybatis.mapper.annotation.ColumnType;
 import com.wxm.mybatis.mapper.annotation.NameStyle;
@@ -113,23 +114,51 @@ public class EntityHelper {
     }
 
     /**
-     * 获取全部查询实体列
-     *
+     * 
+     * <b>Title:</b> 获取表对应实体全部列 <br>
+     * <b>Description:</b> <br>
+     * <b>Date:</b> 2017年12月3日 下午2:29:29 <br>
+     * <b>Author:</b> Gysele <br>
+     * <b>Version:</b> 1.0.0
+     * 
      * @param entityClass
-     * @return
-     */
-    public static Set<EntityColumn> getQueryColumns(Class<?> entityClass) {
-        return getEntityTable(entityClass).getQueryClassColumns();
-    }
-
-    /**
-     * 获取全部列
-     *
-     * @param entityClass
+     *            表对应实体类
      * @return
      */
     public static Set<EntityColumn> getColumns(Class<?> entityClass) {
         return getEntityTable(entityClass).getEntityClassColumns();
+    }
+
+    /**
+     * 
+     * <b>Title:</b> 获取表对应业务逻辑实体全部列 <br>
+     * <b>Description:</b> <br>
+     * <b>Date:</b> 2017年12月3日 下午2:29:58 <br>
+     * <b>Author:</b> Gysele <br>
+     * <b>Version:</b> 1.0.0
+     * 
+     * @param boClass
+     *            表对应业务逻辑实体类
+     * @return
+     */
+    public static Set<EntityColumn> getBOColumns(Class<?> boClass) {
+        return getEntityTable(boClass).getBoClassColumns();
+    }
+
+    /**
+     * 
+     * <b>Title:</b> 获取表对应查询条件实体全部列 <br>
+     * <b>Description:</b> <br>
+     * <b>Date:</b> 2017年12月3日 下午2:30:38 <br>
+     * <b>Author:</b> Gysele <br>
+     * <b>Version:</b> 1.0.0
+     * 
+     * @param queryClass
+     *            表对应查询条件实体类
+     * @return
+     */
+    public static Set<EntityColumn> getQueryColumns(Class<?> queryClass) {
+        return getEntityTable(queryClass).getQueryClassColumns();
     }
 
     /**
@@ -174,44 +203,17 @@ public class EntityHelper {
     }
 
     /**
-     * 获取查询的Select
-     *
+     * 
+     * <b>Title:</b> 初始化表对应所有实体属性 <br>
+     * <b>Description:</b> <br>
+     * <b>Date:</b> 2017年12月3日 下午1:55:37 <br>
+     * <b>Author:</b> Gysele <br>
+     * <b>Version:</b> 1.0.0
+     * 
      * @param entityClass
-     * @return
-     * @deprecated 4.x版本移除该方法
-     */
-    @Deprecated
-    public static String getAllColumns(Class<?> entityClass) {
-        Set<EntityColumn> columnList = getColumns(entityClass);
-        StringBuilder selectBuilder = new StringBuilder();
-        for (EntityColumn entityColumn : columnList) {
-            selectBuilder.append(entityColumn.getColumn()).append(",");
-        }
-        return selectBuilder.substring(0, selectBuilder.length() - 1);
-    }
-
-    /**
-     * 获取主键的Where语句
-     *
-     * @param entityClass
-     * @return
-     * @deprecated 4.x版本移除该方法
-     */
-    @Deprecated
-    public static String getPrimaryKeyWhere(Class<?> entityClass) {
-        Set<EntityColumn> entityColumns = getPKColumns(entityClass);
-        StringBuilder whereBuilder = new StringBuilder();
-        for (EntityColumn column : entityColumns) {
-            whereBuilder.append(column.getColumnEqualsHolder()).append(" AND ");
-        }
-        return whereBuilder.substring(0, whereBuilder.length() - 4);
-    }
-
-    /**
-     * 初始化实体属性
-     *
-     * @param entityClass
+     *            表对应实体类类型
      * @param config
+     *            通用配置
      */
     public static synchronized void initEntityNameMap(Class<?> entityClass, Config config) {
         if (entityTableMap.get(entityClass) != null) {
@@ -238,11 +240,15 @@ public class EntityHelper {
             // 可以通过stye控制
             entityTable.setName(StringUtil.convertByStyle(entityClass.getSimpleName(), style));
         }
+
         entityTable.setEntityClassColumns(new LinkedHashSet<EntityColumn>());
         entityTable.setEntityClassPKColumns(new LinkedHashSet<EntityColumn>());
+        entityTable.setBoClassColumns(new LinkedHashSet<EntityColumn>());
         entityTable.setQueryClassColumns(new LinkedHashSet<EntityColumn>());
 
-        // 处理所有表对应实体列
+        /**
+         * 处理所有表对应实体列
+         */
         List<EntityField> fields = null;
         if (config.isEnableMethodAnnotation()) {
             fields = FieldHelper.getAll(entityClass);
@@ -261,11 +267,39 @@ public class EntityHelper {
             entityTable.setEntityClassPKColumns(entityTable.getEntityClassColumns());
         }
 
-        // 处理所有表对应查询类
+        /**
+         * 处理所有表对应业务逻辑实体列
+         */
+        try {
+            Class<?> boClass = getBOClass(entityClass);
+            if (null == boClass) {
+                logger.warn("无法获取" + entityClass.getName() + "类对应的业务逻辑类!");
+            }
+            entityTable.setBoClass(boClass);
+            fields = null;
+            if (config.isEnableMethodAnnotation()) {
+                fields = FieldHelper.getAll(boClass);
+            } else {
+                fields = FieldHelper.getFields(boClass);
+            }
+            for (EntityField field : fields) {
+                // 如果启用了简单类型，就做简单类型校验，如果不是简单类型，直接跳过
+                if (config.isUseSimpleType() && !SimpleTypeUtil.isSimpleType(field.getJavaType())) {
+                    continue;
+                }
+                processBOField(entityTable, style, field);
+            }
+        } catch (ClassNotFoundException e) {
+            logger.warn("无法获取" + entityClass.getName() + "类对应的业务逻辑类!");
+        }
+
+        /**
+         * 处理所有表对应查询条件实体列
+         */
         try {
             Class<?> queryClass = getQueryClass(entityClass);
             if (null == queryClass) {
-                logger.warn("无法获取" + entityClass.getName() + "类对应的查询类!");
+                logger.warn("无法获取" + entityClass.getName() + "类对应的查询条件类!");
             }
             fields = null;
             if (config.isEnableMethodAnnotation()) {
@@ -281,7 +315,7 @@ public class EntityHelper {
                 processQueryField(entityTable, style, field);
             }
         } catch (ClassNotFoundException e) {
-            logger.warn("无法获取" + entityClass.getName() + "类对应的查询类!");
+            logger.warn("无法获取" + entityClass.getName() + "类对应的查询条件类!");
         }
 
         entityTableMap.put(entityClass, entityTable);
@@ -289,13 +323,32 @@ public class EntityHelper {
 
     /**
      * 
-     * <b>Title:</b> 获取查询实体类 <br>
+     * <b>Title:</b> 获取业务逻辑实体类 <br>
      * <b>Description:</b> <br>
-     * <b>Date:</b> 2017年12月2日 下午10:25:45
+     * <b>Date:</b> 2017年12月3日 下午2:04:28 <br>
+     * <b>Author:</b> Gysele <br>
+     * <b>Version:</b> 1.0.0
      * 
-     * @author wuxm
-     * @version 1.0.0
      * @param entityClass
+     *            表对应实体类类型
+     * @return
+     * @throws ClassNotFoundException
+     */
+    private static Class<?> getBOClass(Class<?> entityClass) throws ClassNotFoundException {
+        String boClassName = String.format("%sBO", entityClass.getName()).replace(".entity.", ".bo.");
+        return Class.forName(boClassName);
+    }
+
+    /**
+     * 
+     * <b>Title:</b> 获取查询条件实体类 <br>
+     * <b>Description:</b> <br>
+     * <b>Date:</b> 2017年12月3日 下午1:58:46 <br>
+     * <b>Author:</b> Gysele <br>
+     * <b>Version:</b> 1.0.0
+     * 
+     * @param entityClass
+     *            表对应实体类类型
      * @return
      * @throws ClassNotFoundException
      */
@@ -305,11 +358,19 @@ public class EntityHelper {
     }
 
     /**
-     * 处理一列
-     *
+     * 
+     * <b>Title:</b> 处理表对应实体类的列 <br>
+     * <b>Description:</b> <br>
+     * <b>Date:</b> 2017年12月3日 下午1:59:17 <br>
+     * <b>Author:</b> Gysele <br>
+     * <b>Version:</b> 1.0.0
+     * 
      * @param entityTable
+     *            表对应实体表
      * @param style
+     *            通用字段转换方式
      * @param field
+     *            表对应实体的列
      */
     private static void processField(EntityTable entityTable, Style style, EntityField field) {
         // 排除字段
@@ -350,15 +411,7 @@ public class EntityHelper {
         entityColumn.setProperty(field.getName());
         entityColumn.setColumn(columnName);
         entityColumn.setJavaType(field.getJavaType());
-        // OrderBy
-        if (field.isAnnotationPresent(OrderBy.class)) {
-            OrderBy orderBy = field.getAnnotation(OrderBy.class);
-            if (orderBy.value().equals("")) {
-                entityColumn.setOrderBy("ASC");
-            } else {
-                entityColumn.setOrderBy(orderBy.value());
-            }
-        }
+
         // 主键策略 - Oracle序列，MySql自动增长，UUID
         if (field.isAnnotationPresent(SequenceGenerator.class)) {
             SequenceGenerator sequenceGenerator = field.getAnnotation(SequenceGenerator.class);
@@ -408,14 +461,59 @@ public class EntityHelper {
 
     /**
      * 
-     * <b>Title:</b> 处理一列-查询实体 <br>
+     * <b>Title:</b> 处理表对应业务逻辑实体类的列 <br>
      * <b>Description:</b> <br>
-     * <b>Date:</b> 2017年12月1日 下午2:21:45 <br>
-     * <b>Author:</b> Gysele
+     * <b>Date:</b> 2017年12月3日 下午2:14:30 <br>
+     * <b>Author:</b> Gysele <br>
+     * <b>Version:</b> 1.0.0
      * 
      * @param entityTable
+     *            表对应实体表
      * @param style
+     *            通用字段转换方式
      * @param field
+     *            表对应查询条件实体的列
+     */
+    private static void processBOField(EntityTable entityTable, Style style, EntityField field) {
+        EntityColumn entityColumn = new EntityColumn(entityTable);
+        // Column
+        String columnName = null;
+        if (field.isAnnotationPresent(Column.class)) {
+            Column column = field.getAnnotation(Column.class);
+            columnName = column.name();
+            entityColumn.setUpdatable(column.updatable());
+            entityColumn.setInsertable(column.insertable());
+        }
+        // 表名
+        if (StringUtil.isEmpty(columnName)) {
+            String fieldName = field.getName();
+            if (field.isAnnotationPresent(ColumnSql.class)) {
+                ColumnSql columnSql = field.getAnnotation(ColumnSql.class);
+                entityColumn.setColumnSql(String.format("(%s) AS %s", columnSql.value(), StringUtil.convertByStyle(fieldName, style)));
+            } else {
+            }
+            columnName = StringUtil.convertByStyle(fieldName, style);
+        }
+        entityColumn.setProperty(field.getName());
+        entityColumn.setColumn(columnName);
+        entityColumn.setJavaType(field.getJavaType());
+        entityTable.getBoClassColumns().add(entityColumn);
+    }
+
+    /**
+     * 
+     * <b>Title:</b> 处理表对应查询条件实体类的列 <br>
+     * <b>Description:</b> <br>
+     * <b>Date:</b> 2017年12月3日 下午2:00:38 <br>
+     * <b>Author:</b> Gysele <br>
+     * <b>Version:</b> 1.0.0
+     * 
+     * @param entityTable
+     *            表对应实体表
+     * @param style
+     *            通用字段转换方式
+     * @param field
+     *            表对应查询条件实体的列
      */
     private static void processQueryField(EntityTable entityTable, Style style, EntityField field) {
         EntityColumn entityColumn = new EntityColumn(entityTable);
@@ -453,4 +551,5 @@ public class EntityHelper {
         }
         entityTable.getQueryClassColumns().add(entityColumn);
     }
+
 }

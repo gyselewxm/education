@@ -29,20 +29,48 @@ import org.apache.ibatis.annotations.SelectProvider;
 import com.wxm.mybatis.mapper.provider.base.BaseSelectProvider;
 
 /**
- * 通用Mapper接口,查询
- *
- * @param <T> 不能为空
- * @author liuzh
+ * 
+ * <b>Title:</b> 根据查询条件获取一条信息 <br>
+ * <b>Description:</b> 有多个结果则抛出异常 <br>
+ * <b>Date:</b> 2017年12月3日 下午12:35:07
+ * 
+ * @author wuxm
+ * @version 1.0.0
+ * @param <T>
+ *            表对应实体
+ * @param <B>
+ *            表对应业务逻辑实体
+ * @param <Q>
+ *            表对应查询条件实体
  */
-public interface SelectOneMapper<T> {
-
+public interface SelectOneMapper<T, B, Q> {
     /**
-     * 根据实体中的属性进行查询，只能有一个返回值，有多个结果是抛出异常，查询条件使用等号
-     *
-     * @param record
-     * @return
+     * 
+     * <b>Title:</b> 根据查询条件获取一条表对应实体信息 <br>
+     * <b>Description:</b> 有多个结果则抛出异常 <br>
+     * <b>Date:</b> 2017年12月3日 下午12:36:37
+     * 
+     * @author wuxm
+     * @version 1.0.0
+     * @param query
+     *            表对应查询条件实体
+     * @return 表对应实体信息
      */
     @SelectProvider(type = BaseSelectProvider.class, method = "dynamicSQL")
-    T selectOne(T record);
+    T selectOne(Q query);
 
+    /**
+     * 
+     * <b>Title:</b> 根据查询条件获取一条表对应业务逻辑实体信息 <br>
+     * <b>Description:</b> 有多个结果则抛出异常 <br>
+     * <b>Date:</b> 2017年12月3日 下午12:37:55
+     * 
+     * @author wuxm
+     * @version 1.0.0
+     * @param query
+     *            表对应查询条件实体
+     * @return 表对应业务逻辑实体信息
+     */
+    @SelectProvider(type = BaseSelectProvider.class, method = "dynamicSQL")
+    B selectBOOne(Q query);
 }

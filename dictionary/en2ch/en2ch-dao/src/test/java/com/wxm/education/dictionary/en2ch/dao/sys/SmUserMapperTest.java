@@ -21,7 +21,7 @@ public class SmUserMapperTest extends JunitBase {
     public void testSelectOne() {
         SmUser smUser = new SmUser();
         smUser.setId("11");
-        smUser = smUserMapper.selectOne(smUser);
+        //smUser = smUserMapper.selectOne(smUser);
     }
 
     @Test

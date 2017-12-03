@@ -33,12 +33,11 @@ import com.wxm.mybatis.mapper.common.base.select.*;
  *            不能为空
  * @author liuzh
  */
-public interface BaseSelectMapper<T, Q> extends
-        SelectOneMapper<T>,
+public interface BaseSelectMapper<T, B, Q> extends
+        SelectOneMapper<T, B, Q>,
         SelectMapper<T>,
         SelectAllMapper<T>,
         SelectCountMapper<Q>,
-        SelectByPrimaryKeyMapper<T>,
-        ExistsWithPrimaryKeyMapper<T> {
+        SelectByPrimaryKeyMapper<T, B, Q> {
 
 }

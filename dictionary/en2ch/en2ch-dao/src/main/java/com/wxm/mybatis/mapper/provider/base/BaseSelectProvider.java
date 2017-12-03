@@ -42,8 +42,13 @@ public class BaseSelectProvider extends MapperTemplate {
     }
 
     /**
-     * 查询
-     *
+     * 
+     * <b>Title:</b> 根据查询条件获取一条表对应实体信息 <br>
+     * <b>Description:</b> 返回表对应实体信息 <br>
+     * <b>Date:</b> 2017年12月3日 下午12:38:40
+     * 
+     * @author wuxm
+     * @version 1.0.0
      * @param ms
      * @return
      */
@@ -54,6 +59,29 @@ public class BaseSelectProvider extends MapperTemplate {
         setResultType(ms, entityClass);
         StringBuilder sql = new StringBuilder();
         sql.append(SqlHelper.selectAllColumns(entityClass));
+        sql.append(SqlHelper.fromTable(entityClass, tableName(entityClass)));
+        sql.append(SqlHelper.whereAllQueryIfColumns(entityClass, queryClass, isNotEmpty()));
+        return sql.toString();
+    }
+
+    /**
+     * 
+     * <b>Title:</b> 根据查询条件获取一条表对应业务逻辑实体信息 <br>
+     * <b>Description:</b> 返回表对应业务逻辑实体信息 <br>
+     * <b>Date:</b> 2017年12月3日 下午12:47:53
+     * 
+     * @author wuxm
+     * @version 1.0.0
+     * @param ms
+     * @return
+     */
+    public String selectBOOne(MappedStatement ms) {
+        Class<?> entityClass = getEntityClass(ms);
+        Class<?> queryClass = getQueryClass(ms);
+        // 修改返回值类型为实体类型
+        setBOResultType(ms, entityClass);
+        StringBuilder sql = new StringBuilder();
+        sql.append(SqlHelper.selectAllBOColumns(entityClass));
         sql.append(SqlHelper.fromTable(entityClass, tableName(entityClass)));
         sql.append(SqlHelper.whereAllQueryIfColumns(entityClass, queryClass, isNotEmpty()));
         return sql.toString();
@@ -153,21 +181,6 @@ public class BaseSelectProvider extends MapperTemplate {
         sql.append(SqlHelper.selectCount(entityClass));
         sql.append(SqlHelper.fromTable(entityClass, tableName(entityClass)));
         sql.append(SqlHelper.whereAllQueryIfColumns(entityClass, queryClass, isNotEmpty()));
-        return sql.toString();
-    }
-
-    /**
-     * 根据主键查询总数
-     *
-     * @param ms
-     * @return
-     */
-    public String existsWithPrimaryKey(MappedStatement ms) {
-        Class<?> entityClass = getEntityClass(ms);
-        StringBuilder sql = new StringBuilder();
-        sql.append(SqlHelper.selectCountExists(entityClass));
-        sql.append(SqlHelper.fromTable(entityClass, tableName(entityClass)));
-        sql.append(SqlHelper.wherePKColumns(entityClass));
         return sql.toString();
     }
 

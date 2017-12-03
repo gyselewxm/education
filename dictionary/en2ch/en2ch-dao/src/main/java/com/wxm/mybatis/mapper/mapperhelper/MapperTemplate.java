@@ -99,8 +99,7 @@ public abstract class MapperTemplate {
      * @return
      */
     public String getIDENTITY(EntityColumn column) {
-        return MessageFormat.format(mapperHelper.getConfig().getIDENTITY(), column.getSequenceName(),
-                column.getColumn(), column.getProperty(), column.getTable().getName());
+        return MessageFormat.format(mapperHelper.getConfig().getIDENTITY(), column.getSequenceName(), column.getColumn(), column.getProperty(), column.getTable().getName());
     }
 
     public boolean isBEFORE() {
@@ -131,15 +130,41 @@ public abstract class MapperTemplate {
     }
 
     /**
-     * 设置返回值类型 - 为了让typeHandler在select时有效，改为设置resultMap
-     *
+     * 
+     * <b>Title:</b> 设置表对应实体返回值类型 <br>
+     * <b>Description:</b> 为了让typeHandler在select时有效，改为设置resultMap <br>
+     * <b>Date:</b> 2017年12月3日 下午2:43:20 <br>
+     * <b>Author:</b> Gysele <br>
+     * <b>Version:</b> 1.0.0
+     * 
      * @param ms
      * @param entityClass
+     *            表对应实体类
      */
     protected void setResultType(MappedStatement ms, Class<?> entityClass) {
         EntityTable entityTable = EntityHelper.getEntityTable(entityClass);
         List<ResultMap> resultMaps = new ArrayList<ResultMap>();
         resultMaps.add(entityTable.getResultMap(ms.getConfiguration()));
+        MetaObject metaObject = SystemMetaObject.forObject(ms);
+        metaObject.setValue("resultMaps", Collections.unmodifiableList(resultMaps));
+    }
+
+    /**
+     * 
+     * <b>Title:</b> 设置表对应业务逻辑实体返回值类型 <br>
+     * <b>Description:</b> 为了让typeHandler在select时有效，改为设置resultMap<br>
+     * <b>Date:</b> 2017年12月3日 下午2:42:16 <br>
+     * <b>Author:</b> Gysele <br>
+     * <b>Version:</b> 1.0.0
+     * 
+     * @param ms
+     * @param entityClass
+     *            表对应实体类
+     */
+    protected void setBOResultType(MappedStatement ms, Class<?> entityClass) {
+        EntityTable entityTable = EntityHelper.getEntityTable(entityClass);
+        List<ResultMap> resultMaps = new ArrayList<ResultMap>();
+        resultMaps.add(entityTable.getBOResultMap(ms.getConfiguration()));
         MetaObject metaObject = SystemMetaObject.forObject(ms);
         metaObject.setValue("resultMaps", Collections.unmodifiableList(resultMaps));
     }
@@ -207,10 +232,11 @@ public abstract class MapperTemplate {
 
     /**
      * 
-     * <b>Title:</b> 获取返回值类型 - 实体类型 <br>
+     * <b>Title:</b> 获取表对应实体类型 <br>
      * <b>Description:</b> <br>
-     * <b>Date:</b> 2017年12月1日 下午2:12:21 <br>
-     * <b>Author:</b> Gysele
+     * <b>Date:</b> 2017年12月3日 下午1:54:59 <br>
+     * <b>Author:</b> Gysele <br>
+     * <b>Version:</b> 1.0.0
      * 
      * @param ms
      * @return
@@ -225,11 +251,32 @@ public abstract class MapperTemplate {
 
     /**
      * 
-     * <b>Title:</b> 获取返回值类型 - 查询实体类型 <br>
+     * <b>Title:</b> 获取表对应业务逻辑实体类型 <br>
      * <b>Description:</b> <br>
-     * <b>Date:</b> 2017年11月27日 下午5:33:53 <br>
+     * <b>Date:</b> 2017年12月3日 下午1:54:38 <br>
+     * <b>Author:</b> Gysele <br>
+     * <b>Version:</b> 1.0.0
      * 
-     * @author wuxm
+     * @param ms
+     * @return
+     */
+    @Deprecated
+    public Class<?> getBOClass(MappedStatement ms) {
+        String msId = ms.getId();
+        String boMsId = String.format("%s_BO", msId);
+        if (!entityClassMap.containsKey(boMsId)) {
+            setClassMap(msId);
+        }
+        return entityClassMap.get(boMsId);
+    }
+
+    /**
+     * 
+     * <b>Title:</b> 获取表对应查询条件实体类型 <br>
+     * <b>Description:</b> <br>
+     * <b>Date:</b> 2017年12月3日 下午1:55:11 <br>
+     * <b>Author:</b> Gysele <br>
+     * <b>Version:</b> 1.0.0
      * 
      * @param ms
      * @return
@@ -263,13 +310,27 @@ public abstract class MapperTemplate {
                     if (null == classTypes || 0 == classTypes.length) {
                         continue;
                     }
+                    /**
+                     * 表对应实体
+                     */
                     Class<?> entityType = (Class<?>) classTypes[0];
                     // 获取该类型后，第一次对该类型进行初始化
                     EntityHelper.initEntityNameMap(entityType, mapperHelper.getConfig());
                     entityClassMap.put(msId, entityType);
 
+                    /**
+                     * 表对应业务逻辑实体
+                     */
                     if (1 < classTypes.length) {
-                        Class<?> queryType = (Class<?>) classTypes[1];
+                        Class<?> queryType = (Class<?>) classTypes[2];
+                        entityClassMap.put(String.format("%s_BO", msId), queryType);
+                    }
+
+                    /**
+                     * 表对应查询条件实体
+                     */
+                    if (2 < classTypes.length) {
+                        Class<?> queryType = (Class<?>) classTypes[2];
                         entityClassMap.put(String.format("%s_QUERY", msId), queryType);
                     }
                     return;
@@ -286,8 +347,7 @@ public abstract class MapperTemplate {
      * @return
      */
     protected String getSeqNextVal(EntityColumn column) {
-        return MessageFormat.format(mapperHelper.getConfig().getSeqFormat(), column.getSequenceName(),
-                column.getColumn(), column.getProperty(), column.getTable().getName());
+        return MessageFormat.format(mapperHelper.getConfig().getSeqFormat(), column.getSequenceName(), column.getColumn(), column.getProperty(), column.getTable().getName());
     }
 
     /**

@@ -54,19 +54,25 @@ public class EntityTable {
     private String schema;
     private String orderByClause;
     private String baseSelect;
-    //实体类 => 全部列属性
+    // 实体类 => 全部列属性
     private Set<EntityColumn> entityClassColumns;
-    //表对应查询条件实体类 => 全部列属性
+    // 表对应查询条件实体类 => 全部列属性
     private Set<EntityColumn> queryClassColumns;
-    //实体类 => 主键信息
+    // 表对应业务逻辑实体类 => 全部列属性
+    private Set<EntityColumn> boClassColumns;
+    // 实体类 => 主键信息
     private Set<EntityColumn> entityClassPKColumns;
-    //useGenerator包含多列的时候需要用到
+    // useGenerator包含多列的时候需要用到
     private List<String> keyProperties;
     private List<String> keyColumns;
-    //resultMap对象
+    // resultMap对象
     private ResultMap resultMap;
-    //类
+    // boResultMap对象
+    private ResultMap boResultMap;
+    // 类
     private Class<?> entityClass;
+    // 业务逻辑类
+    private Class<?> boClass;
 
     public EntityTable(Class<?> entityClass) {
         this.entityClass = entityClass;
@@ -156,6 +162,14 @@ public class EntityTable {
         this.queryClassColumns = queryClassColumns;
     }
 
+    public Set<EntityColumn> getBoClassColumns() {
+        return boClassColumns;
+    }
+
+    public void setBoClassColumns(Set<EntityColumn> boClassColumns) {
+        this.boClassColumns = boClassColumns;
+    }
+
     public Set<EntityColumn> getEntityClassPKColumns() {
         return entityClassPKColumns;
     }
@@ -164,11 +178,19 @@ public class EntityTable {
         this.entityClassPKColumns = entityClassPKColumns;
     }
 
+    public Class<?> getBoClass() {
+        return boClass;
+    }
+
+    public void setBoClass(Class<?> boClass) {
+        this.boClass = boClass;
+    }
+
     public String[] getKeyProperties() {
         if (keyProperties != null && keyProperties.size() > 0) {
-            return keyProperties.toArray(new String[]{});
+            return keyProperties.toArray(new String[] {});
         }
-        return new String[]{};
+        return new String[] {};
     }
 
     public void setKeyProperties(String keyProperty) {
@@ -182,9 +204,9 @@ public class EntityTable {
 
     public String[] getKeyColumns() {
         if (keyColumns != null && keyColumns.size() > 0) {
-            return keyColumns.toArray(new String[]{});
+            return keyColumns.toArray(new String[] {});
         }
-        return new String[]{};
+        return new String[] {};
     }
 
     public void setKeyColumns(String keyColumn) {
@@ -197,9 +219,15 @@ public class EntityTable {
     }
 
     /**
-     * 生成当前实体的resultMap对象
-     *
+     * 
+     * <b>Title:</b> 生成表对应实体的resultMap对象 <br>
+     * <b>Description:</b> <br>
+     * <b>Date:</b> 2017年12月3日 下午3:03:55 <br>
+     * <b>Author:</b> Gysele <br>
+     * <b>Version:</b> 1.0.0
+     * 
      * @param configuration
+     *            配置
      * @return
      */
     public ResultMap getResultMap(Configuration configuration) {
@@ -212,9 +240,9 @@ public class EntityTable {
         List<ResultMapping> resultMappings = new ArrayList<ResultMapping>();
         for (EntityColumn entityColumn : entityClassColumns) {
             String column = entityColumn.getColumn();
-            //去掉可能存在的分隔符
+            // 去掉可能存在的分隔符
             Matcher matcher = DELIMITER.matcher(column);
-            if(matcher.find()){
+            if (matcher.find()) {
                 column = matcher.group(1);
             }
             ResultMapping.Builder builder = new ResultMapping.Builder(configuration, entityColumn.getProperty(), column, entityColumn.getJavaType());
@@ -223,7 +251,7 @@ public class EntityTable {
             }
             if (entityColumn.getTypeHandler() != null) {
                 try {
-                    builder.typeHandler(getInstance(entityColumn.getJavaType(),entityColumn.getTypeHandler()));
+                    builder.typeHandler(getInstance(entityColumn.getJavaType(), entityColumn.getTypeHandler()));
                 } catch (Exception e) {
                     throw new MapperException(e);
                 }
@@ -239,9 +267,60 @@ public class EntityTable {
         this.resultMap = builder.build();
         return this.resultMap;
     }
-    
+
+    /**
+     * 
+     * <b>Title:</b> 生成表对应业务逻辑实体的resultMap对象 <br>
+     * <b>Description:</b> <br>
+     * <b>Date:</b> 2017年12月3日 下午3:04:28 <br>
+     * <b>Author:</b> Gysele <br>
+     * <b>Version:</b> 1.0.0
+     * 
+     * @param configuration
+     *            配置
+     * @return
+     */
+    public ResultMap getBOResultMap(Configuration configuration) {
+        if (this.boResultMap != null) {
+            return this.boResultMap;
+        }
+        if (boClassColumns == null || boClassColumns.size() == 0) {
+            return null;
+        }
+        List<ResultMapping> resultMappings = new ArrayList<ResultMapping>();
+        for (EntityColumn boColumn : boClassColumns) {
+            String column = boColumn.getColumn();
+            // 去掉可能存在的分隔符
+            Matcher matcher = DELIMITER.matcher(column);
+            if (matcher.find()) {
+                column = matcher.group(1);
+            }
+            ResultMapping.Builder builder = new ResultMapping.Builder(configuration, boColumn.getProperty(), column, boColumn.getJavaType());
+            if (boColumn.getJdbcType() != null) {
+                builder.jdbcType(boColumn.getJdbcType());
+            }
+            if (boColumn.getTypeHandler() != null) {
+                try {
+                    builder.typeHandler(getInstance(boColumn.getJavaType(), boColumn.getTypeHandler()));
+                } catch (Exception e) {
+                    throw new MapperException(e);
+                }
+            }
+            List<ResultFlag> flags = new ArrayList<ResultFlag>();
+            if (boColumn.isId()) {
+                flags.add(ResultFlag.ID);
+            }
+            builder.flags(flags);
+            resultMappings.add(builder.build());
+        }
+        ResultMap.Builder builder = new ResultMap.Builder(configuration, "BaseMapperResultMap", this.boClass, resultMappings, true);
+        this.boResultMap = builder.build();
+        return this.boResultMap;
+    }
+
     /**
      * 实例化TypeHandler
+     * 
      * @param javaTypeClass
      * @param typeHandlerClass
      * @return
@@ -249,20 +328,20 @@ public class EntityTable {
     @SuppressWarnings("unchecked")
     public <T> TypeHandler<T> getInstance(Class<?> javaTypeClass, Class<?> typeHandlerClass) {
         if (javaTypeClass != null) {
-          try {
-            Constructor<?> c = typeHandlerClass.getConstructor(Class.class);
-            return (TypeHandler<T>) c.newInstance(javaTypeClass);
-          } catch (NoSuchMethodException ignored) {
-            // ignored
-          } catch (Exception e) {
-            throw new TypeException("Failed invoking constructor for handler " + typeHandlerClass, e);
-          }
+            try {
+                Constructor<?> c = typeHandlerClass.getConstructor(Class.class);
+                return (TypeHandler<T>) c.newInstance(javaTypeClass);
+            } catch (NoSuchMethodException ignored) {
+                // ignored
+            } catch (Exception e) {
+                throw new TypeException("Failed invoking constructor for handler " + typeHandlerClass, e);
+            }
         }
         try {
-          Constructor<?> c = typeHandlerClass.getConstructor();
-          return (TypeHandler<T>) c.newInstance();
+            Constructor<?> c = typeHandlerClass.getConstructor();
+            return (TypeHandler<T>) c.newInstance();
         } catch (Exception e) {
-          throw new TypeException("Unable to find a usable constructor for " + typeHandlerClass, e);
+            throw new TypeException("Unable to find a usable constructor for " + typeHandlerClass, e);
         }
-      }
+    }
 }

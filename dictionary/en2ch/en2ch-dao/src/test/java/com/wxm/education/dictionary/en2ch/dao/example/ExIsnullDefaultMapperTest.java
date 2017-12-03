@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 
 import com.alibaba.fastjson.JSON;
 import com.wxm.education.dictionary.en2ch.base.junit.JunitBase;
+import com.wxm.education.dictionary.en2ch.pojo.example.bo.ExIsnullDefaultBO;
 import com.wxm.education.dictionary.en2ch.pojo.example.entity.ExIsnullDefault;
 import com.wxm.education.dictionary.en2ch.pojo.example.query.ExIsnullDefaultQuery;
 import com.wxm.mybatis.mapper.util.UUIDUtil;
@@ -28,8 +29,18 @@ public class ExIsnullDefaultMapperTest extends JunitBase {
 
     @Test
     public void testSelectOne() {
-        int count = mapper.selectCount(new ExIsnullDefaultQuery("3317873c-cb3c-11e7-9b0c-3464a90a9e49"));
-        logger.debug("查询总数:" + count);
+        ExIsnullDefaultQuery query = new ExIsnullDefaultQuery();
+        query.setLike_varcharNotnullDefault("变长字符串_非空_默认");
+        ExIsnullDefault bean = mapper.selectOne(query);
+        logger.debug("查询结果:" + JSON.toJSONString(bean));
+    }
+
+    @Test
+    public void testSelectBOOne() {
+        ExIsnullDefaultQuery query = new ExIsnullDefaultQuery();
+        query.setLike_varcharNotnullDefault("变长字符串_非空_默认");
+        ExIsnullDefaultBO beanBo = mapper.selectBOOne(query);
+        logger.debug("查询结果:" + JSON.toJSONString(beanBo));
     }
 
     @Test
