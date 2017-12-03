@@ -65,8 +65,6 @@ public class EntityTable {
     private List<String> keyColumns;
     //resultMap对象
     private ResultMap resultMap;
-    //属性和列对应
-    protected Map<String, EntityColumn> propertyMap;
     //类
     private Class<?> entityClass;
 
@@ -240,20 +238,6 @@ public class EntityTable {
         ResultMap.Builder builder = new ResultMap.Builder(configuration, "BaseMapperResultMap", this.entityClass, resultMappings, true);
         this.resultMap = builder.build();
         return this.resultMap;
-    }
-
-    /**
-     * 初始化 - Example 会使用
-     */
-    public void initPropertyMap() {
-        propertyMap = new HashMap<String, EntityColumn>(getEntityClassColumns().size());
-        for (EntityColumn column : getEntityClassColumns()) {
-            propertyMap.put(column.getProperty(), column);
-        }
-    }
-
-    public Map<String, EntityColumn> getPropertyMap() {
-        return propertyMap;
     }
     
     /**

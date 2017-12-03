@@ -49,9 +49,10 @@ public class BaseDeleteProvider extends MapperTemplate {
      */
     public String delete(MappedStatement ms) {
         Class<?> entityClass = getEntityClass(ms);
+        Class<?> queryClass = getQueryClass(ms);
         StringBuilder sql = new StringBuilder();
         sql.append(SqlHelper.deleteFromTable(entityClass, tableName(entityClass)));
-        sql.append(SqlHelper.whereAllIfColumns(entityClass, isNotEmpty()));
+        sql.append(SqlHelper.whereAllQueryIfColumns(entityClass, queryClass, isNotEmpty()));
         return sql.toString();
     }
 

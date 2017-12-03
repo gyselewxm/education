@@ -23,6 +23,18 @@ public class ExIsnullDefaultQuery {
      * 变长字符串_非空_默认（全模糊）
      */
     private String like_varcharNotnullDefault;
+    /**
+     * 变长字符串_非空_默认（左模糊）
+     */
+    private String likeL_varcharNotnullDefault;
+    /**
+     * 变长字符串_非空_默认（右模糊）
+     */
+    private String likeR_varcharNotnullDefault;
+
+    public ExIsnullDefaultQuery() {
+        super();
+    }
 
     public ExIsnullDefaultQuery(String id) {
         super();
@@ -64,5 +76,21 @@ public class ExIsnullDefaultQuery {
 
     public void setLike_varcharNotnullDefault(String like_varcharNotnullDefault) {
         this.like_varcharNotnullDefault = like_varcharNotnullDefault;
+    }
+
+    public String getLikeL_varcharNotnullDefault() {
+        return likeL_varcharNotnullDefault;
+    }
+
+    public void setLikeL_varcharNotnullDefault(String likeL_varcharNotnullDefault) {
+        this.likeL_varcharNotnullDefault = likeL_varcharNotnullDefault;
+    }
+
+    public String getLikeR_varcharNotnullDefault() {
+        return likeR_varcharNotnullDefault;
+    }
+
+    public void setLikeR_varcharNotnullDefault(String likeR_varcharNotnullDefault) {
+        this.likeR_varcharNotnullDefault = likeR_varcharNotnullDefault;
     }
 }

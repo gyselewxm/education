@@ -184,12 +184,20 @@ public class EntityColumn {
     }
 
     /**
-     * 返回格式如:colum = #{age,jdbcType=NUMERIC,typeHandler=MyTypeHandler}
-     *
+     * 
+     * <b>Title:</b> 返回指定查询条件格式
+     * <br><b>Description:</b> 
+     * <br><b>Date:</b> 2017年12月3日 下午12:04:19
+     * 
+     * @author wuxm
+     * @version 1.0.0
      * @return
      */
     public String getColumnLikeHolder() {
-        return String.format("%s LIKE '$'||%s||'$'", this.column, getColumnHolder()).replace("$", "%");
+        if (null == this.queryType) {
+            return getColumnEqualsHolder();
+        }
+        return String.format(this.queryType.getSql(), this.column, getColumnHolder()).replace("$", "%");
     }
 
     /**

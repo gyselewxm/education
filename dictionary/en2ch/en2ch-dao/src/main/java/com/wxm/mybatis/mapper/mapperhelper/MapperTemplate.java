@@ -259,36 +259,24 @@ public abstract class MapperTemplate {
             if (type instanceof ParameterizedType) {
                 ParameterizedType t = (ParameterizedType) type;
                 if (t.getRawType() == this.mapperClass || this.mapperClass.isAssignableFrom((Class<?>) t.getRawType())) {
-                    Class<?> returnType = (Class<?>) t.getActualTypeArguments()[0];
+                    Type[] classTypes = t.getActualTypeArguments();
+                    if (null == classTypes || 0 == classTypes.length) {
+                        continue;
+                    }
+                    Class<?> entityType = (Class<?>) classTypes[0];
                     // 获取该类型后，第一次对该类型进行初始化
-                    EntityHelper.initEntityNameMap(returnType, mapperHelper.getConfig());
-                    entityClassMap.put(msId, returnType);
+                    EntityHelper.initEntityNameMap(entityType, mapperHelper.getConfig());
+                    entityClassMap.put(msId, entityType);
+
+                    if (1 < classTypes.length) {
+                        Class<?> queryType = (Class<?>) classTypes[1];
+                        entityClassMap.put(String.format("%s_QUERY", msId), queryType);
+                    }
                     return;
                 }
             }
         }
         throw new MapperException("无法获取 " + msId + " 方法的泛型信息!");
-    }
-
-    /**
-     * 根据对象生成主键映射
-     *
-     * @param ms
-     * @return
-     * @deprecated 4.x版本会移除该方法
-     */
-    @Deprecated
-    protected List<ParameterMapping> getPrimaryKeyParameterMappings(MappedStatement ms) {
-        Class<?> entityClass = getEntityClass(ms);
-        Set<EntityColumn> entityColumns = EntityHelper.getPKColumns(entityClass);
-        List<ParameterMapping> parameterMappings = new ArrayList<ParameterMapping>();
-        for (EntityColumn column : entityColumns) {
-            ParameterMapping.Builder builder = new ParameterMapping.Builder(ms.getConfiguration(),
-                    column.getProperty(), column.getJavaType());
-            builder.mode(ParameterMode.IN);
-            parameterMappings.add(builder.build());
-        }
-        return parameterMappings;
     }
 
     /**

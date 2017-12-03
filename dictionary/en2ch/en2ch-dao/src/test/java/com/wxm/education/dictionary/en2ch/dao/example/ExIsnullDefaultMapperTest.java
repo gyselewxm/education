@@ -44,8 +44,20 @@ public class ExIsnullDefaultMapperTest extends JunitBase {
 
     @Test
     public void testSelectCount() {
-        int count = mapper.selectCount(new ExIsnullDefaultQuery(null, null, "varchar"));
-        logger.debug("查询总数:" + count);
+        ExIsnullDefaultQuery query = new ExIsnullDefaultQuery();
+        query.setLike_varcharNotnullDefault("Not");
+        int count = mapper.selectCount(query);
+        logger.debug("全查询总数:" + count);
+        
+        query = new ExIsnullDefaultQuery();
+        query.setLikeL_varcharNotnullDefault("fault");
+        count = mapper.selectCount(query);
+        logger.debug("左查询总数:" + count);
+        
+        query = new ExIsnullDefaultQuery();
+        query.setLikeR_varcharNotnullDefault("var");
+        count = mapper.selectCount(query);
+        logger.debug("右查询总数:" + count);
     }
 
     @Test

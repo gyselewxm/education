@@ -41,6 +41,8 @@ import javax.persistence.Transient;
 
 import org.apache.ibatis.type.JdbcType;
 import org.apache.ibatis.type.UnknownTypeHandler;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.wxm.mybatis.mapper.MapperException;
 import com.wxm.mybatis.mapper.annotation.ColumnType;
@@ -65,6 +67,7 @@ import com.wxm.mybatis.mapper.util.StringUtil;
  * @author liuzh
  */
 public class EntityHelper {
+    private static Logger logger = LoggerFactory.getLogger(EntityHelper.class);
 
     /**
      * 实体类 => 表对象
@@ -110,6 +113,16 @@ public class EntityHelper {
     }
 
     /**
+     * 获取全部查询实体列
+     *
+     * @param entityClass
+     * @return
+     */
+    public static Set<EntityColumn> getQueryColumns(Class<?> entityClass) {
+        return getEntityTable(entityClass).getQueryClassColumns();
+    }
+
+    /**
      * 获取全部列
      *
      * @param entityClass
@@ -147,8 +160,7 @@ public class EntityHelper {
             selectBuilder.append(entityColumn.getColumn());
             if (!skipAlias && !entityColumn.getColumn().equalsIgnoreCase(entityColumn.getProperty())) {
                 // 不等的时候分几种情况，例如`DESC`
-                if (entityColumn.getColumn().substring(1, entityColumn.getColumn().length() - 1)
-                        .equalsIgnoreCase(entityColumn.getProperty())) {
+                if (entityColumn.getColumn().substring(1, entityColumn.getColumn().length() - 1).equalsIgnoreCase(entityColumn.getProperty())) {
                     selectBuilder.append(",");
                 } else {
                     selectBuilder.append(" AS ").append(entityColumn.getProperty()).append(",");
@@ -228,8 +240,9 @@ public class EntityHelper {
         }
         entityTable.setEntityClassColumns(new LinkedHashSet<EntityColumn>());
         entityTable.setEntityClassPKColumns(new LinkedHashSet<EntityColumn>());
+        entityTable.setQueryClassColumns(new LinkedHashSet<EntityColumn>());
 
-        // 处理所有列
+        // 处理所有表对应实体列
         List<EntityField> fields = null;
         if (config.isEnableMethodAnnotation()) {
             fields = FieldHelper.getAll(entityClass);
@@ -247,70 +260,13 @@ public class EntityHelper {
         if (entityTable.getEntityClassPKColumns().size() == 0) {
             entityTable.setEntityClassPKColumns(entityTable.getEntityClassColumns());
         }
-        entityTable.initPropertyMap();
-        entityTableMap.put(entityClass, entityTable);
-    }
 
-    /**
-     * 初始化查询实体属性
-     *
-     * @param entityClass
-     * @param config
-     * @throws ClassNotFoundException
-     */
-    public static synchronized void initQueryNameMap(Class<?> entityClass, Config config) throws ClassNotFoundException {
-        if (entityTableMap.get(entityClass) != null) {
-            return;
-        }
-        Style style = config.getStyle();
-        // style，该注解优先于全局配置
-        if (entityClass.isAnnotationPresent(NameStyle.class)) {
-            NameStyle nameStyle = entityClass.getAnnotation(NameStyle.class);
-            style = nameStyle.value();
-        }
-
-        // 创建并缓存EntityTable
-        EntityTable entityTable = null;
-        if (entityClass.isAnnotationPresent(Table.class)) {
-            Table table = entityClass.getAnnotation(Table.class);
-            if (!table.name().equals("")) {
-                entityTable = new EntityTable(entityClass);
-                entityTable.setTable(table);
+        // 处理所有表对应查询类
+        try {
+            Class<?> queryClass = getQueryClass(entityClass);
+            if (null == queryClass) {
+                logger.warn("无法获取" + entityClass.getName() + "类对应的查询类!");
             }
-        }
-        if (entityTable == null) {
-            entityTable = new EntityTable(entityClass);
-            // 可以通过stye控制
-            entityTable.setName(StringUtil.convertByStyle(entityClass.getSimpleName(), style));
-        }
-        entityTable.setEntityClassColumns(new LinkedHashSet<EntityColumn>());
-        entityTable.setEntityClassPKColumns(new LinkedHashSet<EntityColumn>());
-        // 新增query实体
-        entityTable.setQueryClassColumns(new LinkedHashSet<EntityColumn>());
-
-        /**
-         * 处理所有实体列
-         */
-        List<EntityField> fields = null;
-        if (config.isEnableMethodAnnotation()) {
-            fields = FieldHelper.getAll(entityClass);
-        } else {
-            fields = FieldHelper.getFields(entityClass);
-        }
-        for (EntityField field : fields) {
-            // 如果启用了简单类型，就做简单类型校验，如果不是简单类型，直接跳过
-            if (config.isUseSimpleType() && !SimpleTypeUtil.isSimpleType(field.getJavaType())) {
-                continue;
-            }
-            processField(entityTable, style, field);
-        }
-
-        /**
-         * 处理所有查询实体列
-         */
-        Class<?> queryClass = Class.forName(String.format("%sQuery", entityClass.toString()).replace(".entity.",
-                ".query."));
-        if (null != queryClass) {
             fields = null;
             if (config.isEnableMethodAnnotation()) {
                 fields = FieldHelper.getAll(queryClass);
@@ -324,14 +280,28 @@ public class EntityHelper {
                 }
                 processQueryField(entityTable, style, field);
             }
+        } catch (ClassNotFoundException e) {
+            logger.warn("无法获取" + entityClass.getName() + "类对应的查询类!");
         }
 
-        // 当pk.size=0的时候使用所有列作为主键
-        if (entityTable.getEntityClassPKColumns().size() == 0) {
-            entityTable.setEntityClassPKColumns(entityTable.getEntityClassColumns());
-        }
-        entityTable.initPropertyMap();
         entityTableMap.put(entityClass, entityTable);
+    }
+
+    /**
+     * 
+     * <b>Title:</b> 获取查询实体类 <br>
+     * <b>Description:</b> <br>
+     * <b>Date:</b> 2017年12月2日 下午10:25:45
+     * 
+     * @author wuxm
+     * @version 1.0.0
+     * @param entityClass
+     * @return
+     * @throws ClassNotFoundException
+     */
+    private static Class<?> getQueryClass(Class<?> entityClass) throws ClassNotFoundException {
+        String queryClassName = String.format("%sQuery", entityClass.getName()).replace(".entity.", ".query.");
+        return Class.forName(queryClassName);
     }
 
     /**
@@ -393,8 +363,7 @@ public class EntityHelper {
         if (field.isAnnotationPresent(SequenceGenerator.class)) {
             SequenceGenerator sequenceGenerator = field.getAnnotation(SequenceGenerator.class);
             if (sequenceGenerator.sequenceName().equals("")) {
-                throw new MapperException(entityTable.getEntityClass() + "字段" + field.getName()
-                        + "的注解@SequenceGenerator未指定sequenceName!");
+                throw new MapperException(entityTable.getEntityClass() + "字段" + field.getName() + "的注解@SequenceGenerator未指定sequenceName!");
             }
             entityColumn.setSequenceName(sequenceGenerator.sequenceName());
         } else if (field.isAnnotationPresent(GeneratedValue.class)) {
@@ -416,8 +385,7 @@ public class EntityHelper {
                     entityColumn.setIdentity(true);
                     if (!generatedValue.generator().equals("")) {
                         String generator = null;
-                        IdentityDialect identityDialect = IdentityDialect
-                                .getDatabaseDialect(generatedValue.generator());
+                        IdentityDialect identityDialect = IdentityDialect.getDatabaseDialect(generatedValue.generator());
                         if (identityDialect != null) {
                             generator = identityDialect.getIdentityRetrievalStatement();
                         } else {
@@ -426,8 +394,7 @@ public class EntityHelper {
                         entityColumn.setGenerator(generator);
                     }
                 } else {
-                    throw new MapperException(field.getName() + " - 该字段@GeneratedValue配置只允许以下几种形式:"
-                            + "\n1.全部数据库通用的@GeneratedValue(generator=\"UUID\")"
+                    throw new MapperException(field.getName() + " - 该字段@GeneratedValue配置只允许以下几种形式:" + "\n1.全部数据库通用的@GeneratedValue(generator=\"UUID\")"
                             + "\n2.useGeneratedKeys的@GeneratedValue(generator=\\\"JDBC\\\")  "
                             + "\n3.类似mysql数据库的@GeneratedValue(strategy=GenerationType.IDENTITY[,generator=\"Mysql\"])");
                 }

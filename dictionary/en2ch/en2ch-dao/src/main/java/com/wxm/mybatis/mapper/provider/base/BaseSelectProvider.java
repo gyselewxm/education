@@ -49,12 +49,13 @@ public class BaseSelectProvider extends MapperTemplate {
      */
     public String selectOne(MappedStatement ms) {
         Class<?> entityClass = getEntityClass(ms);
+        Class<?> queryClass = getQueryClass(ms);
         // 修改返回值类型为实体类型
         setResultType(ms, entityClass);
         StringBuilder sql = new StringBuilder();
         sql.append(SqlHelper.selectAllColumns(entityClass));
         sql.append(SqlHelper.fromTable(entityClass, tableName(entityClass)));
-        sql.append(SqlHelper.whereAllIfColumns(entityClass, isNotEmpty()));
+        sql.append(SqlHelper.whereAllQueryIfColumns(entityClass, queryClass, isNotEmpty()));
         return sql.toString();
     }
 
@@ -66,12 +67,13 @@ public class BaseSelectProvider extends MapperTemplate {
      */
     public String select(MappedStatement ms) {
         Class<?> entityClass = getEntityClass(ms);
+        Class<?> queryClass = getQueryClass(ms);
         // 修改返回值类型为实体类型
         setResultType(ms, entityClass);
         StringBuilder sql = new StringBuilder();
         sql.append(SqlHelper.selectAllColumns(entityClass));
         sql.append(SqlHelper.fromTable(entityClass, tableName(entityClass)));
-        sql.append(SqlHelper.whereAllIfColumns(entityClass, isNotEmpty()));
+        sql.append(SqlHelper.whereAllQueryIfColumns(entityClass, queryClass, isNotEmpty()));
         sql.append(SqlHelper.orderByDefault(entityClass));
         return sql.toString();
     }
@@ -150,8 +152,7 @@ public class BaseSelectProvider extends MapperTemplate {
         StringBuilder sql = new StringBuilder();
         sql.append(SqlHelper.selectCount(entityClass));
         sql.append(SqlHelper.fromTable(entityClass, tableName(entityClass)));
-        sql.append(SqlHelper.whereAllIfColumns(entityClass, queryClass, isNotEmpty()));
-        //sql.append(SqlHelper.whereAllIfColumns(queryClass, isNotEmpty()));
+        sql.append(SqlHelper.whereAllQueryIfColumns(entityClass, queryClass, isNotEmpty()));
         return sql.toString();
     }
 

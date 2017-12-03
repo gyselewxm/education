@@ -27,9 +27,6 @@ package com.wxm.mybatis.mapper.mapperhelper;
 import java.lang.reflect.Field;
 import java.util.Set;
 
-import javax.persistence.Column;
-
-import com.wxm.mybatis.mapper.code.ColumnQueryTypeEnum;
 import com.wxm.mybatis.mapper.entity.EntityColumn;
 import com.wxm.mybatis.mapper.entity.IDynamicTableName;
 import com.wxm.mybatis.mapper.util.StringUtil;
@@ -527,25 +524,6 @@ public class SqlHelper {
     }
 
     /**
-     * where所有列的条件，会判断是否!=null
-     *
-     * @param entityClass
-     * @return
-     */
-    public static String whereAllIfColumns(Class<?> entityClass, boolean empty) {
-        StringBuilder sql = new StringBuilder();
-        sql.append("<where>");
-        // 获取全部列
-        Set<EntityColumn> columnList = EntityHelper.getColumns(entityClass);
-        // 当某个列有主键策略时，不需要考虑他的属性是否为空，因为如果为空，一定会根据主键策略给他生成一个值
-        for (EntityColumn column : columnList) {
-            sql.append(getIfNotNull(column, " AND " + column.getColumnEqualsHolder(), empty));
-        }
-        sql.append("</where>");
-        return sql.toString();
-    }
-
-    /**
      * 
      * <b>Title:</b> 根据所有字段设置查询条件，会判断是否!=null <br>
      * <b>Description:</b> <br>
@@ -560,50 +538,14 @@ public class SqlHelper {
      *            判断字符串是否!=''
      * @return
      */
-    public static String whereAllIfColumns(Class<?> entityClass, Class<?> queryClass, boolean empty) {
+    public static String whereAllQueryIfColumns(Class<?> entityClass, Class<?> queryClass, boolean empty) {
         StringBuilder sql = new StringBuilder();
         sql.append("<where>");
         // 获取全部列
-        Set<EntityColumn> columnList = EntityHelper.getColumns(entityClass);
-        Field[] fields = queryClass.getDeclaredFields();
-        for (Field field : fields) {
-            String fieldName = field.getName(); // 属性名
-            Column columnAnnotation = field.getAnnotation(Column.class); // 字段注解
-            String likeType = ""; // 模糊查询类型
-
-//            // 全模糊
-//            if (fieldName.startsWith(ColumnQueryTypeEnum.PREFIX_LIKE.getFrag())) {
-//                likeType = ColumnQueryTypeEnum.PREFIX_LIKE.getFrag();
-//                fieldName = fieldName.replace(ColumnQueryTypeEnum.PREFIX_LIKE.getFrag(), "");
-//            }
-//            // 左模糊
-//            else if (fieldName.startsWith(ColumnQueryTypeEnum.PREFIX_LIKE_LEFT.getFrag())) {
-//                likeType = ColumnQueryTypeEnum.PREFIX_LIKE_LEFT.getFrag();
-//                fieldName = fieldName.replace(ColumnQueryTypeEnum.PREFIX_LIKE_LEFT.getFrag(), "");
-//            }
-//            // 右模糊
-//            else if (fieldName.startsWith(ColumnQueryTypeEnum.PREFIX_LIKE_RIGHT.getFrag())) {
-//                likeType = ColumnQueryTypeEnum.PREFIX_LIKE_RIGHT.getFrag();
-//                fieldName = fieldName.replace(ColumnQueryTypeEnum.PREFIX_LIKE_RIGHT.getFrag(), "");
-//            }
-
-            // 字段注解为空的情况下，属性名默认转换为数据表对应属性（驼峰转下划线）
-            if (null != columnAnnotation) {
-                fieldName = columnAnnotation.name();
-            }
-
-            // 批量设置查询条件
-            for (EntityColumn column : columnList) {
-                if (fieldName.equals(column.getProperty())) {
-                    // 全模糊
-                    if (likeType.equals(ColumnQueryTypeEnum.PREFIX_LIKE.getFrag())) {
-                        sql.append(getIfNotNull(field, " AND " + column.getColumnLikeHolder(), empty));
-                    } else {
-                        sql.append(getIfNotNull(column, " AND " + column.getColumnEqualsHolder(), empty));
-                    }
-                    break;
-                }
-            }
+        Set<EntityColumn> columnList = EntityHelper.getQueryColumns(entityClass);
+        // 批量设置查询条件
+        for (EntityColumn column : columnList) {
+            sql.append(getIfNotNull(column, " AND " + column.getColumnLikeHolder(), empty));
         }
         sql.append("</where>");
         return sql.toString();
