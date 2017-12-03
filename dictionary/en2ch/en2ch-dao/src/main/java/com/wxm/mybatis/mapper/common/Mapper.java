@@ -26,17 +26,21 @@ package com.wxm.mybatis.mapper.common;
 /**
  * 
  * <b>Title:</b> 通用Mapper接口 <br>
- * <b>Description:</b> 业务Mapper可直接继承该接口<br>
- * <b>Date:</b> 2017年11月9日 下午5:59:45
+ * <b>Description:</b> 业务Mapper可直接继承该接口 <br>
+ * <b>Date:</b> 2017年12月3日 下午3:32:57 <br>
+ * <b>Author:</b> Gysele <br>
+ * <b>Version:</b> 1.0.0
  * 
- * @author wuxm
- * @version 1.0.0
  * @param <T>
- *            Entity数据表实体
+ *            表对应实体
+ * @param <B>
+ *            表对应业务逻辑实体
+ * @param <Q>
+ *            表对应查询条件实体
  */
-public interface Mapper<T, Q> extends
-        BaseMapper<T, Q>,
-        BatchMapper<T>,
+public interface Mapper<T, B, Q> extends
+        BaseMapper<T, B, Q>,
+        BatchMapper<T, B, Q>,
         Marker {
 
 }

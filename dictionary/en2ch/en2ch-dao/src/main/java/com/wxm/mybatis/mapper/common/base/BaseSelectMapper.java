@@ -27,18 +27,25 @@ package com.wxm.mybatis.mapper.common.base;
 import com.wxm.mybatis.mapper.common.base.select.*;
 
 /**
- * 通用Mapper接口,基础查询
- *
+ * 
+ * <b>Title:</b> 通用基础查询接口 <br>
+ * <b>Description:</b> <br>
+ * <b>Date:</b> 2017年12月3日 下午10:30:59 <br>
+ * <b>Author:</b> Gysele <br>
+ * <b>Version:</b> 1.0.0
+ * 
  * @param <T>
- *            不能为空
- * @author liuzh
+ *            表对应实体
+ * @param <B>
+ *            表对应业务逻辑实体
+ * @param <Q>
+ *            表对应查询条件实体
  */
-public interface BaseSelectMapper<T, Q> extends
-        SelectOneMapper<T>,
+public interface BaseSelectMapper<T, B, Q> extends
+        SelectOneMapper<T, B, Q>,
         SelectMapper<T>,
         SelectAllMapper<T>,
         SelectCountMapper<Q>,
-        SelectByPrimaryKeyMapper<T>,
-        ExistsWithPrimaryKeyMapper<T> {
+        SelectByPrimaryKeyMapper<T, B> {
 
 }

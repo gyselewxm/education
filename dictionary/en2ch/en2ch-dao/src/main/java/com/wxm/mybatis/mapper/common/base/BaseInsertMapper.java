@@ -28,10 +28,15 @@ import com.wxm.mybatis.mapper.common.base.insert.InsertMapper;
 import com.wxm.mybatis.mapper.common.base.insert.InsertSelectiveMapper;
 
 /**
- * 通用Mapper接口,基础查询
- *
- * @param <T> 不能为空
- * @author liuzh
+ * 
+ * <b>Title:</b> 通用基础保存接口 <br>
+ * <b>Description:</b> <br>
+ * <b>Date:</b> 2017年12月3日 下午10:30:13 <br>
+ * <b>Author:</b> Gysele <br>
+ * <b>Version:</b> 1.0.0
+ * 
+ * @param <T>
+ *            表对应实体类
  */
 public interface BaseInsertMapper<T> extends
         InsertMapper<T>,

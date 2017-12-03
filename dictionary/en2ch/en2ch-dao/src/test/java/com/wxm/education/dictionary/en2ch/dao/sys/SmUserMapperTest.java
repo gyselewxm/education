@@ -4,7 +4,6 @@ import static org.junit.Assert.fail;
 
 import org.junit.Test;
 
-import com.alibaba.fastjson.JSON;
 import com.wxm.education.dictionary.en2ch.base.junit.JunitBase;
 import com.wxm.education.dictionary.en2ch.pojo.sm.entity.SmUser;
 
@@ -21,7 +20,7 @@ public class SmUserMapperTest extends JunitBase {
     public void testSelectOne() {
         SmUser smUser = new SmUser();
         smUser.setId("11");
-        smUser = smUserMapper.selectOne(smUser);
+        // smUser = smUserMapper.selectOne(smUser);
     }
 
     @Test
@@ -41,14 +40,7 @@ public class SmUserMapperTest extends JunitBase {
 
     @Test
     public void testSelectByPrimaryKey() {
-        SmUser smUser = smUserMapper.selectByPrimaryKey("a3d862ee-4db6-43ef-9233-39adf14a6fa7");
-        System.out.println(JSON.toJSONString(smUser));
-    }
-
-    @Test
-    public void testSelectById() {
-        SmUser smUser = smUserMapper.selectById("a3d862ee-4db6-43ef-9233-39adf14a6fa7");
-        System.out.println(JSON.toJSONString(smUser));
+        fail("Not yet implemented");
     }
 
     @Test

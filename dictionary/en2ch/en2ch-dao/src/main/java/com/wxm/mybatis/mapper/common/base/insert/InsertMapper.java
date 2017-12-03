@@ -32,12 +32,12 @@ import com.wxm.mybatis.mapper.provider.base.BaseInsertProvider;
  * 
  * <b>Title:</b> 通用保存接口 <br>
  * <b>Description:</b> null的属性也会保存，不会使用数据库默认值 <br>
- * <b>Date:</b> 2017年11月9日 下午4:29:33
+ * <b>Date:</b> 2017年12月3日 下午10:34:59 <br>
+ * <b>Author:</b> Gysele <br>
+ * <b>Version:</b> 1.0.0
  * 
- * @author wuxm
- * @version 1.0.0
  * @param <T>
- *            Entity数据表实体
+ *            表对应实体类
  */
 public interface InsertMapper<T> {
 
@@ -45,13 +45,13 @@ public interface InsertMapper<T> {
      * 
      * <b>Title:</b> 保存一个实体，null的属性也会保存，不会使用数据库默认值 <br>
      * <b>Description:</b> 仅支持一个主键自动生成 <br>
-     * <b>Date:</b> 2017年11月9日 下午4:28:45
+     * <b>Date:</b> 2017年12月3日 下午10:35:24 <br>
+     * <b>Author:</b> Gysele <br>
+     * <b>Version:</b> 1.0.0
      * 
-     * @author wuxm
-     * @version 1.0.0
      * @param bean
-     *            实体对象
-     * @return
+     *            表对应实体对象
+     * @return 操作数
      */
     @InsertProvider(type = BaseInsertProvider.class, method = "dynamicSQL")
     int insert(T bean);

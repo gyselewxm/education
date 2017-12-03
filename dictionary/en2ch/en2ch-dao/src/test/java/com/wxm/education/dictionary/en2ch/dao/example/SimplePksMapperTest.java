@@ -11,9 +11,18 @@ import org.slf4j.LoggerFactory;
 
 import com.alibaba.fastjson.JSON;
 import com.wxm.education.dictionary.en2ch.base.junit.JunitBase;
+import com.wxm.education.dictionary.en2ch.pojo.example.bo.SimplePksBO;
 import com.wxm.education.dictionary.en2ch.pojo.example.entity.SimplePks;
+import com.wxm.education.dictionary.en2ch.pojo.example.query.SimplePksQuery;
 import com.wxm.mybatis.mapper.util.UUIDUtil;
 
+/**
+ * <b>Title:</b> 简单示例-多个主键 <br>
+ * <b>Description:</b> <br>
+ * <b>Date:</b> 2017年12月3日 下午9:07:39 <br>
+ * <b>Author:</b> Gysele <br>
+ * <b>Version:</b> 1.0.0
+ */
 public class SimplePksMapperTest extends JunitBase {
     private Logger logger = LoggerFactory.getLogger(this.getClass());
     private SimplePksMapper mapper;
@@ -26,37 +35,75 @@ public class SimplePksMapperTest extends JunitBase {
 
     @Test
     public void testSelectOne() {
-        fail("Not yet implemented");
+        SimplePksQuery query = new SimplePksQuery();
+        query.setId("a0d695a0-9ead-4538-bf5f-d07e304f4f40");
+        query.setVarcharId("4f0ae111-7e2a-4d0b-80f0-3d01709e0930");
+        query.setIntegerId(882);
+        SimplePks bean = mapper.selectByPrimaryKey(query);
+        logger.debug("查询结果：" + JSON.toJSONString(bean));
+    }
+
+    @Test
+    public void testSelectBOOne() {
+        SimplePksQuery query = new SimplePksQuery();
+        query.setId("a0d695a0-9ead-4538-bf5f-d07e304f4f40");
+        query.setVarcharId("4f0ae111-7e2a-4d0b-80f0-3d01709e0930");
+        query.setIntegerId(882);
+        SimplePksBO beanBo = mapper.selectBOByPrimaryKey(query);
+        logger.debug("查询结果：" + JSON.toJSONString(beanBo));
     }
 
     @Test
     public void testSelect() {
-        fail("Not yet implemented");
+        fail("Not yet implemented"); // TODO
     }
 
     @Test
     public void testSelectAll() {
-        fail("Not yet implemented");
+        fail("Not yet implemented"); // TODO
     }
 
     @Test
     public void testSelectCount() {
-        fail("Not yet implemented");
+        SimplePksQuery query = new SimplePksQuery();
+        query.setRemark("dddsf");
+        int count = mapper.selectCount(query);
+        logger.debug("相等查询结果：" + count);
+
+        query = new SimplePksQuery();
+        query.setLike_remark("dd");
+        count = mapper.selectCount(query);
+        logger.debug("全模糊查询结果：" + count);
+
+        query = new SimplePksQuery();
+        query.setLikeL_remark("ad");
+        count = mapper.selectCount(query);
+        logger.debug("左模糊查询结果：" + count);
+
+        query = new SimplePksQuery();
+        query.setLikeR_remark("dd");
+        count = mapper.selectCount(query);
+        logger.debug("右模糊查询结果：" + count);
     }
 
     @Test
     public void testSelectByPrimaryKey() {
-        fail("Not yet implemented");
+        SimplePksQuery query = new SimplePksQuery();
+        query.setId("a0d695a0-9ead-4538-bf5f-d07e304f4f40");
+        query.setVarcharId("4f0ae111-7e2a-4d0b-80f0-3d01709e0930");
+        query.setIntegerId(882);
+        SimplePks bean = mapper.selectByPrimaryKey(query);
+        logger.debug("查询结果：" + JSON.toJSONString(bean));
     }
 
     @Test
-    public void testSelectById() {
-        fail("Not yet implemented");
-    }
-
-    @Test
-    public void testExistsWithPrimaryKey() {
-        fail("Not yet implemented");
+    public void testSelectBOByPrimaryKey() {
+        SimplePksQuery query = new SimplePksQuery();
+        query.setId("a0d695a0-9ead-4538-bf5f-d07e304f4f40");
+        //query.setVarcharId("4f0ae111-7e2a-4d0b-80f0-3d01709e0930");
+        query.setIntegerId(882);
+        SimplePksBO beanBo = mapper.selectBOByPrimaryKey(query);
+        logger.debug("查询结果：" + JSON.toJSONString(beanBo));
     }
 
     @Test
@@ -79,22 +126,22 @@ public class SimplePksMapperTest extends JunitBase {
 
     @Test
     public void testUpdateByPrimaryKey() {
-        fail("Not yet implemented");
+        fail("Not yet implemented"); // TODO
     }
 
     @Test
     public void testUpdateByPrimaryKeySelective() {
-        fail("Not yet implemented");
+        fail("Not yet implemented"); // TODO
     }
 
     @Test
     public void testDelete() {
-        fail("Not yet implemented");
+        fail("Not yet implemented"); // TODO
     }
 
     @Test
     public void testDeleteByPrimaryKey() {
-        fail("Not yet implemented");
+        fail("Not yet implemented"); // TODO
     }
 
     @Test

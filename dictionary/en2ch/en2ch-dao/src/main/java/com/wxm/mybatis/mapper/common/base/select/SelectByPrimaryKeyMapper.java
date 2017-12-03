@@ -29,56 +29,47 @@ import org.apache.ibatis.annotations.SelectProvider;
 import com.wxm.mybatis.mapper.provider.base.BaseSelectProvider;
 
 /**
- * 通用Mapper接口,其他接口继承该接口即可
- * <p/>
- * <p>
- * 这是一个例子，自己扩展时可以参考
- * </p>
- * <p/>
- * <p>
- * 项目地址 : <a href="https://github.com/abel533/Mapper" target="_blank">https://github.com/abel533/Mapper</a>
- * </p>
- *
+ * 
+ * <b>Title:</b> 根据主键获取一条信息 <br>
+ * <b>Description:</b> 有多个结果则抛出异常<br>
+ * <b>Date:</b> 2017年12月3日 下午3:56:17 <br>
+ * <b>Author:</b> Gysele <br>
+ * <b>Version:</b> 1.0.0
+ * 
  * @param <T>
- *            不能为空
- * @param <V>
- *            不能为空
- * @author liuzh
+ *            表对应实体
+ * @param <B>
+ *            表对应业务逻辑实体
  */
-public interface SelectByPrimaryKeyMapper<T> {
+public interface SelectByPrimaryKeyMapper<T, B> {
 
     /**
-     * 根据主键字段进行查询，方法参数必须包含完整的主键属性，查询条件使用等号
-     *
+     * 
+     * <b>Title:</b> 根据主键获取一条表对应实体信息 <br>
+     * <b>Description:</b> 方法参数必须包含完整的主键属性，查询条件使用等号 <br>
+     * <b>Date:</b> 2017年12月3日 下午3:57:32 <br>
+     * <b>Author:</b> Gysele <br>
+     * <b>Version:</b> 1.0.0
+     * 
      * @param key
-     * @return
+     *            表对应所有主键
+     * @return 表对应实体
      */
     @SelectProvider(type = BaseSelectProvider.class, method = "dynamicSQL")
     T selectByPrimaryKey(Object key);
 
     /**
      * 
-     * <b>Title:</b> 根据ID查询信息 <br>
-     * <b>Description:</b> 只适用于主键名为“id”的表实体 <br>
-     * <b>Date:</b> 2017年11月8日 下午2:09:12 <br>
-     * @author wuxm
+     * <b>Title:</b> 根据主键获取一条表对应业务逻辑实体信息 <br>
+     * <b>Description:</b> 方法参数必须包含完整的主键属性，查询条件使用等号 <br>
+     * <b>Date:</b> 2017年12月3日 下午4:17:24 <br>
+     * <b>Author:</b> Gysele <br>
+     * <b>Version:</b> 1.0.0
      * 
-     * @param id
-     * @return
+     * @param key
+     *            表对应所有主键
+     * @return 表对应业务逻辑实体信息
      */
     @SelectProvider(type = BaseSelectProvider.class, method = "dynamicSQL")
-    T selectById(String id);
-
-    /**
-     * 
-     * <b>Title:</b> 根据ID查询信息 <br>
-     * <b>Description:</b> 只适用于主键名为“id”的表实体 <br>
-     * <b>Date:</b> 2017年11月8日 下午2:09:12 <br>
-     * @author wuxm
-     * 
-     * @param id
-     * @return
-     */
-//    @SelectProvider(type = BaseSelectProvider.class, method = "dynamicSQL")
-//    V selectVById(String id);
+    B selectBOByPrimaryKey(Object key);
 }

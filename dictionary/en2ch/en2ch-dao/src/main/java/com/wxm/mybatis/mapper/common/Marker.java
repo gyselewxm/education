@@ -24,12 +24,12 @@
 package com.wxm.mybatis.mapper.common;
 
 /**
- * <b>Title:</b> 标记接口<br>
- * <b>Description:</b> 继承该接口的接口，在MapperScannerConfigurer#setMarkerInterface时，会自动注册到通用Mapper<br>
- * <b>Date:</b> 2017年11月9日 下午5:55:14
  * 
- * @author wuxm
- * @version 1.0.0
+ * <b>Title:</b> 标记接口 <br>
+ * <b>Description:</b> 继承该接口的接口，在MapperScannerConfigurer#setMarkerInterface时，会自动注册到通用Mapper <br>
+ * <b>Date:</b> 2017年12月3日 下午3:35:12 <br>
+ * <b>Author:</b> Gysele <br>
+ * <b>Version:</b> 1.0.0
  */
 public interface Marker {
 

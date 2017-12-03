@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 
 import com.alibaba.fastjson.JSON;
 import com.wxm.education.dictionary.en2ch.base.junit.JunitBase;
+import com.wxm.education.dictionary.en2ch.pojo.example.bo.ExIsnullDefaultBO;
 import com.wxm.education.dictionary.en2ch.pojo.example.entity.ExIsnullDefault;
 import com.wxm.education.dictionary.en2ch.pojo.example.query.ExIsnullDefaultQuery;
 import com.wxm.mybatis.mapper.util.UUIDUtil;
@@ -27,9 +28,31 @@ public class ExIsnullDefaultMapperTest extends JunitBase {
     }
 
     @Test
+    public void testSelectByPrimaryKey() {
+        ExIsnullDefault bean = mapper.selectByPrimaryKey("80ef9076-cec4-11e7-a4bd-4ccc6a80f9ee");
+        logger.debug("查询结果" + JSON.toJSONString(bean));
+    }
+
+    @Test
+    public void testSelectBOByPrimaryKey() {
+        ExIsnullDefaultBO beanBo = mapper.selectBOByPrimaryKey("80ef9076-cec4-11e7-a4bd-4ccc6a80f9ee");
+        logger.debug("查询结果" + JSON.toJSONString(beanBo));
+    }
+
+    @Test
     public void testSelectOne() {
-        int count = mapper.selectCount(new ExIsnullDefaultQuery("3317873c-cb3c-11e7-9b0c-3464a90a9e49"));
-        logger.debug("查询总数:" + count);
+        ExIsnullDefaultQuery query = new ExIsnullDefaultQuery();
+        query.setLike_varcharNotnullDefault("变长字符串_非空_默认");
+        ExIsnullDefault bean = mapper.selectOne(query);
+        logger.debug("查询结果:" + JSON.toJSONString(bean));
+    }
+
+    @Test
+    public void testSelectBOOne() {
+        ExIsnullDefaultQuery query = new ExIsnullDefaultQuery();
+        query.setLike_varcharNotnullDefault("变长字符串_非空_默认");
+        ExIsnullDefaultBO beanBo = mapper.selectBOOne(query);
+        logger.debug("查询结果:" + JSON.toJSONString(beanBo));
     }
 
     @Test
@@ -48,31 +71,16 @@ public class ExIsnullDefaultMapperTest extends JunitBase {
         query.setLike_varcharNotnullDefault("Not");
         int count = mapper.selectCount(query);
         logger.debug("全查询总数:" + count);
-        
+
         query = new ExIsnullDefaultQuery();
         query.setLikeL_varcharNotnullDefault("fault");
         count = mapper.selectCount(query);
         logger.debug("左查询总数:" + count);
-        
+
         query = new ExIsnullDefaultQuery();
         query.setLikeR_varcharNotnullDefault("var");
         count = mapper.selectCount(query);
         logger.debug("右查询总数:" + count);
-    }
-
-    @Test
-    public void testSelectByPrimaryKey() {
-        fail("Not yet implemented");
-    }
-
-    @Test
-    public void testSelectById() {
-        fail("Not yet implemented");
-    }
-
-    @Test
-    public void testExistsWithPrimaryKey() {
-        fail("Not yet implemented");
     }
 
     @Test
@@ -197,7 +205,7 @@ public class ExIsnullDefaultMapperTest extends JunitBase {
     }
 
     @Test
-    public void testQueryOne(){
+    public void testQueryOne() {
         ExIsnullDefault bean = mapper.queryOne("38b11c38-cb40-11e7-9b0c-3464a90a9e49");
         logger.error(String.format("%s\n%s", "查询成功", JSON.toJSONString(bean)));
     }

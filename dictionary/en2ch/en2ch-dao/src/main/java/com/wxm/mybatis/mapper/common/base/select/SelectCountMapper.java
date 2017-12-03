@@ -45,11 +45,12 @@ public interface SelectCountMapper<Q> {
      * 
      * <b>Title:</b> 根据查询条件获取信息总数 <br>
      * <b>Description:</b> <br>
-     * <b>Date:</b> 2017年11月27日 下午5:31:12 <br>
+     * <b>Date:</b> 2017年12月3日 下午10:31:55 <br>
+     * <b>Author:</b> Gysele <br>
+     * <b>Version:</b> 1.0.0
      * 
-     * @author wuxm
-     * @version 1.0.0
-     * @param query 表对应查询条件实体
+     * @param query
+     *            表对应查询条件实体
      * @return
      */
     @SelectProvider(type = BaseSelectProvider.class, method = "dynamicSQL")

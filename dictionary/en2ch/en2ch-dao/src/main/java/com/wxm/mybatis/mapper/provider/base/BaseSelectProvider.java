@@ -42,18 +42,90 @@ public class BaseSelectProvider extends MapperTemplate {
     }
 
     /**
-     * 查询
-     *
+     * 
+     * <b>Title:</b> 根据主键获取一条表对应实体信息 <br>
+     * <b>Description:</b> <br>
+     * <b>Date:</b> 2017年12月3日 下午4:07:21 <br>
+     * <b>Author:</b> Gysele <br>
+     * <b>Version:</b> 1.0.0
+     * 
+     * @param ms
+     * @return
+     */
+    public String selectByPrimaryKey(MappedStatement ms) {
+        Class<?> entityClass = getEntityClass(ms);
+        // 将返回值修改为表对应实体类型
+        setResultType(ms, entityClass);
+        StringBuilder sql = new StringBuilder();
+        sql.append(SqlHelper.selectAllColumns(entityClass));
+        sql.append(SqlHelper.fromTable(entityClass, tableName(entityClass)));
+        sql.append(SqlHelper.wherePKColumns(entityClass));
+        return sql.toString();
+    }
+
+    /**
+     * 
+     * <b>Title:</b> 根据主键获取一条表对应业务逻辑实体信息 <br>
+     * <b>Description:</b> <br>
+     * <b>Date:</b> 2017年12月3日 下午4:18:31 <br>
+     * <b>Author:</b> Gysele <br>
+     * <b>Version:</b> 1.0.0
+     * 
+     * @param ms
+     * @return
+     */
+    public String selectBOByPrimaryKey(MappedStatement ms) {
+        final Class<?> entityClass = getEntityClass(ms);
+        // 将返回值修改为表对应业务逻辑实体类型
+        setBOResultType(ms, entityClass);
+        StringBuilder sql = new StringBuilder();
+        sql.append(SqlHelper.selectAllBOColumns(entityClass));
+        sql.append(SqlHelper.fromTable(entityClass, tableName(entityClass)));
+        sql.append(SqlHelper.wherePKColumns(entityClass));
+        return sql.toString();
+    }
+
+    /**
+     * 
+     * <b>Title:</b> 根据查询条件获取一条表对应实体信息 <br>
+     * <b>Description:</b> 返回表对应实体信息 <br>
+     * <b>Date:</b> 2017年12月3日 下午12:38:40
+     * 
+     * @author wuxm
+     * @version 1.0.0
      * @param ms
      * @return
      */
     public String selectOne(MappedStatement ms) {
         Class<?> entityClass = getEntityClass(ms);
         Class<?> queryClass = getQueryClass(ms);
-        // 修改返回值类型为实体类型
+        // 修改返回值类型为表对应实体类型
         setResultType(ms, entityClass);
         StringBuilder sql = new StringBuilder();
         sql.append(SqlHelper.selectAllColumns(entityClass));
+        sql.append(SqlHelper.fromTable(entityClass, tableName(entityClass)));
+        sql.append(SqlHelper.whereAllQueryIfColumns(entityClass, queryClass, isNotEmpty()));
+        return sql.toString();
+    }
+
+    /**
+     * 
+     * <b>Title:</b> 根据查询条件获取一条表对应业务逻辑实体信息 <br>
+     * <b>Description:</b> 返回表对应业务逻辑实体信息 <br>
+     * <b>Date:</b> 2017年12月3日 下午12:47:53
+     * 
+     * @author wuxm
+     * @version 1.0.0
+     * @param ms
+     * @return
+     */
+    public String selectBOOne(MappedStatement ms) {
+        Class<?> entityClass = getEntityClass(ms);
+        Class<?> queryClass = getQueryClass(ms);
+        // 修改返回值类型为表对应业务逻辑实体类型
+        setBOResultType(ms, entityClass);
+        StringBuilder sql = new StringBuilder();
+        sql.append(SqlHelper.selectAllBOColumns(entityClass));
         sql.append(SqlHelper.fromTable(entityClass, tableName(entityClass)));
         sql.append(SqlHelper.whereAllQueryIfColumns(entityClass, queryClass, isNotEmpty()));
         return sql.toString();
@@ -68,7 +140,7 @@ public class BaseSelectProvider extends MapperTemplate {
     public String select(MappedStatement ms) {
         Class<?> entityClass = getEntityClass(ms);
         Class<?> queryClass = getQueryClass(ms);
-        // 修改返回值类型为实体类型
+        // 修改返回值类型为表对应实体类型
         setResultType(ms, entityClass);
         StringBuilder sql = new StringBuilder();
         sql.append(SqlHelper.selectAllColumns(entityClass));
@@ -89,59 +161,12 @@ public class BaseSelectProvider extends MapperTemplate {
     }
 
     /**
-     * 根据主键进行查询
-     *
-     * @param ms
-     */
-    public String selectByPrimaryKey(MappedStatement ms) {
-        final Class<?> entityClass = getEntityClass(ms);
-        // 将返回值修改为实体类型
-        setResultType(ms, entityClass);
-        StringBuilder sql = new StringBuilder();
-        sql.append(SqlHelper.selectAllColumns(entityClass));
-        sql.append(SqlHelper.fromTable(entityClass, tableName(entityClass)));
-        sql.append(SqlHelper.wherePKColumns(entityClass));
-        return sql.toString();
-    }
-
-    /**
-     * 根据主键进行查询
-     *
-     * @param ms
-     */
-    public String selectById(MappedStatement ms) {
-        final Class<?> entityClass = getEntityClass(ms);
-        // 将返回值修改为实体类型
-        setResultType(ms, entityClass);
-        StringBuilder sql = new StringBuilder();
-        sql.append(SqlHelper.selectAllColumns(entityClass));
-        sql.append(SqlHelper.fromTable(entityClass, tableName(entityClass)));
-        sql.append(SqlHelper.wherePKColumns(entityClass));
-        return sql.toString();
-    }
-
-    /**
-     * 根据主键进行查询
-     *
-     * @param ms
-     */
-    public String selectVById(MappedStatement ms) {
-        final Class<?> entityClass = getEntityClass(ms);
-        // 将返回值修改为实体类型
-        setResultType(ms, entityClass);
-        StringBuilder sql = new StringBuilder();
-        sql.append(SqlHelper.selectAllColumns(entityClass));
-        sql.append(SqlHelper.fromTable(entityClass, tableName(entityClass)));
-        sql.append(SqlHelper.wherePKColumns(entityClass));
-        return sql.toString();
-    }
-
-    /**
      * 
      * <b>Title:</b> 根据查询条件获取信息总数 <br>
      * <b>Description:</b> <br>
-     * <b>Date:</b> 2017年11月28日 下午1:57:39 <br>
-     * <b>Author:</b> Gysele
+     * <b>Date:</b> 2017年12月3日 下午4:09:13 <br>
+     * <b>Author:</b> Gysele <br>
+     * <b>Version:</b> 1.0.0
      * 
      * @param ms
      * @return
@@ -157,21 +182,6 @@ public class BaseSelectProvider extends MapperTemplate {
     }
 
     /**
-     * 根据主键查询总数
-     *
-     * @param ms
-     * @return
-     */
-    public String existsWithPrimaryKey(MappedStatement ms) {
-        Class<?> entityClass = getEntityClass(ms);
-        StringBuilder sql = new StringBuilder();
-        sql.append(SqlHelper.selectCountExists(entityClass));
-        sql.append(SqlHelper.fromTable(entityClass, tableName(entityClass)));
-        sql.append(SqlHelper.wherePKColumns(entityClass));
-        return sql.toString();
-    }
-
-    /**
      * 查询全部结果
      *
      * @param ms
@@ -179,7 +189,7 @@ public class BaseSelectProvider extends MapperTemplate {
      */
     public String selectAll(MappedStatement ms) {
         final Class<?> entityClass = getEntityClass(ms);
-        // 修改返回值类型为实体类型
+        // 修改返回值类型为表对应实体类型
         setResultType(ms, entityClass);
         StringBuilder sql = new StringBuilder();
         sql.append(SqlHelper.selectAllColumns(entityClass));
