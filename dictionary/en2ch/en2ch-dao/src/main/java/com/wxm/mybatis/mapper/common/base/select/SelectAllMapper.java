@@ -31,15 +31,43 @@ import com.wxm.mybatis.mapper.provider.base.BaseSelectProvider;
 import java.util.List;
 
 /**
- * @author liuzh
+ * 
+ * <b>Title:</b> 获取全部信息 <br>
+ * <b>Description:</b> <br>
+ * <b>Date:</b> 2017年12月4日 上午9:24:54 <br>
+ * <b>Author:</b> Gysele <br>
+ * <b>Version:</b> 1.0.0
+ * 
+ * @param <T>
+ *            表对应实体
+ * @param <B>
+ *            表对应业务逻辑实体
  */
-public interface SelectAllMapper<T> {
+public interface SelectAllMapper<T, B> {
 
     /**
-     * 查询全部结果
-     *
+     * 
+     * <b>Title:</b> 获取全部表对应实体信息 <br>
+     * <b>Description:</b> <br>
+     * <b>Date:</b> 2017年12月4日 上午9:25:14 <br>
+     * <b>Author:</b> Gysele <br>
+     * <b>Version:</b> 1.0.0
+     * 
      * @return
      */
     @SelectProvider(type = BaseSelectProvider.class, method = "dynamicSQL")
     List<T> selectAll();
+
+    /**
+     * 
+     * <b>Title:</b> 获取全部表对应业务逻辑实体信息 <br>
+     * <b>Description:</b> <br>
+     * <b>Date:</b> 2017年12月4日 上午9:25:58 <br>
+     * <b>Author:</b> Gysele <br>
+     * <b>Version:</b> 1.0.0
+     * 
+     * @return
+     */
+    @SelectProvider(type = BaseSelectProvider.class, method = "dynamicSQL")
+    List<B> selectAllBO();
 }

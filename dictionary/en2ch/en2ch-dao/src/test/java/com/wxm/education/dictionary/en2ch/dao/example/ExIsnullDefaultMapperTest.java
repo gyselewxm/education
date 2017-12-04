@@ -62,7 +62,14 @@ public class ExIsnullDefaultMapperTest extends JunitBase {
 
     @Test
     public void testSelectAll() {
-        fail("Not yet implemented");
+        List<ExIsnullDefault> list = mapper.selectAll();
+        logger.debug("查询结果：" + JSON.toJSONString(list));
+    }
+
+    @Test
+    public void testSelectAllBO() {
+        List<ExIsnullDefaultBO> list = mapper.selectAllBO();
+        logger.debug("查询结果：" + JSON.toJSONString(list));
     }
 
     @Test

@@ -36,7 +36,7 @@ import java.util.List;
  * @param <T> 不能为空
  * @author liuzh
  */
-public interface SelectMapper<T> {
+public interface SelectMapper<T, B> {
 
     /**
      * 根据实体中的属性值进行查询，查询条件使用等号

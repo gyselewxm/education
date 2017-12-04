@@ -13,7 +13,6 @@ import com.wxm.mybatis.mapper.common.Mapper;
  * <b>Author:</b> Gysele <br>
  * <b>Version:</b> 1.0.0
  */
-public interface SimplePksMapper extends
-        Mapper<SimplePks, SimplePksBO, SimplePksQuery> {
+public interface SimplePksMapper extends Mapper<SimplePks, SimplePksBO, SimplePksQuery> {
 
 }

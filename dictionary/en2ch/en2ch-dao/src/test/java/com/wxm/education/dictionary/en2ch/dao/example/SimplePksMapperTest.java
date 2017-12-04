@@ -60,7 +60,14 @@ public class SimplePksMapperTest extends JunitBase {
 
     @Test
     public void testSelectAll() {
-        fail("Not yet implemented"); // TODO
+        List<SimplePks> list = mapper.selectAll();
+        logger.debug("查询结果：" + JSON.toJSONString(list));
+    }
+
+    @Test
+    public void testSelectAllBO() {
+        List<SimplePksBO> list = mapper.selectAllBO();
+        logger.debug("查询结果：" + JSON.toJSONString(list));
     }
 
     @Test
@@ -100,7 +107,7 @@ public class SimplePksMapperTest extends JunitBase {
     public void testSelectBOByPrimaryKey() {
         SimplePksQuery query = new SimplePksQuery();
         query.setId("a0d695a0-9ead-4538-bf5f-d07e304f4f40");
-        //query.setVarcharId("4f0ae111-7e2a-4d0b-80f0-3d01709e0930");
+        // query.setVarcharId("4f0ae111-7e2a-4d0b-80f0-3d01709e0930");
         query.setIntegerId(882);
         SimplePksBO beanBo = mapper.selectBOByPrimaryKey(query);
         logger.debug("查询结果：" + JSON.toJSONString(beanBo));

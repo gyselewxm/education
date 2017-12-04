@@ -11,7 +11,9 @@ import org.slf4j.LoggerFactory;
 
 import com.alibaba.fastjson.JSON;
 import com.wxm.education.dictionary.en2ch.base.junit.JunitBase;
+import com.wxm.education.dictionary.en2ch.pojo.example.bo.SimplePkCharBO;
 import com.wxm.education.dictionary.en2ch.pojo.example.entity.SimplePkChar;
+import com.wxm.education.dictionary.en2ch.pojo.example.query.SimplePkCharQuery;
 import com.wxm.mybatis.mapper.util.UUIDUtil;
 
 public class SimplePkCharMapperTest extends JunitBase {
@@ -26,7 +28,18 @@ public class SimplePkCharMapperTest extends JunitBase {
 
     @Test
     public void testSelectOne() {
-        fail("Not yet implemented");
+        SimplePkCharQuery query = new SimplePkCharQuery();
+        query.setId("34f1788e-29fe-486b-b052-175dbf9eba1d");
+        SimplePkChar bean = mapper.selectByPrimaryKey(query);
+        logger.debug("查询结果：" + JSON.toJSONString(bean));
+    }
+
+    @Test
+    public void testSelectBOOne() {
+        SimplePkCharQuery query = new SimplePkCharQuery();
+        query.setId("34f1788e-29fe-486b-b052-175dbf9eba1d");
+        SimplePkCharBO bean = mapper.selectBOByPrimaryKey(query);
+        logger.debug("查询结果：" + JSON.toJSONString(bean));
     }
 
     @Test
@@ -36,27 +49,53 @@ public class SimplePkCharMapperTest extends JunitBase {
 
     @Test
     public void testSelectAll() {
-        fail("Not yet implemented");
+        List<SimplePkChar> list = mapper.selectAll();
+        logger.debug("查询结果：" + JSON.toJSONString(list));
+    }
+
+    @Test
+    public void testSelectAllBO() {
+        List<SimplePkCharBO> list = mapper.selectAllBO();
+        logger.debug("查询结果：" + JSON.toJSONString(list));
     }
 
     @Test
     public void testSelectCount() {
-        fail("Not yet implemented");
+        SimplePkCharQuery query = new SimplePkCharQuery();
+        query.setRemark("dddsf");
+        int count = mapper.selectCount(query);
+        logger.debug("相等查询结果：" + count);
+
+        query = new SimplePkCharQuery();
+        query.setLike_remark("dd");
+        count = mapper.selectCount(query);
+        logger.debug("全模糊查询结果：" + count);
+
+        query = new SimplePkCharQuery();
+        query.setLikeL_remark("ad");
+        count = mapper.selectCount(query);
+        logger.debug("左模糊查询结果：" + count);
+
+        query = new SimplePkCharQuery();
+        query.setLikeR_remark("dd");
+        count = mapper.selectCount(query);
+        logger.debug("右模糊查询结果：" + count);
     }
 
     @Test
     public void testSelectByPrimaryKey() {
-        fail("Not yet implemented");
+        SimplePkCharQuery query = new SimplePkCharQuery();
+        query.setId("34f1788e-29fe-486b-b052-175dbf9eba1d");
+        SimplePkChar bean = mapper.selectByPrimaryKey(query);
+        logger.debug("查询结果：" + JSON.toJSONString(bean));
     }
 
     @Test
-    public void testSelectById() {
-        fail("Not yet implemented");
-    }
-
-    @Test
-    public void testExistsWithPrimaryKey() {
-        fail("Not yet implemented");
+    public void testSelectBOByPrimaryKey() {
+        SimplePkCharQuery query = new SimplePkCharQuery();
+        query.setId("34f1788e-29fe-486b-b052-175dbf9eba1d");
+        SimplePkCharBO beanBo = mapper.selectBOByPrimaryKey(query);
+        logger.debug("查询结果：" + JSON.toJSONString(beanBo));
     }
 
     @Test

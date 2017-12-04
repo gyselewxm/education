@@ -185,8 +185,13 @@ public class BaseSelectProvider extends MapperTemplate {
     }
 
     /**
-     * 查询全部结果
-     *
+     * 
+     * <b>Title:</b> 获取全部表对应实体信息 <br>
+     * <b>Description:</b> <br>
+     * <b>Date:</b> 2017年12月4日 上午9:29:26 <br>
+     * <b>Author:</b> Gysele <br>
+     * <b>Version:</b> 1.0.0
+     * 
      * @param ms
      * @return
      */
@@ -196,6 +201,28 @@ public class BaseSelectProvider extends MapperTemplate {
         setResultType(ms, entityClass);
         StringBuilder sql = new StringBuilder();
         sql.append(SqlHelper.selectAllColumns(entityClass));
+        sql.append(SqlHelper.fromTable(entityClass, tableName(entityClass)));
+        sql.append(SqlHelper.orderByDefault(entityClass));
+        return sql.toString();
+    }
+
+    /**
+     * 
+     * <b>Title:</b> 获取全部表对应业务逻辑实体信息 <br>
+     * <b>Description:</b> <br>
+     * <b>Date:</b> 2017年12月4日 上午9:29:59 <br>
+     * <b>Author:</b> Gysele <br>
+     * <b>Version:</b> 1.0.0
+     * 
+     * @param ms
+     * @return
+     */
+    public String selectAllBO(MappedStatement ms) {
+        final Class<?> entityClass = getEntityClass(ms);
+        // 修改返回值类型为表对应实体类型
+        setBOResultType(ms, entityClass);
+        StringBuilder sql = new StringBuilder();
+        sql.append(SqlHelper.selectAllBOColumns(entityClass));
         sql.append(SqlHelper.fromTable(entityClass, tableName(entityClass)));
         sql.append(SqlHelper.orderByDefault(entityClass));
         return sql.toString();
