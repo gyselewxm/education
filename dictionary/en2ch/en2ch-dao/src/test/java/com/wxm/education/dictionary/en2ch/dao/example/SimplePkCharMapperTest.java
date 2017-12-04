@@ -44,7 +44,18 @@ public class SimplePkCharMapperTest extends JunitBase {
 
     @Test
     public void testSelect() {
-        fail("Not yet implemented");
+        SimplePkCharQuery query = new SimplePkCharQuery();
+        query.setLike_remark("dd");
+        List<SimplePkChar> list = mapper.select(query);
+        logger.debug("查询结果：" + JSON.toJSONString(list));
+    }
+
+    @Test
+    public void testSelectBO() {
+        SimplePkCharQuery query = new SimplePkCharQuery();
+        query.setLike_remark("dd");
+        List<SimplePkCharBO> list = mapper.selectBO(query);
+        logger.debug("查询结果：" + JSON.toJSONString(list));
     }
 
     @Test
@@ -101,6 +112,7 @@ public class SimplePkCharMapperTest extends JunitBase {
     @Test
     public void testInsert() {
         SimplePkChar bean = new SimplePkChar();
+        bean.setId("34f1788e-29fe-486b-b052-175dbf9eba1d");
         mapper.insert(bean);
         logger.debug(JSON.toJSONString(bean));
     }
@@ -114,12 +126,19 @@ public class SimplePkCharMapperTest extends JunitBase {
 
     @Test
     public void testUpdateByPrimaryKey() {
-        fail("Not yet implemented");
+        SimplePkChar bean = new SimplePkChar();
+        bean.setId("34f1788e-29fe-486b-b052-175dbf9eba1d");
+        mapper.updateByPrimaryKey(bean);
+        logger.debug(JSON.toJSONString(bean));
     }
 
     @Test
     public void testUpdateByPrimaryKeySelective() {
-        fail("Not yet implemented");
+        SimplePkChar bean = new SimplePkChar();
+        bean.setId("34f1788e-29fe-486b-b052-175dbf9eba1d");
+        bean.setRemark("Update");
+        mapper.updateByPrimaryKey(bean);
+        logger.debug(JSON.toJSONString(bean));
     }
 
     @Test

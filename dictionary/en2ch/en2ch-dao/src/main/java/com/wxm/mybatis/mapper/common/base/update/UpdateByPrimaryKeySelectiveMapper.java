@@ -30,21 +30,32 @@ import org.apache.ibatis.annotations.UpdateProvider;
 import com.wxm.mybatis.mapper.provider.base.BaseUpdateProvider;
 
 /**
- * 通用Mapper接口,更新
- *
- * @param <T> 不能为空
- * @author liuzh
+ * 
+ * <b>Title:</b> 根据主键更新属性不为null的值 <br>
+ * <b>Description:</b> <br>
+ * <b>Date:</b> 2017年12月4日 下午7:21:04 <br>
+ * <b>Author:</b> Gysele <br>
+ * <b>Version:</b> 1.0.0
+ * 
+ * @param <T>
+ *            表对应实体
  */
 public interface UpdateByPrimaryKeySelectiveMapper<T> {
 
     /**
-     * 根据主键更新属性不为null的值
-     *
-     * @param record
+     * 
+     * <b>Title:</b> 根据主键更新属性不为null的值 <br>
+     * <b>Description:</b> <br>
+     * <b>Date:</b> 2017年12月4日 下午7:20:40 <br>
+     * <b>Author:</b> Gysele <br>
+     * <b>Version:</b> 1.0.0
+     * 
+     * @param bean
+     *            表对应实体
      * @return
      */
     @UpdateProvider(type = BaseUpdateProvider.class, method = "dynamicSQL")
     @Options(useCache = false, useGeneratedKeys = false)
-    int updateByPrimaryKeySelective(T record);
+    int updateByPrimaryKeySelective(T bean);
 
 }

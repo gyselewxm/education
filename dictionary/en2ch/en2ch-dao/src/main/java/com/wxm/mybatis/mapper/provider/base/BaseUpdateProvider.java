@@ -31,9 +31,12 @@ import com.wxm.mybatis.mapper.mapperhelper.MapperTemplate;
 import com.wxm.mybatis.mapper.mapperhelper.SqlHelper;
 
 /**
- * BaseUpdateProvider实现类，基础方法实现类
- *
- * @author liuzh
+ * 
+ * <b>Title:</b> 通用基础更新接口实现类 <br>
+ * <b>Description:</b> <br>
+ * <b>Date:</b> 2017年12月4日 下午7:16:26 <br>
+ * <b>Author:</b> Gysele <br>
+ * <b>Version:</b> 1.0.0
  */
 public class BaseUpdateProvider extends MapperTemplate {
 
@@ -42,9 +45,15 @@ public class BaseUpdateProvider extends MapperTemplate {
     }
 
     /**
-     * 通过主键更新全部字段
-     *
+     * 
+     * <b>Title:</b> 根据主键更新实体全部字段，null值会被更新 <br>
+     * <b>Description:</b> <br>
+     * <b>Date:</b> 2017年12月4日 下午7:16:07 <br>
+     * <b>Author:</b> Gysele <br>
+     * <b>Version:</b> 1.0.0
+     * 
      * @param ms
+     * @return
      */
     public String updateByPrimaryKey(MappedStatement ms) {
         Class<?> entityClass = getEntityClass(ms);
@@ -56,8 +65,13 @@ public class BaseUpdateProvider extends MapperTemplate {
     }
 
     /**
-     * 通过主键更新不为null的字段
-     *
+     * 
+     * <b>Title:</b> 根据主键更新属性不为null的值 <br>
+     * <b>Description:</b> <br>
+     * <b>Date:</b> 2017年12月4日 下午7:21:27 <br>
+     * <b>Author:</b> Gysele <br>
+     * <b>Version:</b> 1.0.0
+     * 
      * @param ms
      * @return
      */

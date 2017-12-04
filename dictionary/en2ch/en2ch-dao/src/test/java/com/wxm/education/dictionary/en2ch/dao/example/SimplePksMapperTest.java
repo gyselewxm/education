@@ -16,13 +16,6 @@ import com.wxm.education.dictionary.en2ch.pojo.example.entity.SimplePks;
 import com.wxm.education.dictionary.en2ch.pojo.example.query.SimplePksQuery;
 import com.wxm.mybatis.mapper.util.UUIDUtil;
 
-/**
- * <b>Title:</b> 简单示例-多个主键 <br>
- * <b>Description:</b> <br>
- * <b>Date:</b> 2017年12月3日 下午9:07:39 <br>
- * <b>Author:</b> Gysele <br>
- * <b>Version:</b> 1.0.0
- */
 public class SimplePksMapperTest extends JunitBase {
     private Logger logger = LoggerFactory.getLogger(this.getClass());
     private SimplePksMapper mapper;
@@ -55,7 +48,18 @@ public class SimplePksMapperTest extends JunitBase {
 
     @Test
     public void testSelect() {
-        fail("Not yet implemented"); // TODO
+        SimplePksQuery query = new SimplePksQuery();
+        query.setLike_remark("dd");
+        List<SimplePks> list = mapper.select(query);
+        logger.debug("查询结果：" + JSON.toJSONString(list));
+    }
+
+    @Test
+    public void testSelectBO() {
+        SimplePksQuery query = new SimplePksQuery();
+        query.setLike_remark("dd");
+        List<SimplePksBO> list = mapper.selectBO(query);
+        logger.debug("查询结果：" + JSON.toJSONString(list));
     }
 
     @Test
@@ -133,12 +137,23 @@ public class SimplePksMapperTest extends JunitBase {
 
     @Test
     public void testUpdateByPrimaryKey() {
-        fail("Not yet implemented"); // TODO
+        SimplePks bean = new SimplePks();
+        bean.setId("a0d695a0-9ead-4538-bf5f-d07e304f4f40");
+        bean.setVarcharId("4f0ae111-7e2a-4d0b-80f0-3d01709e0930");
+        bean.setIntegerId(882);
+        mapper.updateByPrimaryKey(bean);
+        logger.debug(JSON.toJSONString(bean));
     }
 
     @Test
     public void testUpdateByPrimaryKeySelective() {
-        fail("Not yet implemented"); // TODO
+        SimplePks bean = new SimplePks();
+        bean.setId("a0d695a0-9ead-4538-bf5f-d07e304f4f40");
+        bean.setVarcharId("4f0ae111-7e2a-4d0b-80f0-3d01709e0930");
+        bean.setIntegerId(882);
+        bean.setRemark("Update");
+        mapper.updateByPrimaryKeySelective(bean);
+        logger.debug(JSON.toJSONString(bean));
     }
 
     @Test

@@ -57,7 +57,18 @@ public class ExIsnullDefaultMapperTest extends JunitBase {
 
     @Test
     public void testSelect() {
-        fail("Not yet implemented");
+        ExIsnullDefaultQuery query = new ExIsnullDefaultQuery();
+        query.setLike_varcharNotnullDefault("Notn");
+        List<ExIsnullDefault> list = mapper.select(query);
+        logger.debug("查询结果：" + JSON.toJSONString(list));
+    }
+
+    @Test
+    public void testSelectBO() {
+        ExIsnullDefaultQuery query = new ExIsnullDefaultQuery();
+        query.setLike_varcharNotnullDefault("Notn");
+        List<ExIsnullDefaultBO> list = mapper.selectBO(query);
+        logger.debug("查询结果：" + JSON.toJSONString(list));
     }
 
     @Test
@@ -94,6 +105,7 @@ public class ExIsnullDefaultMapperTest extends JunitBase {
     public void testInsert() {
         ExIsnullDefault bean = new ExIsnullDefault();
         try {
+            // bean.setId("80ef9076-cec4-11e7-a4bd-4ccc6a80f9ee");
             bean.setVarcharNotnull("varcharNotnull"); // 变长字符串_非空
             // bean.setVarcharCannull("varcharCannull"); // 变长字符串_可空
             // bean.setVarcharCannullDefault("varcharCannullDefault"); // 变长字符串_可空_默认
@@ -161,12 +173,28 @@ public class ExIsnullDefaultMapperTest extends JunitBase {
 
     @Test
     public void testUpdateByPrimaryKey() {
-        fail("Not yet implemented");
+        ExIsnullDefault bean = new ExIsnullDefault();
+        bean.setId("80ef9076-cec4-11e7-a4bd-4ccc6a80f9ee");
+        bean.setVarcharNotnull("varcharNotnull"); // 变长字符串_非空
+        bean.setCharNotnull("charNotnull"); // 定长字符串_非空
+        // bean.setVarcharNotinsertCannull("varcharNotinsertCannull"); // 变长字符串_非插入_可空
+        bean.setVarcharNotinsertCannullDefault("varcharNotinsertCannullDefault"); // 变长字符串_非插入_可空_默认
+        bean.setVarcharNotinsertNotnull("varcharNotinsertNotnull");
+        // 该值取代数据库默认值
+        bean.setVarcharNotnullDefault("varcharNotnullDefault"); // 变长字符串_非空_默认
+        // 该值取代数据库默认值
+        bean.setCharNotnullDefault("charNotnullDefault"); // 定长字符串_非空_默认
+        // 该值不会存入数据库，需将该字段上的insertable设为true才可存入数据库
+        bean.setVarcharNotinsertNotnullDefault("varcharNotinsertNotnullDefault");
+        mapper.updateByPrimaryKey(bean);
     }
 
     @Test
     public void testUpdateByPrimaryKeySelective() {
-        fail("Not yet implemented");
+        ExIsnullDefault bean = new ExIsnullDefault();
+        bean.setId("80ef9076-cec4-11e7-a4bd-4ccc6a80f9ee");
+        bean.setVarcharNotnull("Update"); // 变长字符串_非空
+        mapper.updateByPrimaryKeySelective(bean);
     }
 
     @Test

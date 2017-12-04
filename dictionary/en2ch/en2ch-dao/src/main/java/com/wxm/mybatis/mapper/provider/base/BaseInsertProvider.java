@@ -34,9 +34,12 @@ import com.wxm.mybatis.mapper.util.StringUtil;
 import java.util.Set;
 
 /**
- * BaseInsertProvider实现类，基础方法实现类
- *
- * @author liuzh
+ * 
+ * <b>Title:</b> 通用基础保存接口实现类 <br>
+ * <b>Description:</b> <br>
+ * <b>Date:</b> 2017年12月4日 下午7:16:54 <br>
+ * <b>Author:</b> Gysele <br>
+ * <b>Version:</b> 1.0.0
  */
 public class BaseInsertProvider extends MapperTemplate {
 
@@ -87,8 +90,7 @@ public class BaseInsertProvider extends MapperTemplate {
                     if (column.getGenerator() != null && column.getGenerator().equals("JDBC")) {
                         continue;
                     }
-                    throw new MapperException(ms.getId() + "对应的实体类" + entityClass.getCanonicalName()
-                            + "中包含多个MySql的自动增长列,最多只能有一个!");
+                    throw new MapperException(ms.getId() + "对应的实体类" + entityClass.getCanonicalName() + "中包含多个MySql的自动增长列,最多只能有一个!");
                 }
                 // 插入selectKey
                 SelectKeyHelper.newSelectKeyMappedStatement(ms, column, entityClass, isBEFORE(), getIDENTITY(column));
@@ -187,8 +189,7 @@ public class BaseInsertProvider extends MapperTemplate {
                     if (column.getGenerator() != null && column.getGenerator().equals("JDBC")) {
                         continue;
                     }
-                    throw new MapperException(ms.getId() + "对应的实体类" + entityClass.getCanonicalName()
-                            + "中包含多个MySql的自动增长列,最多只能有一个!");
+                    throw new MapperException(ms.getId() + "对应的实体类" + entityClass.getCanonicalName() + "中包含多个MySql的自动增长列,最多只能有一个!");
                 }
                 // 插入selectKey
                 SelectKeyHelper.newSelectKeyMappedStatement(ms, column, entityClass, isBEFORE(), getIDENTITY(column));

@@ -30,21 +30,32 @@ import org.apache.ibatis.annotations.UpdateProvider;
 import com.wxm.mybatis.mapper.provider.base.BaseUpdateProvider;
 
 /**
- * 通用Mapper接口,更新
- *
- * @param <T> 不能为空
- * @author liuzh
+ * 
+ * <b>Title:</b> 根据主键更新实体全部字段，null值会被更新 <br>
+ * <b>Description:</b> <br>
+ * <b>Date:</b> 2017年12月4日 下午7:15:07 <br>
+ * <b>Author:</b> Gysele <br>
+ * <b>Version:</b> 1.0.0
+ * 
+ * @param <T>
+ *            表对应实体
  */
 public interface UpdateByPrimaryKeyMapper<T> {
 
     /**
-     * 根据主键更新实体全部字段，null值会被更新
-     *
-     * @param record
+     * 
+     * <b>Title:</b> 根据主键更新实体全部字段，null值会被更新 <br>
+     * <b>Description:</b> <br>
+     * <b>Date:</b> 2017年12月4日 下午7:14:48 <br>
+     * <b>Author:</b> Gysele <br>
+     * <b>Version:</b> 1.0.0
+     * 
+     * @param bean
+     *            表对应实体
      * @return
      */
     @UpdateProvider(type = BaseUpdateProvider.class, method = "dynamicSQL")
     @Options(useCache = false, useGeneratedKeys = false)
-    int updateByPrimaryKey(T record);
+    int updateByPrimaryKey(T bean);
 
 }
