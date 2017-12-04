@@ -55,7 +55,18 @@ public class SimplePksMapperTest extends JunitBase {
 
     @Test
     public void testSelect() {
-        fail("Not yet implemented"); // TODO
+        SimplePksQuery query = new SimplePksQuery();
+        query.setLike_remark("dd");
+        List<SimplePks> list = mapper.select(query);
+        logger.debug("查询结果：" + JSON.toJSONString(list));
+    }
+
+    @Test
+    public void testSelectBO() {
+        SimplePksQuery query = new SimplePksQuery();
+        query.setLike_remark("dd");
+        List<SimplePksBO> list = mapper.selectBO(query);
+        logger.debug("查询结果：" + JSON.toJSONString(list));
     }
 
     @Test

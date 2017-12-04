@@ -43,7 +43,7 @@ import com.wxm.mybatis.mapper.common.base.select.*;
  */
 public interface BaseSelectMapper<T, B, Q> extends
         SelectOneMapper<T, B, Q>,
-        SelectMapper<T, B>,
+        SelectMapper<T, B, Q>,
         SelectAllMapper<T, B>,
         SelectCountMapper<Q>,
         SelectByPrimaryKeyMapper<T, B> {

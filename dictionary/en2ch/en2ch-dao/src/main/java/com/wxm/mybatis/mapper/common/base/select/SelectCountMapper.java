@@ -32,10 +32,10 @@ import com.wxm.mybatis.mapper.provider.base.BaseSelectProvider;
  * 
  * <b>Title:</b> 根据查询条件获取信息总数 <br>
  * <b>Description:</b> <br>
- * <b>Date:</b> 2017年11月28日 下午1:58:12 <br>
- * <b>Author:</b> Gysele
+ * <b>Date:</b> 2017年12月4日 下午12:11:46 <br>
+ * <b>Author:</b> Gysele <br>
+ * <b>Version:</b> 1.0.0
  * 
- * @version 1.0.0
  * @param <Q>
  *            表对应查询条件实体
  */

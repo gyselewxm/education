@@ -57,7 +57,18 @@ public class ExIsnullDefaultMapperTest extends JunitBase {
 
     @Test
     public void testSelect() {
-        fail("Not yet implemented");
+        ExIsnullDefaultQuery query = new ExIsnullDefaultQuery();
+        query.setLike_varcharNotnullDefault("Notn");
+        List<ExIsnullDefault> list = mapper.select(query);
+        logger.debug("查询结果：" + JSON.toJSONString(list));
+    }
+
+    @Test
+    public void testSelectBO() {
+        ExIsnullDefaultQuery query = new ExIsnullDefaultQuery();
+        query.setLike_varcharNotnullDefault("Notn");
+        List<ExIsnullDefaultBO> list = mapper.selectBO(query);
+        logger.debug("查询结果：" + JSON.toJSONString(list));
     }
 
     @Test

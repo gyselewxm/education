@@ -44,7 +44,18 @@ public class SimplePkCharMapperTest extends JunitBase {
 
     @Test
     public void testSelect() {
-        fail("Not yet implemented");
+        SimplePkCharQuery query = new SimplePkCharQuery();
+        query.setLike_remark("dd");
+        List<SimplePkChar> list = mapper.select(query);
+        logger.debug("查询结果：" + JSON.toJSONString(list));
+    }
+
+    @Test
+    public void testSelectBO() {
+        SimplePkCharQuery query = new SimplePkCharQuery();
+        query.setLike_remark("dd");
+        List<SimplePkCharBO> list = mapper.selectBO(query);
+        logger.debug("查询结果：" + JSON.toJSONString(list));
     }
 
     @Test

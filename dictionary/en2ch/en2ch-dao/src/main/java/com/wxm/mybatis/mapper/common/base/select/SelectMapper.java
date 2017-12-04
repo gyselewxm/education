@@ -31,20 +31,50 @@ import com.wxm.mybatis.mapper.provider.base.BaseSelectProvider;
 import java.util.List;
 
 /**
- * 通用Mapper接口,查询
- *
- * @param <T> 不能为空
- * @author liuzh
+ * 
+ * <b>Title:</b> 根据查询条件获取信息<br>
+ * <b>Description:</b> <br>
+ * <b>Date:</b> 2017年12月4日 下午12:13:34 <br>
+ * <b>Author:</b> Gysele <br>
+ * <b>Version:</b> 1.0.0
+ * 
+ * @param <T>
+ *            表对应实体
+ * @param <B>
+ *            表对应业务逻辑实体
+ * @param <Q>
+ *            表对应查询条件实体
  */
-public interface SelectMapper<T, B> {
+public interface SelectMapper<T, B, Q> {
 
     /**
-     * 根据实体中的属性值进行查询，查询条件使用等号
-     *
-     * @param record
-     * @return
+     * 
+     * <b>Title:</b> 根据查询条件获取表对应实体信息 <br>
+     * <b>Description:</b> <br>
+     * <b>Date:</b> 2017年12月4日 下午12:14:35 <br>
+     * <b>Author:</b> Gysele <br>
+     * <b>Version:</b> 1.0.0
+     * 
+     * @param query
+     *            表对应查询条件实体
+     * @return 表对应实体信息列表
      */
     @SelectProvider(type = BaseSelectProvider.class, method = "dynamicSQL")
-    List<T> select(T record);
+    List<T> select(Q query);
+
+    /**
+     * 
+     * <b>Title:</b> 根据查询条件获表对应业务逻辑实体信息 <br>
+     * <b>Description:</b> <br>
+     * <b>Date:</b> 2017年12月4日 下午12:15:25 <br>
+     * <b>Author:</b> Gysele <br>
+     * <b>Version:</b> 1.0.0
+     * 
+     * @param query
+     *            表对应查询条件实体
+     * @return 表对应业务逻辑实体信息列表
+     */
+    @SelectProvider(type = BaseSelectProvider.class, method = "dynamicSQL")
+    List<B> selectBO(Q query);
 
 }
