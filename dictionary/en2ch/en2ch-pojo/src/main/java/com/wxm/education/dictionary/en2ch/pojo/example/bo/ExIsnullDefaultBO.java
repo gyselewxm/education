@@ -13,7 +13,7 @@ import com.wxm.education.dictionary.en2ch.pojo.example.entity.ExIsnullDefault;
  */
 public class ExIsnullDefaultBO extends ExIsnullDefault {
 
-    @ColumnSql("SELECT COUNT(1) FROM ex_isnull_default")
+    @ColumnSql("SELECT COUNT(1) FROM #TABLE#")
     private String totalCount;
 
     public String getTotalCount() {

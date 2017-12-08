@@ -1,7 +1,7 @@
 package com.wxm.education.dictionary.en2ch.pojo.example.bo;
 
 import com.wxm.base.annotation.ColumnSql;
-import com.wxm.education.dictionary.en2ch.pojo.example.entity.SimplePkChar;
+import com.wxm.education.dictionary.en2ch.pojo.example.entity.ExSimplePkChar;
 
 /**
  * <b>Title:</b> 简单示例-单个主键-定长字符串[业务对象] <br>
@@ -10,9 +10,9 @@ import com.wxm.education.dictionary.en2ch.pojo.example.entity.SimplePkChar;
  * <b>Author:</b> Gysele <br>
  * <b>Version:</b> 1.0.0
  */
-public class SimplePkCharBO extends SimplePkChar {
+public class ExSimplePkCharBO extends ExSimplePkChar {
 
-    @ColumnSql("SELECT COUNT(1) FROM simple_pks")
+    @ColumnSql("SELECT COUNT(1) FROM #TABLE#")
     private String totalCount;
 
     public String getTotalCount() {

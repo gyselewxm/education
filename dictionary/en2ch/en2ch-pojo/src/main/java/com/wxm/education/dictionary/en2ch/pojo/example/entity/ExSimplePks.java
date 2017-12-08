@@ -14,7 +14,7 @@ import com.wxm.base.pojo.dataobject.BaseUUIDDO;
  * @author wuxm
  * @version 1.0.0
  */
-public class SimplePks extends BaseUUIDDO {
+public class ExSimplePks extends BaseUUIDDO {
     /**
      * 变长字符串主键
      */

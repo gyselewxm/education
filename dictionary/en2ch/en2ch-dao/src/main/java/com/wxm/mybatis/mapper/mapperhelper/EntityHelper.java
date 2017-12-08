@@ -476,6 +476,7 @@ public class EntityHelper {
      */
     private static void processBOField(EntityTable entityTable, Style style, EntityField field) {
         EntityColumn entityColumn = new EntityColumn(entityTable);
+        String tableName = entityTable.getName();
         // Column
         String columnName = null;
         if (field.isAnnotationPresent(Column.class)) {
@@ -484,12 +485,12 @@ public class EntityHelper {
             entityColumn.setUpdatable(column.updatable());
             entityColumn.setInsertable(column.insertable());
         }
-        // 表名
+        // 表字段名
         if (StringUtil.isEmpty(columnName)) {
             String fieldName = field.getName();
             if (field.isAnnotationPresent(ColumnSql.class)) {
                 ColumnSql columnSql = field.getAnnotation(ColumnSql.class);
-                entityColumn.setColumnSql(String.format("(%s) AS %s", columnSql.value(), StringUtil.convertByStyle(fieldName, style)));
+                entityColumn.setColumnSql(String.format("(%s) AS %s", columnSql.value(), StringUtil.convertByStyle(fieldName, style)).replace("#TABLE#", tableName));
             } else {
             }
             columnName = StringUtil.convertByStyle(fieldName, style);

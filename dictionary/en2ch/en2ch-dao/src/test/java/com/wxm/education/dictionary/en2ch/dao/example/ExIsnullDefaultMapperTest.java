@@ -42,7 +42,7 @@ public class ExIsnullDefaultMapperTest extends JunitBase {
     @Test
     public void testSelectOne() {
         ExIsnullDefaultQuery query = new ExIsnullDefaultQuery();
-        query.setLike_varcharNotnullDefault("变长字符串_非空_默认");
+        query.setLike_varcharNotnullDefault("EE");
         ExIsnullDefault bean = mapper.selectOne(query);
         logger.debug("查询结果:" + JSON.toJSONString(bean));
     }
@@ -50,7 +50,7 @@ public class ExIsnullDefaultMapperTest extends JunitBase {
     @Test
     public void testSelectBOOne() {
         ExIsnullDefaultQuery query = new ExIsnullDefaultQuery();
-        query.setLike_varcharNotnullDefault("变长字符串_非空_默认");
+        query.setLike_varcharNotnullDefault("EE");
         ExIsnullDefaultBO beanBo = mapper.selectBOOne(query);
         logger.debug("查询结果:" + JSON.toJSONString(beanBo));
     }
