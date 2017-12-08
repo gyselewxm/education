@@ -42,7 +42,7 @@ public class ExIsnullDefaultMapperTest extends JunitBase {
     @Test
     public void testSelectOne() {
         ExIsnullDefaultQuery query = new ExIsnullDefaultQuery();
-        query.setLike_varcharNotnullDefault("变长字符串_非空_默认");
+        query.setLike_varcharNotnullDefault("EE");
         ExIsnullDefault bean = mapper.selectOne(query);
         logger.debug("查询结果:" + JSON.toJSONString(bean));
     }
@@ -50,7 +50,7 @@ public class ExIsnullDefaultMapperTest extends JunitBase {
     @Test
     public void testSelectBOOne() {
         ExIsnullDefaultQuery query = new ExIsnullDefaultQuery();
-        query.setLike_varcharNotnullDefault("变长字符串_非空_默认");
+        query.setLike_varcharNotnullDefault("EE");
         ExIsnullDefaultBO beanBo = mapper.selectBOOne(query);
         logger.debug("查询结果:" + JSON.toJSONString(beanBo));
     }
@@ -195,6 +195,38 @@ public class ExIsnullDefaultMapperTest extends JunitBase {
         bean.setId("80ef9076-cec4-11e7-a4bd-4ccc6a80f9ee");
         bean.setVarcharNotnull("Update"); // 变长字符串_非空
         mapper.updateByPrimaryKeySelective(bean);
+    }
+
+    @Test
+    public void testUpdate() {
+        ExIsnullDefaultQuery query = new ExIsnullDefaultQuery();
+        query.setVarcharNotnull("varcharNotnull"); // 变长字符串_非空
+        query.setCharNotnull("charNotnull"); // 定长字符串_非空
+        // 该值不会存入数据库
+        query.setVarcharNotinsertCannull("varcharNotinsertCannull"); // 变长字符串_非插入_可空
+        // 该值不会存入数据库
+        query.setVarcharNotinsertCannullDefault("varcharNotinsertCannullDefault"); // 变长字符串_非插入_可空_默认
+        // 该值不会存入数据库，需将该字段上的insertable设为true才可测试通过
+        query.setVarcharNotinsertNotnull("varcharNotinsertNotnull");
+        // 该值取代数据库默认值
+        query.setVarcharNotnullDefault("default"); // 变长字符串_非空_默认
+        // 该值取代数据库默认值
+        query.setCharNotnullDefault("charNotnullDefault"); // 定长字符串_非空_默认
+        // 该值不会存入数据库，需将该字段上的insertable设为true才可存入数据库
+        query.setVarcharNotinsertNotnullDefault("varcharNotinsertNotnullDefault");
+        query.setVarcharCannull("Update"); // 变长字符串_可空
+        query.setUpdate_varcharNotnullDefault("default");
+        int count = mapper.update(query);
+        logger.debug("更新总数:" + count);
+    }
+
+    @Test
+    public void testUpdateSelective() {
+        ExIsnullDefaultQuery query = new ExIsnullDefaultQuery();
+        query.setVarcharCannull("Update--"); // 变长字符串_可空
+        query.setUpdate_varcharNotnullDefault("default");
+        int count = mapper.updateSelective(query);
+        logger.debug("更新总数:" + count);
     }
 
     @Test

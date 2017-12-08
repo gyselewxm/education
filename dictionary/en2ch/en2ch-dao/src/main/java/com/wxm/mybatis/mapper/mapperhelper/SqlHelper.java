@@ -612,6 +612,55 @@ public class SqlHelper {
     }
 
     /**
+     * 
+     * <b>Title:</b> 根据非表对应实体字段设置查询条件，会判断是否!=null <br>
+     * <b>Description:</b> <br>
+     * <b>Date:</b> 2017年12月10日 上午11:57:00 <br>
+     * <b>Author:</b> Gysele <br>
+     * <b>Version:</b> 1.0.0
+     * 
+     * @param entityClass
+     *            表对应实体
+     * @param queryClass
+     *            表对应查询条件实体
+     * @param empty
+     *            判断字符串是否!=''
+     * @return
+     */
+    public static String whereAllUpdateIfColumns(Class<?> entityClass, Class<?> queryClass, boolean empty) {
+        StringBuilder sql = new StringBuilder();
+        sql.append("<where>");
+        // 获取全部列
+        Set<EntityColumn> columnList = EntityHelper.getQueryColumns(entityClass);
+        // 是否设置过WHERE条件
+        boolean isWhere = false;
+        // 批量设置查询条件
+        for (EntityColumn column : columnList) {
+            if (null == column.getQueryEnum()) {
+                continue;
+            }
+            if (column.getQueryEnum().getCode() > 0 && column.getQueryEnum().getCode() < 4) {
+                sql.append(getIfNotNull(column, " AND " + column.getColumnLikeHolder(), empty));
+                isWhere = true;
+            } else if (column.getQueryEnum().getCode() == 4) {
+                sql.append(getIfNotNull(column, " AND " + column.getColumnEqualsHolder(), empty));
+                isWhere = true;
+            }
+        }
+
+        // 若没有设置过WHERE条件，则设置主键为条件
+        if (!isWhere) {
+            columnList = EntityHelper.getPKColumns(entityClass);
+            // 当某个列有主键策略时，不需要考虑他的属性是否为空，因为如果为空，一定会根据主键策略给他生成一个值
+            for (EntityColumn column : columnList) {
+                sql.append(" AND " + column.getColumnEqualsHolder());
+            }
+        }
+        sql.append("</where>");
+        return sql.toString();
+    }
+
+    /**
      * 获取默认的orderBy，通过注解设置的
      *
      * @param entityClass

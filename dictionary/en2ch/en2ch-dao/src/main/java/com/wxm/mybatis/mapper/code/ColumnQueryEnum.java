@@ -9,16 +9,17 @@ package com.wxm.mybatis.mapper.code;
  * @author wuxm
  * @version 1.0.0
  */
-public enum ColumnQueryTypeEnum {
-    PREFIX_LIKE(1, "like_", "%s LIKE concat('$', %s, '$')"), // 全模糊
-    PREFIX_LIKE_LEFT(2, "likeL_", "%s LIKE concat('$', %s)"), // 左模糊
-    PREFIX_LIKE_RIGHT(3, "likeR_", "%s LIKE concat(%s, '$')"); // 右模糊
+public enum ColumnQueryEnum {
+    PREFIX_LIKE(1, "like_", "%s LIKE concat('$', %s, '$')"), // 前缀全模糊
+    PREFIX_LIKE_LEFT(2, "likeL_", "%s LIKE concat('$', %s)"), // 前缀左模糊
+    PREFIX_LIKE_RIGHT(3, "likeR_", "%s LIKE concat(%s, '$')"), // 前缀右模糊
+    PREFIX_UPDATE(4, "update_", null); // 前缀更新
 
     private int code; // 编号
     private String frag; // 片段
     private String sql; // SQL片段
 
-    private ColumnQueryTypeEnum(int code, String value, String sql) {
+    private ColumnQueryEnum(int code, String value, String sql) {
         this.code = code;
         this.frag = value;
         this.sql = sql;

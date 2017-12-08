@@ -1,5 +1,7 @@
 package com.wxm.education.dictionary.en2ch.pojo.example.query;
 
+import com.wxm.education.dictionary.en2ch.pojo.example.entity.ExIsnullDefault;
+
 /**
  * 
  * <b>Title:</b> 示例-是否为空-默认[查询条件]<br>
@@ -9,7 +11,7 @@ package com.wxm.education.dictionary.en2ch.pojo.example.query;
  * @author wuxm
  * @version 1.0.0
  */
-public class ExIsnullDefaultQuery {
+public class ExIsnullDefaultQuery extends ExIsnullDefault {
 
     /**
      * ID
@@ -31,6 +33,10 @@ public class ExIsnullDefaultQuery {
      * 变长字符串_非空_默认（右模糊）
      */
     private String likeR_varcharNotnullDefault;
+    /**
+     * 变长字符串_非空_默认（更新条件）
+     */
+    private String update_varcharNotnullDefault;
 
     public ExIsnullDefaultQuery() {
         super();
@@ -92,5 +98,13 @@ public class ExIsnullDefaultQuery {
 
     public void setLikeR_varcharNotnullDefault(String likeR_varcharNotnullDefault) {
         this.likeR_varcharNotnullDefault = likeR_varcharNotnullDefault;
+    }
+
+    public String getUpdate_varcharNotnullDefault() {
+        return update_varcharNotnullDefault;
+    }
+
+    public void setUpdate_varcharNotnullDefault(String update_varcharNotnullDefault) {
+        this.update_varcharNotnullDefault = update_varcharNotnullDefault;
     }
 }

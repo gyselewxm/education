@@ -1,7 +1,7 @@
 package com.wxm.education.dictionary.en2ch.pojo.example.bo;
 
 import com.wxm.base.annotation.ColumnSql;
-import com.wxm.education.dictionary.en2ch.pojo.example.entity.SimplePks;
+import com.wxm.education.dictionary.en2ch.pojo.example.entity.ExSimplePks;
 
 /**
  * <b>Title:</b> 简单示例-多个主键[业务对象]
@@ -10,9 +10,9 @@ import com.wxm.education.dictionary.en2ch.pojo.example.entity.SimplePks;
  * <br><b>Author:</b> Gysele
  * <br><b>Version:</b> 1.0.0
  */
-public class SimplePksBO extends SimplePks {
+public class ExSimplePksBO extends ExSimplePks {
 
-    @ColumnSql("SELECT COUNT(1) FROM simple_pks")
+    @ColumnSql("SELECT COUNT(1) FROM #TABLE#")
     private String totalCount;
 
     public String getTotalCount() {

@@ -26,15 +26,24 @@ package com.wxm.mybatis.mapper.common.base;
 
 import com.wxm.mybatis.mapper.common.base.update.UpdateByPrimaryKeyMapper;
 import com.wxm.mybatis.mapper.common.base.update.UpdateByPrimaryKeySelectiveMapper;
+import com.wxm.mybatis.mapper.common.base.update.UpdateMapper;
+import com.wxm.mybatis.mapper.common.base.update.UpdateSelectiveMapper;
 
 /**
- * 通用Mapper接口,基础查询
- *
- * @param <T> 不能为空
- * @author liuzh
+ * 
+ * <b>Title:</b> 通用基础更新接口 <br>
+ * <b>Description:</b> <br>
+ * <b>Date:</b> 2017年12月10日 下午3:43:46 <br>
+ * <b>Author:</b> Gysele <br>
+ * <b>Version:</b> 1.0.0
+ * 
+ * @param <T>
+ *            表对应实体
  */
 public interface BaseUpdateMapper<T> extends
         UpdateByPrimaryKeyMapper<T>,
-        UpdateByPrimaryKeySelectiveMapper<T> {
+        UpdateByPrimaryKeySelectiveMapper<T>,
+        UpdateMapper,
+        UpdateSelectiveMapper {
 
 }

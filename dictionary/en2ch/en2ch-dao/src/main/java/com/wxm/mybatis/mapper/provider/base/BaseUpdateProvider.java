@@ -83,4 +83,46 @@ public class BaseUpdateProvider extends MapperTemplate {
         sql.append(SqlHelper.wherePKColumns(entityClass));
         return sql.toString();
     }
+
+    /**
+     * 
+     * <b>Title:</b> 根据表对应查询条件实体更新信息，null值会被更新 <br>
+     * <b>Description:</b> <br>
+     * <b>Date:</b> 2017年12月10日 上午11:17:56 <br>
+     * <b>Author:</b> Gysele <br>
+     * <b>Version:</b> 1.0.0
+     * 
+     * @param ms
+     * @return
+     */
+    public String update(MappedStatement ms) {
+        Class<?> entityClass = getEntityClass(ms);
+        Class<?> queryClass = getQueryClass(ms);
+        StringBuilder sql = new StringBuilder();
+        sql.append(SqlHelper.updateTable(entityClass, tableName(entityClass)));
+        sql.append(SqlHelper.updateSetColumns(entityClass, null, false, false));
+        sql.append(SqlHelper.whereAllUpdateIfColumns(entityClass, queryClass, isNotEmpty()));
+        return sql.toString();
+    }
+
+    /**
+     * 
+     * <b>Title:</b> 根据表对应查询条件实体更新属性不为null的值 <br>
+     * <b>Description:</b> <br>
+     * <b>Date:</b> 2017年12月10日 下午12:57:41 <br>
+     * <b>Author:</b> Gysele <br>
+     * <b>Version:</b> 1.0.0
+     * 
+     * @param ms
+     * @return
+     */
+    public String updateSelective(MappedStatement ms) {
+        Class<?> entityClass = getEntityClass(ms);
+        Class<?> queryClass = getQueryClass(ms);
+        StringBuilder sql = new StringBuilder();
+        sql.append(SqlHelper.updateTable(entityClass, tableName(entityClass)));
+        sql.append(SqlHelper.updateSetColumns(entityClass, null, true, isNotEmpty()));
+        sql.append(SqlHelper.whereAllUpdateIfColumns(entityClass, queryClass, isNotEmpty()));
+        return sql.toString();
+    }
 }

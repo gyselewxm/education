@@ -1,7 +1,5 @@
 package com.wxm.education.dictionary.en2ch.pojo.example.entity;
 
-import javax.persistence.Table;
-
 import com.wxm.base.pojo.dataobject.BaseUUIDDO;
 
 /**
@@ -13,8 +11,7 @@ import com.wxm.base.pojo.dataobject.BaseUUIDDO;
  * @author wuxm
  * @version 1.0.0
  */
-@Table(name="simple_pk_char")
-public class SimplePkChar extends BaseUUIDDO {
+public class ExSimplePkChar extends BaseUUIDDO {
     /**
      * 备注
      */

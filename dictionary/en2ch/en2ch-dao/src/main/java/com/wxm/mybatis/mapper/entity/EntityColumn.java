@@ -27,7 +27,7 @@ package com.wxm.mybatis.mapper.entity;
 import org.apache.ibatis.type.JdbcType;
 import org.apache.ibatis.type.TypeHandler;
 
-import com.wxm.mybatis.mapper.code.ColumnQueryTypeEnum;
+import com.wxm.mybatis.mapper.code.ColumnQueryEnum;
 import com.wxm.mybatis.mapper.util.StringUtil;
 
 /**
@@ -55,7 +55,7 @@ public class EntityColumn {
     // 可更新
     private boolean updatable = true;
     // 字段查询条件类型
-    private ColumnQueryTypeEnum queryType;
+    private ColumnQueryEnum queryEnum;
 
     public EntityColumn() {
     }
@@ -184,12 +184,12 @@ public class EntityColumn {
         this.updatable = updatable;
     }
 
-    public ColumnQueryTypeEnum getQueryType() {
-        return queryType;
+    public ColumnQueryEnum getQueryEnum() {
+        return queryEnum;
     }
 
-    public void setQueryType(ColumnQueryTypeEnum queryType) {
-        this.queryType = queryType;
+    public void setQueryEnum(ColumnQueryEnum queryEnum) {
+        this.queryEnum = queryEnum;
     }
 
     /**
@@ -203,10 +203,13 @@ public class EntityColumn {
      * @return
      */
     public String getColumnLikeHolder() {
-        if (null == this.queryType) {
+        if (null == this.queryEnum) {
             return getColumnEqualsHolder();
         }
-        return String.format(this.queryType.getSql(), this.column, getColumnHolder()).replace("$", "%");
+        if (this.queryEnum.getCode() > 3) {
+            return "";
+        }
+        return String.format(this.queryEnum.getSql(), this.column, getColumnHolder()).replace("$", "%");
     }
 
     /**

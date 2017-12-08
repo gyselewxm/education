@@ -11,83 +11,83 @@ import org.slf4j.LoggerFactory;
 
 import com.alibaba.fastjson.JSON;
 import com.wxm.education.dictionary.en2ch.base.junit.JunitBase;
-import com.wxm.education.dictionary.en2ch.pojo.example.bo.SimplePkCharBO;
-import com.wxm.education.dictionary.en2ch.pojo.example.entity.SimplePkChar;
-import com.wxm.education.dictionary.en2ch.pojo.example.query.SimplePkCharQuery;
+import com.wxm.education.dictionary.en2ch.pojo.example.bo.ExSimplePkCharBO;
+import com.wxm.education.dictionary.en2ch.pojo.example.entity.ExSimplePkChar;
+import com.wxm.education.dictionary.en2ch.pojo.example.query.ExSimplePkCharQuery;
 import com.wxm.mybatis.mapper.util.UUIDUtil;
 
-public class SimplePkCharMapperTest extends JunitBase {
+public class ExSimplePkCharMapperTest extends JunitBase {
     private Logger logger = LoggerFactory.getLogger(this.getClass());
-    private SimplePkCharMapper mapper;
+    private ExSimplePkCharMapper mapper;
 
     @Override
     public void before() {
         super.before();
-        mapper = getBean(SimplePkCharMapper.class);
+        mapper = getBean(ExSimplePkCharMapper.class);
     }
 
     @Test
     public void testSelectOne() {
-        SimplePkCharQuery query = new SimplePkCharQuery();
+        ExSimplePkCharQuery query = new ExSimplePkCharQuery();
         query.setId("34f1788e-29fe-486b-b052-175dbf9eba1d");
-        SimplePkChar bean = mapper.selectByPrimaryKey(query);
+        ExSimplePkChar bean = mapper.selectByPrimaryKey(query);
         logger.debug("查询结果：" + JSON.toJSONString(bean));
     }
 
     @Test
     public void testSelectBOOne() {
-        SimplePkCharQuery query = new SimplePkCharQuery();
+        ExSimplePkCharQuery query = new ExSimplePkCharQuery();
         query.setId("34f1788e-29fe-486b-b052-175dbf9eba1d");
-        SimplePkCharBO bean = mapper.selectBOByPrimaryKey(query);
+        ExSimplePkCharBO bean = mapper.selectBOByPrimaryKey(query);
         logger.debug("查询结果：" + JSON.toJSONString(bean));
     }
 
     @Test
     public void testSelect() {
-        SimplePkCharQuery query = new SimplePkCharQuery();
+        ExSimplePkCharQuery query = new ExSimplePkCharQuery();
         query.setLike_remark("dd");
-        List<SimplePkChar> list = mapper.select(query);
+        List<ExSimplePkChar> list = mapper.select(query);
         logger.debug("查询结果：" + JSON.toJSONString(list));
     }
 
     @Test
     public void testSelectBO() {
-        SimplePkCharQuery query = new SimplePkCharQuery();
+        ExSimplePkCharQuery query = new ExSimplePkCharQuery();
         query.setLike_remark("dd");
-        List<SimplePkCharBO> list = mapper.selectBO(query);
+        List<ExSimplePkCharBO> list = mapper.selectBO(query);
         logger.debug("查询结果：" + JSON.toJSONString(list));
     }
 
     @Test
     public void testSelectAll() {
-        List<SimplePkChar> list = mapper.selectAll();
+        List<ExSimplePkChar> list = mapper.selectAll();
         logger.debug("查询结果：" + JSON.toJSONString(list));
     }
 
     @Test
     public void testSelectAllBO() {
-        List<SimplePkCharBO> list = mapper.selectAllBO();
+        List<ExSimplePkCharBO> list = mapper.selectAllBO();
         logger.debug("查询结果：" + JSON.toJSONString(list));
     }
 
     @Test
     public void testSelectCount() {
-        SimplePkCharQuery query = new SimplePkCharQuery();
+        ExSimplePkCharQuery query = new ExSimplePkCharQuery();
         query.setRemark("dddsf");
         int count = mapper.selectCount(query);
         logger.debug("相等查询结果：" + count);
 
-        query = new SimplePkCharQuery();
+        query = new ExSimplePkCharQuery();
         query.setLike_remark("dd");
         count = mapper.selectCount(query);
         logger.debug("全模糊查询结果：" + count);
 
-        query = new SimplePkCharQuery();
+        query = new ExSimplePkCharQuery();
         query.setLikeL_remark("ad");
         count = mapper.selectCount(query);
         logger.debug("左模糊查询结果：" + count);
 
-        query = new SimplePkCharQuery();
+        query = new ExSimplePkCharQuery();
         query.setLikeR_remark("dd");
         count = mapper.selectCount(query);
         logger.debug("右模糊查询结果：" + count);
@@ -95,38 +95,38 @@ public class SimplePkCharMapperTest extends JunitBase {
 
     @Test
     public void testSelectByPrimaryKey() {
-        SimplePkCharQuery query = new SimplePkCharQuery();
+        ExSimplePkCharQuery query = new ExSimplePkCharQuery();
         query.setId("34f1788e-29fe-486b-b052-175dbf9eba1d");
-        SimplePkChar bean = mapper.selectByPrimaryKey(query);
+        ExSimplePkChar bean = mapper.selectByPrimaryKey(query);
         logger.debug("查询结果：" + JSON.toJSONString(bean));
     }
 
     @Test
     public void testSelectBOByPrimaryKey() {
-        SimplePkCharQuery query = new SimplePkCharQuery();
+        ExSimplePkCharQuery query = new ExSimplePkCharQuery();
         query.setId("34f1788e-29fe-486b-b052-175dbf9eba1d");
-        SimplePkCharBO beanBo = mapper.selectBOByPrimaryKey(query);
+        ExSimplePkCharBO beanBo = mapper.selectBOByPrimaryKey(query);
         logger.debug("查询结果：" + JSON.toJSONString(beanBo));
     }
 
     @Test
     public void testInsert() {
-        SimplePkChar bean = new SimplePkChar();
-        bean.setId("34f1788e-29fe-486b-b052-175dbf9eba1d");
+        ExSimplePkChar bean = new ExSimplePkChar();
+        // bean.setId("34f1788e-29fe-486b-b052-175dbf9eba1d");
         mapper.insert(bean);
         logger.debug(JSON.toJSONString(bean));
     }
 
     @Test
     public void testInsertSelective() {
-        SimplePkChar bean = new SimplePkChar();
+        ExSimplePkChar bean = new ExSimplePkChar();
         mapper.insertSelective(bean);
         logger.debug(JSON.toJSONString(bean));
     }
 
     @Test
     public void testUpdateByPrimaryKey() {
-        SimplePkChar bean = new SimplePkChar();
+        ExSimplePkChar bean = new ExSimplePkChar();
         bean.setId("34f1788e-29fe-486b-b052-175dbf9eba1d");
         mapper.updateByPrimaryKey(bean);
         logger.debug(JSON.toJSONString(bean));
@@ -134,7 +134,7 @@ public class SimplePkCharMapperTest extends JunitBase {
 
     @Test
     public void testUpdateByPrimaryKeySelective() {
-        SimplePkChar bean = new SimplePkChar();
+        ExSimplePkChar bean = new ExSimplePkChar();
         bean.setId("34f1788e-29fe-486b-b052-175dbf9eba1d");
         bean.setRemark("Update");
         mapper.updateByPrimaryKey(bean);
@@ -153,10 +153,10 @@ public class SimplePkCharMapperTest extends JunitBase {
 
     @Test
     public void testInsertList() {
-        List<SimplePkChar> list = new LinkedList<SimplePkChar>();
-        SimplePkChar bean;
+        List<ExSimplePkChar> list = new LinkedList<ExSimplePkChar>();
+        ExSimplePkChar bean;
         for (int i = 0; i < 5; i++) {
-            bean = new SimplePkChar();
+            bean = new ExSimplePkChar();
             bean.setId(UUIDUtil.getUUID());
             list.add(bean);
         }
