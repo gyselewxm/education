@@ -1,7 +1,5 @@
 package com.wxm.education.dictionary.en2ch.dao.example;
 
-import static org.junit.Assert.fail;
-
 import java.util.LinkedList;
 import java.util.List;
 
@@ -143,12 +141,16 @@ public class ExSimplePkCharMapperTest extends JunitBase {
 
     @Test
     public void testDelete() {
-        fail("Not yet implemented");
+        ExSimplePkCharQuery query = new ExSimplePkCharQuery();
+        query.setRemark("dd");
+        int count = mapper.delete(query);
+        logger.debug("删除条数:" + count);
     }
 
     @Test
     public void testDeleteByPrimaryKey() {
-        fail("Not yet implemented");
+        int count = mapper.deleteByPrimaryKey("3d155dd6-83b9-48eb-8584-4753f38fade6");
+        logger.debug("删除条数:" + count);
     }
 
     @Test

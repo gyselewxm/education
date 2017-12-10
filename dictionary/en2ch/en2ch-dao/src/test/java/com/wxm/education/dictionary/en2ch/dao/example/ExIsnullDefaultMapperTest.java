@@ -1,7 +1,5 @@
 package com.wxm.education.dictionary.en2ch.dao.example;
 
-import static org.junit.Assert.fail;
-
 import java.util.LinkedList;
 import java.util.List;
 
@@ -217,7 +215,7 @@ public class ExIsnullDefaultMapperTest extends JunitBase {
         query.setVarcharCannull("Update"); // 变长字符串_可空
         query.setUpdate_varcharNotnullDefault("default");
         int count = mapper.update(query);
-        logger.debug("更新总数:" + count);
+        logger.debug("更新条数:" + count);
     }
 
     @Test
@@ -226,17 +224,21 @@ public class ExIsnullDefaultMapperTest extends JunitBase {
         query.setVarcharCannull("Update--"); // 变长字符串_可空
         query.setUpdate_varcharNotnullDefault("default");
         int count = mapper.updateSelective(query);
-        logger.debug("更新总数:" + count);
+        logger.debug("更新条数:" + count);
     }
 
     @Test
     public void testDelete() {
-        fail("Not yet implemented");
+        ExIsnullDefaultQuery query = new ExIsnullDefaultQuery();
+        query.setVarcharNotnullDefault("varcharNotnullDefault");
+        int count = mapper.delete(query);
+        logger.debug("删除条数:" + count);
     }
 
     @Test
     public void testDeleteByPrimaryKey() {
-        fail("Not yet implemented");
+        int count = mapper.deleteByPrimaryKey("fd39985b-dc29-11e7-9107-4ccc6a80f9ee");
+        logger.debug("删除条数:" + count);
     }
 
     @Test

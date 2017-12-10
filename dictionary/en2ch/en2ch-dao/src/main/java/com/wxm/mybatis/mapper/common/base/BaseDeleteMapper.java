@@ -28,13 +28,15 @@ import com.wxm.mybatis.mapper.common.base.delete.DeleteByPrimaryKeyMapper;
 import com.wxm.mybatis.mapper.common.base.delete.DeleteMapper;
 
 /**
- * 通用Mapper接口,基础删除
- *
- * @param <T> 不能为空
- * @author liuzh
+ * 
+ * <b>Title:</b> 通用基础删除接口 <br>
+ * <b>Description:</b> <br>
+ * <b>Date:</b> 2017年12月10日 下午4:03:11 <br>
+ * <b>Author:</b> Gysele <br>
+ * <b>Version:</b> 1.0.0
  */
-public interface BaseDeleteMapper<T> extends
-        DeleteMapper<T>,
-        DeleteByPrimaryKeyMapper<T> {
+public interface BaseDeleteMapper extends
+        DeleteMapper,
+        DeleteByPrimaryKeyMapper {
 
 }

@@ -37,7 +37,7 @@ import com.wxm.mybatis.mapper.provider.base.BaseInsertProvider;
  * <b>Version:</b> 1.0.0
  * 
  * @param <T>
- *            表对应实体类
+ *            表对应实体
  */
 public interface InsertMapper<T> {
 

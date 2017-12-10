@@ -31,9 +31,12 @@ import com.wxm.mybatis.mapper.mapperhelper.MapperTemplate;
 import com.wxm.mybatis.mapper.mapperhelper.SqlHelper;
 
 /**
- * BaseDeleteMapper实现类，基础方法实现类
- *
- * @author liuzh
+ * 
+ * <b>Title:</b> 通用基础删除接口实现类 <br>
+ * <b>Description:</b> <br>
+ * <b>Date:</b> 2017年12月10日 下午4:01:26 <br>
+ * <b>Author:</b> Gysele <br>
+ * <b>Version:</b> 1.0.0
  */
 public class BaseDeleteProvider extends MapperTemplate {
 
@@ -42,8 +45,13 @@ public class BaseDeleteProvider extends MapperTemplate {
     }
 
     /**
-     * 通过条件删除
-     *
+     * 
+     * <b>Title:</b> 根据表对应查询条件实体删除信息 <br>
+     * <b>Description:</b> <br>
+     * <b>Date:</b> 2017年12月10日 下午4:02:21 <br>
+     * <b>Author:</b> Gysele <br>
+     * <b>Version:</b> 1.0.0
+     * 
      * @param ms
      * @return
      */
@@ -57,9 +65,15 @@ public class BaseDeleteProvider extends MapperTemplate {
     }
 
     /**
-     * 通过主键删除
-     *
+     * 
+     * <b>Title:</b> 根据主键字段进行删除 <br>
+     * <b>Description:</b> <br>
+     * <b>Date:</b> 2017年12月10日 下午4:14:03 <br>
+     * <b>Author:</b> Gysele <br>
+     * <b>Version:</b> 1.0.0
+     * 
      * @param ms
+     * @return
      */
     public String deleteByPrimaryKey(MappedStatement ms) {
         final Class<?> entityClass = getEntityClass(ms);

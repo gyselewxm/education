@@ -29,20 +29,27 @@ import org.apache.ibatis.annotations.DeleteProvider;
 import com.wxm.mybatis.mapper.provider.base.BaseDeleteProvider;
 
 /**
- * 通用Mapper接口,删除
- *
- * @param <T> 不能为空
- * @author liuzh
+ * 
+ * <b>Title:</b> 根据表对应查询条件实体删除信息 <br>
+ * <b>Description:</b> <br>
+ * <b>Date:</b> 2017年12月10日 下午4:01:00 <br>
+ * <b>Author:</b> Gysele <br>
+ * <b>Version:</b> 1.0.0
  */
-public interface DeleteMapper<T> {
+public interface DeleteMapper {
 
     /**
-     * 根据实体属性作为条件进行删除，查询条件使用等号
-     *
-     * @param record
+     * 
+     * <b>Title:</b> 根据表对应查询条件实体删除信息 <br>
+     * <b>Description:</b> <br>
+     * <b>Date:</b> 2017年12月10日 下午4:00:46 <br>
+     * <b>Author:</b> Gysele <br>
+     * <b>Version:</b> 1.0.0
+     * 
+     * @param object
      * @return
      */
     @DeleteProvider(type = BaseDeleteProvider.class, method = "dynamicSQL")
-    int delete(T record);
+    int delete(Object object);
 
 }

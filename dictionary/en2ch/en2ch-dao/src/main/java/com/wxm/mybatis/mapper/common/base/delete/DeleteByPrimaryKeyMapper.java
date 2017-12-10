@@ -30,31 +30,26 @@ import com.wxm.mybatis.mapper.provider.base.BaseDeleteProvider;
 
 /**
  * 
- * 
- * <b>Title:</b> 通用删除接口 <br>
- * <b>Description:</b> 根据主键字段进行删除<br>
- * <b>Date:</b> 2017年11月9日 下午5:09:28
- * 
- * @author wuxm
- * @version 1.0.0
- * @param <T>
- *            Entity数据表实体
+ * <b>Title:</b> 根据主键字段进行删除 <br>
+ * <b>Description:</b> <br>
+ * <b>Date:</b> 2017年12月10日 下午3:57:34 <br>
+ * <b>Author:</b> Gysele <br>
+ * <b>Version:</b> 1.0.0
  */
-public interface DeleteByPrimaryKeyMapper<T> {
+public interface DeleteByPrimaryKeyMapper {
 
     /**
      * 
      * <b>Title:</b> 根据主键字段进行删除 <br>
      * <b>Description:</b> 方法参数必须包含完整的主键属性 <br>
-     * <b>Date:</b> 2017年11月9日 下午5:10:22
+     * <b>Date:</b> 2017年12月10日 下午3:58:11 <br>
+     * <b>Author:</b> Gysele <br>
+     * <b>Version:</b> 1.0.0
      * 
-     * @author wuxm
-     * @version 1.0.0
-     * @param query
-     *            条件实体
+     * @param object
      * @return
      */
     @DeleteProvider(type = BaseDeleteProvider.class, method = "dynamicSQL")
-    int deleteByPrimaryKey(Object query);
+    int deleteByPrimaryKey(Object object);
 
 }
