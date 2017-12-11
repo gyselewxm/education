@@ -10,7 +10,7 @@
   <description>英汉字典-数据持久层</description>
 
   <properties>
-    <version.wxm>0.0.1-SNAPSHOT</version.wxm>
+    <version.wxm>0.0.2-SNAPSHOT</version.wxm>
     <version.mysql>6.0.6</version.mysql>
     <version.druid>1.1.5</version.druid>
     <version.mybatis>3.4.5</version.mybatis>
