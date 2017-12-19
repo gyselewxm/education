@@ -6,6 +6,15 @@
     <version>0.0.1-SNAPSHOT</version>
   </parent>
   <artifactId>en2ch-web-back</artifactId>
+  <packaging>war</packaging>
   <name>en2ch-web-back</name>
   <description>英汉字典-请求处理层-后台管理系统</description>
+
+  <dependencies>
+    <dependency>
+      <groupId>${project.parent.groupId}</groupId>
+      <artifactId>en2ch-web</artifactId>
+      <version>${project.parent.version}</version>
+    </dependency>
+  </dependencies>
 </project>
