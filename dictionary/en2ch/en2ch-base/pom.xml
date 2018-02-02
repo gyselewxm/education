@@ -13,7 +13,6 @@
   <properties>
     <version.wxm>0.0.2-SNAPSHOT</version.wxm>
     <version.spring>5.0.0.RELEASE</version.spring>
-    <version.slf4j>1.7.25</version.slf4j>
   </properties>
 
   <dependencyManagement>
