@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+                      http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+  <!-- 切面类（多个通知） -->
+  <bean id="datasourceAspect" class="com.wxm.mybatis.datasource.proxy.DatasourceAspect"></bean>
+  <!-- aop编程 
+        1 特殊切面，配置一个通知 和 一个切入点
+            <aop:advisor advice-ref="一个通知" pointcut-ref="一个切入点"/>
+        2 就是切面，声明配置多个通知和多个切入点
+            <aop:aspect ref="">确定切面类，从而获得多个通知
+  -->
+  <aop:config>
+    <aop:aspect ref="datasourceAspect">
+      <!-- 配置切入点 -->
+      <aop:pointcut expression="execution(* com.wxm.education.dictionary.en2ch.dao..*.*(..))" id="datasourcePonitCut" />
+      <!-- 声明通知类型
+                #1 前置通知 , 目标方法之前执行。
+                    * 第一个参数为JoinPoint，可以获得目标方法名等。
+                <aop:before method="myBefore" pointcut-ref="myPonitCut"/>
+                #2 后置通知，目标方法之后执行，可以获得返回值。 通过“returning”属性配置第二个参数的名称，获得返回值的，类型必须Object
+                    * 第一个参数为：JoinPoint
+                    * 第二个参数为：Object xxx
+                <aop:after-returning method="myAfterReturning" pointcut-ref="myPonitCut" returning="xxx"/>
+                #3 环绕通知， 目标方法前后
+                    方法要求：public Object myAround(ProceedingJoinPoint joinPoint) throws Throwable{
+                    执行目标方法：joinPoint.proceed();
+                <aop:around method="myAround" pointcut-ref="myPonitCut"/>
+                #4 抛出异常通知，目标方法出现异常时才执行。通过“throwing”属性配置第二个参数的名称,获得具体的异常信息，类型必须是Throwable
+                    * 第一个参数为：JoinPoint
+                    * 第二个参数为：Throwable e
+                <aop:after-throwing method="myAfterThrowing" pointcut-ref="myPonitCut" throwing="e"/>
+            -->
+      <aop:before method="datasourceBefore" pointcut-ref="datasourcePonitCut" />
+      <aop:after-returning method="datasourceAfter" pointcut-ref="datasourcePonitCut" />
+      <aop:after-throwing method="datasourceAfter" pointcut-ref="datasourcePonitCut" />
+    </aop:aspect>
+
+  </aop:config>
+</beans>

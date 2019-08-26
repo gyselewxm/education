@@ -1,0 +1,34 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>com.wxm.education.dictionary</groupId>
+    <artifactId>en2ch</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+  </parent>
+  <artifactId>en2ch-service</artifactId>
+  <name>en2ch-service</name>
+  <description>英汉字典-业务逻辑层</description>
+
+  <properties>
+    <version.wxm>0.0.2-SNAPSHOT</version.wxm>
+  </properties>
+
+  <dependencies>
+    <dependency>
+      <groupId>${project.parent.groupId}</groupId>
+      <artifactId>en2ch-dao</artifactId>
+      <version>${project.parent.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>${project.parent.groupId}</groupId>
+      <artifactId>en2ch-manager</artifactId>
+      <version>${project.parent.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.wxm</groupId>
+      <artifactId>wxm-service</artifactId>
+      <version>${version.wxm}</version>
+    </dependency>
+  </dependencies>
+</project>
